@@ -12,5 +12,19 @@ Database* Database::getInstance()
 
 Database::Database()
 {
-    // TODO
+    connect();
+    createTablesIfTheyDontExist();
+}
+
+// Connects to database, creating it if it doesn't already exist.
+void Database::connect()
+{
+    const QString type = "QSQLITE";
+    const QString fileName = "data";
+    QSqlDatabase::addDatabase(type, fileName);
+}
+
+void Database::createTablesIfTheyDontExist()
+{
+    // TODO: Create File, Tag, and FileTag tables if they don't already exist.
 }

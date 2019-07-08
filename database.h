@@ -1,6 +1,9 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
+#include <QSqlDatabase>
+#include <QString>
+#include <QDebug>
 
 class Database
 {
@@ -12,6 +15,9 @@ protected:
 
 private:
     static Database* instance;
+
+    void connect();
+    void createTablesIfTheyDontExist();
 };
 
 #endif // DATABASE_H
