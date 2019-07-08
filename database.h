@@ -3,7 +3,6 @@
 
 #include <QSqlDatabase>
 #include <QString>
-#include <QDebug>
 
 class Database
 {
