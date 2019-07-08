@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = Tag
 
-QT = core gui widgets
+QT = core gui widgets sql
 
 SOURCES += \
     database.cpp \
