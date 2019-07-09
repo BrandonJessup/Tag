@@ -26,6 +26,8 @@ void Database::connect()
     // otherwise it will not be set as the default connection.
     const QString fileName = "data";
     connection.setDatabaseName(fileName);
+
+    connection.open();
 }
 
 void Database::createTablesIfTheyDontExist()
