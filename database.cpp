@@ -20,8 +20,12 @@ Database::Database()
 void Database::connect()
 {
     const QString type = "QSQLITE";
+    QSqlDatabase connection = QSqlDatabase::addDatabase(type);
+
+    // Database name must be set outside of the addDatabase method,
+    // otherwise it will not be set as the default connection.
     const QString fileName = "data";
-    QSqlDatabase::addDatabase(type, fileName);
+    connection.setDatabaseName(fileName);
 }
 
 void Database::createTablesIfTheyDontExist()
