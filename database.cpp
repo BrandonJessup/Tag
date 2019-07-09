@@ -26,18 +26,29 @@ void Database::connect()
 
 void Database::createTablesIfTheyDontExist()
 {
+    createTypeTableIfDoesntExist();
     createFileTableIfDoesntExist();
     createTagTableIfDoesntExist();
     createFileTagTableIfDoesntExist();
+}
+
+void Database::createTypeTableIfDoesntExist()
+{
+    QSqlQuery query("create table if not exists Type ("
+                    "   TypeId integer primary key autoincrement,"
+                    "   Name varchar(255) not null"
+                    ")");
+    query.exec();
 }
 
 void Database::createFileTableIfDoesntExist()
 {
     QSqlQuery query("create table if not exists File ("
                     "   FileId integer primary key autoincrement,"
+                    "   TypeId integer not null,"
                     "   Name varchar(255) not null,"
-                    "   Extension varchar(255) not null,"
                     "   FilePath varchar(255) not null"
+                    "   foreign key(TypeId) references Type(TypeId),"
                     ")");
     query.exec();
 }
