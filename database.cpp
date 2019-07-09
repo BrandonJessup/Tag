@@ -48,7 +48,7 @@ void Database::createTypeTableIfDoesntExist()
 {
     QSqlQuery query("create table if not exists Type ("
                     "   TypeId integer primary key autoincrement,"
-                    "   Name varchar(255) not null"
+                    "   Name varchar(255) unique not null"
                     ")");
     query.exec();
 }

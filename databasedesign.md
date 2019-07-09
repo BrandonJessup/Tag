@@ -12,7 +12,7 @@
 | Field  | Type                      | Description  |
 | ------ | ------------------------- | ------------ |
 | TypeId | auto incrementing integer | primary key  |
-| Name   | varchar(255)              | type of file |
+| Name   | varchar(255) unique       | type of file |
 
 #### Tag
 | Field | Type                      | Description                         |
