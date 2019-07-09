@@ -32,10 +32,16 @@ void Database::connect()
 
 void Database::createTablesIfTheyDontExist()
 {
-    createTypeTableIfDoesntExist();
+    createAndPopulateTypeTableIfDoesntExist();
     createFileTableIfDoesntExist();
     createTagTableIfDoesntExist();
     createFileTagTableIfDoesntExist();
+}
+
+void Database::createAndPopulateTypeTableIfDoesntExist()
+{
+    createTypeTableIfDoesntExist();
+    populateTypeTableIfEmpty();
 }
 
 void Database::createTypeTableIfDoesntExist()
@@ -45,6 +51,11 @@ void Database::createTypeTableIfDoesntExist()
                     "   Name varchar(255) not null"
                     ")");
     query.exec();
+}
+
+void Database::populateTypeTableIfEmpty()
+{
+    // TODO
 }
 
 void Database::createFileTableIfDoesntExist()

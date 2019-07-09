@@ -18,7 +18,9 @@ private:
 
     void connect();
     void createTablesIfTheyDontExist();
+    void createAndPopulateTypeTableIfDoesntExist();
     void createTypeTableIfDoesntExist();
+    void populateTypeTableIfEmpty();
     void createFileTableIfDoesntExist();
     void createTagTableIfDoesntExist();
     void createFileTagTableIfDoesntExist();
