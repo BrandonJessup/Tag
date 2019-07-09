@@ -26,5 +26,39 @@ void Database::connect()
 
 void Database::createTablesIfTheyDontExist()
 {
-    // TODO: Create File, Tag, and FileTag tables if they don't already exist.
+    createFileTableIfDoesntExist();
+    createTagTableIfDoesntExist();
+    createFileTagTableIfDoesntExist();
+}
+
+void Database::createFileTableIfDoesntExist()
+{
+    QSqlQuery query("create table if not exists File ("
+                    "   FileId integer primary key autoincrement,"
+                    "   Name varchar(255) not null,"
+                    "   Extension varchar(255) not null,"
+                    "   FilePath varchar(255) not null"
+                    ")");
+    query.exec();
+}
+
+void Database::createTagTableIfDoesntExist()
+{
+    QSqlQuery query("create table if not exists Tag ("
+                    "   TagId integer primary key autoincrement,"
+                    "   Name varchar(255) not null"
+                    ")");
+    query.exec();
+}
+
+void Database::createFileTagTableIfDoesntExist()
+{
+    QSqlQuery query("create table if not exists FileTag ("
+                    "   FileId integer not null,"
+                    "   TagId integer not null,"
+                    "   foreign key(FileId) references File(FileId),"
+                    "   foreign key(TagId) references Tag(TagId),"
+                    "   primary key(FileId, TagId)"
+                    ")");
+    query.exec();
 }

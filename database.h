@@ -3,6 +3,7 @@
 
 #include <QSqlDatabase>
 #include <QString>
+#include <QSqlQuery>
 
 class Database
 {
@@ -17,6 +18,9 @@ private:
 
     void connect();
     void createTablesIfTheyDontExist();
+    void createFileTableIfDoesntExist();
+    void createTagTableIfDoesntExist();
+    void createFileTagTableIfDoesntExist();
 };
 
 #endif // DATABASE_H
