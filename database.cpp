@@ -41,7 +41,7 @@ void Database::createTablesIfTheyDontExist()
 void Database::createAndPopulateTypeTableIfDoesntExist()
 {
     createTypeTableIfDoesntExist();
-    populateTypeTableIfEmpty();
+    populateTypeTable();
 }
 
 void Database::createTypeTableIfDoesntExist()
@@ -53,9 +53,11 @@ void Database::createTypeTableIfDoesntExist()
     query.exec();
 }
 
-void Database::populateTypeTableIfEmpty()
+void Database::populateTypeTable()
 {
-    // TODO
+    // Statements will fail as intended if they have already been ran
+    // once because of the unique constraint on the name column.
+
 }
 
 void Database::createFileTableIfDoesntExist()

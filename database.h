@@ -20,7 +20,7 @@ private:
     void createTablesIfTheyDontExist();
     void createAndPopulateTypeTableIfDoesntExist();
     void createTypeTableIfDoesntExist();
-    void populateTypeTableIfEmpty();
+    void populateTypeTable();
     void createFileTableIfDoesntExist();
     void createTagTableIfDoesntExist();
     void createFileTagTableIfDoesntExist();
