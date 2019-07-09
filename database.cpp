@@ -55,9 +55,13 @@ void Database::createTypeTableIfDoesntExist()
 
 void Database::populateTypeTable()
 {
-    // Statements will fail as intended if they have already been ran
-    // once because of the unique constraint on the name column.
-
+    // If rows already exist in the table they will not be re-added
+    // due to the unique constraint on the Name column.
+    QSqlQuery query;
+    query.exec("insert into Type (name) values('image')");
+    query.exec("insert into Type (name) values('video')");
+    query.exec("insert into Type (name) values('folder')");
+    query.exec("insert into Type (name) values('other')");
 }
 
 void Database::createFileTableIfDoesntExist()
