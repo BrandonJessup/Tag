@@ -6,7 +6,7 @@
 | FileId    | auto incrementing integer          | primary key                |
 | Name      | varchar(255)                       | filename without extension |
 | Extension | varchar(255)                       | file extension             |
-| Filepath  | varchar(255)                       | complete filepath          |
+| FilePath  | varchar(255)                       | complete file path         |
 
 #### Tag
 | Field | Type                      | Description                         |
