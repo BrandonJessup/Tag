@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QBoxLayout>
+#include <QPushButton>
 
 class ButtonBar : public QWidget
 {
@@ -13,8 +14,14 @@ public:
 
 private:
     QBoxLayout* layout;
+    QPushButton* addImageButton;
+    QPushButton* addFileButton;
+    QPushButton* addFolderButton;
 
     void createLayout();
+    void createAddImageButton();
+    void createAddFileButton();
+    void createAddFolderButton();
 
 signals:
 
