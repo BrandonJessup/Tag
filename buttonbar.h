@@ -26,6 +26,9 @@ private:
 signals:
 
 public slots:
+    void addImage();
+    void addFile();
+    void addFolder();
 };
 
 #endif // BUTTONBAR_H
