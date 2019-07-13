@@ -2,6 +2,9 @@
 #define WINDOW_H
 
 #include <QWidget>
+#include <QBoxLayout>
+
+#include "buttonbar.h"
 
 class Window : public QWidget
 {
@@ -9,6 +12,13 @@ class Window : public QWidget
 
 public:
     explicit Window(QWidget *parent = nullptr);
+
+private:
+    QBoxLayout* topLevelLayout;
+    ButtonBar* buttonBar;
+
+    void createTopLevelLayout();
+    void createButtonBar();
 
 signals:
 
