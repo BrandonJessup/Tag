@@ -5,7 +5,9 @@ QT = core gui widgets sql
 
 SOURCES += \
     database.cpp \
-    main.cpp
+    main.cpp \
+    window.cpp
 
 HEADERS += \
-    database.h
+    database.h \
+    window.h
