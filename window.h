@@ -5,6 +5,7 @@
 #include <QBoxLayout>
 
 #include "buttonbar.h"
+#include "tagpanel.h"
 
 class Window : public QWidget
 {
@@ -17,10 +18,12 @@ private:
     QBoxLayout* topLevelLayout;
     ButtonBar* buttonBar;
     QBoxLayout* lowerLayout;
+    TagPanel* tagPanel;
 
     void createTopLevelLayout();
     void createButtonBar();
     void createLowerLayout();
+    void createTagPanel();
 
 signals:
 
