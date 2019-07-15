@@ -6,6 +6,7 @@ Window::Window(QWidget *parent) : QWidget(parent)
     createButtonBar();
     createLowerLayout();
     createTagPanel();
+    createFileBrowser();
 }
 
 // topLevelLayout contains the button bar at the very top with the
@@ -22,6 +23,8 @@ void Window::createButtonBar()
     topLevelLayout->addWidget(buttonBar);
 }
 
+// lowerLayout contains the tagPanel on the left side and the
+// fileBrowser on the right.
 void Window::createLowerLayout()
 {
     lowerLayout = new QHBoxLayout;
@@ -32,4 +35,10 @@ void Window::createTagPanel()
 {
     tagPanel = new TagPanel;
     lowerLayout->addWidget(tagPanel);
+}
+
+void Window::createFileBrowser()
+{
+    fileBrowser = new QListWidget;
+    lowerLayout->addWidget(fileBrowser);
 }

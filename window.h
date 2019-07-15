@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QBoxLayout>
+#include <QListWidget>
 
 #include "buttonbar.h"
 #include "tagpanel.h"
@@ -19,11 +20,13 @@ private:
     ButtonBar* buttonBar;
     QBoxLayout* lowerLayout;
     TagPanel* tagPanel;
+    QListWidget* fileBrowser;
 
     void createTopLevelLayout();
     void createButtonBar();
     void createLowerLayout();
     void createTagPanel();
+    void createFileBrowser();
 
 signals:
 
