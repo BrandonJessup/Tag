@@ -10,6 +10,8 @@ class Database
 public:
     static Database* getInstance();
 
+    void addFile(const QString& name, const QString& path, const QString& type);
+
 protected:
     Database();
 
@@ -24,6 +26,7 @@ private:
     void createFileTableIfDoesntExist();
     void createTagTableIfDoesntExist();
     void createFileTagTableIfDoesntExist();
+
 };
 
 #endif // DATABASE_H

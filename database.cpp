@@ -10,6 +10,11 @@ Database* Database::getInstance()
     return instance;
 }
 
+void Database::addFile(const QString& name, const QString& path, const QString& type)
+{
+    // TODO
+}
+
 Database::Database()
 {
     connect();

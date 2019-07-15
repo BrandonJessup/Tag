@@ -40,7 +40,18 @@ void ButtonBar::createAddFolderButton()
 
 void ButtonBar::addImage()
 {
-    // TODO
+    Database* database = Database::getInstance();
+    QString path = QFileDialog::getOpenFileName(this, tr("Open File"), "/home", tr("Images (*.png *.jpg)"));
+    QString name = extractNameFromPath(path);
+    QString type = "image";
+    database->addFile(name, path, type);
+}
+
+QString ButtonBar::extractNameFromPath(const QString& path)
+{
+    int lastSlash = path.lastIndexOf('/');
+    int stringLength = path.length();
+    return path.right(stringLength - lastSlash - 1);
 }
 
 void ButtonBar::addFile()

@@ -4,6 +4,9 @@
 #include <QWidget>
 #include <QBoxLayout>
 #include <QPushButton>
+#include <QFileDialog>
+
+#include "database.h"
 
 class ButtonBar : public QWidget
 {
@@ -22,6 +25,8 @@ private:
     void createAddImageButton();
     void createAddFileButton();
     void createAddFolderButton();
+
+    QString extractNameFromPath(const QString& path);
 
 signals:
 
