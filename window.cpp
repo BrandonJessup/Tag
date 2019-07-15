@@ -4,8 +4,11 @@ Window::Window(QWidget *parent) : QWidget(parent)
 {
     createTopLevelLayout();
     createButtonBar();
+    createLowerLayout();
 }
 
+// topLevelLayout contains the button bar at the very top with the
+// bottom portion filled by the contents of lowerLayout.
 void Window::createTopLevelLayout()
 {
     topLevelLayout = new QVBoxLayout;
@@ -16,4 +19,10 @@ void Window::createButtonBar()
 {
     buttonBar = new ButtonBar;
     topLevelLayout->addWidget(buttonBar);
+}
+
+void Window::createLowerLayout()
+{
+    lowerLayout = new QHBoxLayout;
+    topLevelLayout->addLayout(lowerLayout);
 }

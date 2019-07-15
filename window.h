@@ -16,9 +16,11 @@ public:
 private:
     QBoxLayout* topLevelLayout;
     ButtonBar* buttonBar;
+    QBoxLayout* lowerLayout;
 
     void createTopLevelLayout();
     void createButtonBar();
+    void createLowerLayout();
 
 signals:
 
