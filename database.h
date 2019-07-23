@@ -4,6 +4,7 @@
 #include <QSqlDatabase>
 #include <QString>
 #include <QSqlQuery>
+#include <QVariant>
 
 class Database
 {
@@ -26,7 +27,7 @@ private:
     void createFileTableIfDoesntExist();
     void createTagTableIfDoesntExist();
     void createFileTagTableIfDoesntExist();
-
+    int getIdOfType(const QString& type);
 };
 
 #endif // DATABASE_H

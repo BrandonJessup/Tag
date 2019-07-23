@@ -12,7 +12,21 @@ Database* Database::getInstance()
 
 void Database::addFile(const QString& name, const QString& path, const QString& type)
 {
-    // TODO
+    QSqlQuery query;
+    query.prepare("insert into File (TypeId, Name, Path) values (:TypeId, :Name, :Path)");
+    query.bindValue(":Name", name);
+    query.bindValue(":Path", path);
+    query.bindValue(":TypeId", getIdOfType(type));
+    query.exec();
+}
+
+int Database::getIdOfType(const QString& type) {
+    QSqlQuery query;
+    query.prepare("select TypeId from Type where Name = :type");
+    query.bindValue(":type", type);
+    query.exec();
+    query.first();
+    return query.value(0).toInt();
 }
 
 Database::Database()
