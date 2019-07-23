@@ -45,6 +45,7 @@ void ButtonBar::addImage()
     QString name = extractNameFromPath(path);
     QString type = "image";
     database->addFile(name, path, type);
+    emit filesChanged();
 }
 
 QString ButtonBar::extractNameFromPath(const QString& path)

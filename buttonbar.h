@@ -29,6 +29,7 @@ private:
     QString extractNameFromPath(const QString& path);
 
 signals:
+    void filesChanged();
 
 public slots:
     void addImage();
