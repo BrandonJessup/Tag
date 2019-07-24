@@ -24,11 +24,11 @@ QList<FileTuple> Database::getAllFiles()
 {
     QList<FileTuple> files;
 
-    QSqlQuery query("select * from File");
-    int idIndex = query.record().indexOf("Id");
-    int nameIndex = query.record().indexOf("Name");
-    int pathIndex = query.record().indexOf("Path");
-    int typeIndex = query.record().indexOf("Type");
+    QSqlQuery query("select File.FileId, File.Name, File.Path, Type.Name from File join Type on File.TypeId = Type.TypeId");
+    int idIndex = query.record().indexOf("File.FileId");
+    int nameIndex = query.record().indexOf("File.Name");
+    int pathIndex = query.record().indexOf("File.Path");
+    int typeIndex = query.record().indexOf("Type.Name");
     while(query.next()) {
         FileTuple file;
         file.setId(query.value(idIndex).toInt());
