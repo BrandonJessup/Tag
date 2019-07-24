@@ -18,7 +18,7 @@
 | Field | Type                      | Description                         |
 | ----- | ------------------------- | ----------------------------------- |
 | TagId | auto incrementing integer | primary key                         |
-| Name  | varchar(255)              | name the tag will be displayed with |
+| Name  | varchar(255) unique       | name the tag will be displayed with |
 
 #### FileTag
 | Field  | Type    | Description                 |

@@ -118,7 +118,7 @@ void Database::createTagTableIfDoesntExist()
 {
     QSqlQuery query("create table if not exists Tag ("
                     "   TagId integer primary key autoincrement,"
-                    "   Name varchar(255) not null"
+                    "   Name varchar(255) unique not null"
                     ")");
 }
 
