@@ -20,6 +20,27 @@ void Database::addFile(const QString& name, const QString& path, const QString& 
     query.exec();
 }
 
+QList<FileTuple> Database::getAllFiles()
+{
+    QList<FileTuple> files;
+
+    QSqlQuery query("select * from File");
+    int idIndex = query.record().indexOf("Id");
+    int nameIndex = query.record().indexOf("Name");
+    int pathIndex = query.record().indexOf("Path");
+    int typeIndex = query.record().indexOf("Type");
+    while(query.next()) {
+        FileTuple file;
+        file.setId(query.value(idIndex).toInt());
+        file.setName(query.value(nameIndex).toString());
+        file.setPath(query.value(pathIndex).toString());
+        file.setType(query.value(typeIndex).toString());
+        files.append(file);
+    }
+
+    return files;
+}
+
 int Database::getIdOfType(const QString& type) {
     QSqlQuery query;
     query.prepare("select TypeId from Type where Name = :type");

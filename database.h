@@ -5,6 +5,10 @@
 #include <QString>
 #include <QSqlQuery>
 #include <QVariant>
+#include <QList>
+#include <QSqlRecord>
+
+#include "filetuple.h"
 
 class Database
 {
@@ -12,6 +16,7 @@ public:
     static Database* getInstance();
 
     void addFile(const QString& name, const QString& path, const QString& type);
+    QList<FileTuple> getAllFiles();
 
 protected:
     Database();
