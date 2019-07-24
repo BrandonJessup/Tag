@@ -8,6 +8,7 @@ class FileTuple
 public:
     FileTuple();
     FileTuple(const int& id, const QString& name, const QString& path, const QString& type);
+    FileTuple(const FileTuple& fileTuple);
 
     ~FileTuple();
 

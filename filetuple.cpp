@@ -16,6 +16,14 @@ FileTuple::FileTuple(const int& id, const QString& name, const QString& path, co
     this->type = new QString(type);
 }
 
+FileTuple::FileTuple(const FileTuple& fileTuple)
+{
+    this->id = new int(fileTuple.getId());
+    this->name = new QString(fileTuple.getName());
+    this->path = new QString(fileTuple.getPath());
+    this->type = new QString(fileTuple.getType());
+}
+
 FileTuple::~FileTuple()
 {
     if (id != nullptr) delete id;
