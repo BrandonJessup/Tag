@@ -44,22 +44,22 @@ void FileTuple::setType(const QString& type)
     *(this->type) = type;
 }
 
-int FileTuple::getId()
+int FileTuple::getId() const
 {
     return *id;
 }
 
-QString FileTuple::getName()
+QString FileTuple::getName() const
 {
     return *name;
 }
 
-QString FileTuple::getPath()
+QString FileTuple::getPath() const
 {
     return *path;
 }
 
-QString FileTuple::getType()
+QString FileTuple::getType() const
 {
     return *type;
 }

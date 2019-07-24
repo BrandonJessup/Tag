@@ -15,10 +15,10 @@ public:
     void setName(const QString& name);
     void setPath(const QString& path);
     void setType(const QString& type);
-    int getId();
-    QString getName();
-    QString getPath();
-    QString getType();
+    int getId() const;
+    QString getName() const;
+    QString getPath() const;
+    QString getType() const;
 
 private:
     int* id;
