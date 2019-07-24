@@ -90,7 +90,6 @@ void Database::createTypeTableIfDoesntExist()
                     "   TypeId integer primary key autoincrement,"
                     "   Name varchar(255) unique not null"
                     ")");
-    query.exec();
 }
 
 void Database::populateTypeTable()
@@ -121,7 +120,6 @@ void Database::createTagTableIfDoesntExist()
                     "   TagId integer primary key autoincrement,"
                     "   Name varchar(255) not null"
                     ")");
-    query.exec();
 }
 
 void Database::createFileTagTableIfDoesntExist()
@@ -133,5 +131,4 @@ void Database::createFileTagTableIfDoesntExist()
                     "   foreign key(TagId) references Tag(TagId),"
                     "   primary key(FileId, TagId)"
                     ")");
-    query.exec();
 }
