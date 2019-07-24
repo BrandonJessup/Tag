@@ -2,6 +2,8 @@
 #define FILEBROWSER_H
 
 #include <QWidget>
+#include <QListWidget>
+#include <QStackedLayout>
 
 class FileBrowser : public QWidget
 {
@@ -9,6 +11,13 @@ class FileBrowser : public QWidget
 
 public:
     explicit FileBrowser(QWidget *parent = nullptr);
+
+private:
+    QStackedLayout* layout;
+    QListWidget* viewingArea;
+
+    void createLayout();
+    void createViewingArea();
 
 signals:
 

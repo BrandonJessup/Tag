@@ -39,6 +39,6 @@ void Window::createTagPanel()
 
 void Window::createFileBrowser()
 {
-    fileBrowser = new QListWidget;
+    fileBrowser = new FileBrowser;
     lowerLayout->addWidget(fileBrowser);
 }
