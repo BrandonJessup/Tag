@@ -4,6 +4,8 @@ FileBrowser::FileBrowser(QWidget *parent) : QWidget(parent)
 {
     createLayout();
     createViewingArea();
+
+    reloadContents();
 }
 
 void FileBrowser::createLayout()
