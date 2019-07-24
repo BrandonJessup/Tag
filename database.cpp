@@ -110,10 +110,9 @@ void Database::createFileTableIfDoesntExist()
                     "   FileId integer primary key autoincrement,"
                     "   TypeId integer not null,"
                     "   Name varchar(255) not null,"
-                    "   Path varchar(255) not null"
-                    "   foreign key(TypeId) references Type(TypeId),"
+                    "   Path varchar(255) not null,"
+                    "   foreign key(TypeId) references Type(TypeId)"
                     ")");
-    query.exec();
 }
 
 void Database::createTagTableIfDoesntExist()
