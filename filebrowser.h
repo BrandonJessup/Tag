@@ -5,6 +5,8 @@
 #include <QListWidget>
 #include <QStackedLayout>
 
+#include "database.h"
+
 class FileBrowser : public QWidget
 {
     Q_OBJECT
@@ -22,6 +24,7 @@ private:
 signals:
 
 public slots:
+    void reloadContents();
 };
 
 #endif // FILEBROWSER_H

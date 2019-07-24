@@ -17,3 +17,8 @@ void FileBrowser::createViewingArea()
     viewingArea = new QListWidget;
     layout->addWidget(viewingArea);
 }
+
+void FileBrowser::reloadContents()
+{
+    // TODO: Pull file data from database to populate viewing area.
+}
