@@ -20,5 +20,22 @@ void FileBrowser::createViewingArea()
 
 void FileBrowser::reloadContents()
 {
-    // TODO: Pull file data from database to populate viewing area.
+    Database* database = Database::getInstance();
+    QList<FileTuple> files = database->getAllFiles();
+
+    for (FileTuple file : files) {
+        addFileToViewingArea(file);
+    }
+}
+
+void FileBrowser::addFileToViewingArea(const FileTuple& file)
+{
+    int id = file.getId();
+    QString name = file.getName();
+    QString path = file.getPath();
+    QString type = file.getType();
+
+    if (type == "image") {
+        viewingArea->addItem(new QListWidgetItem(QIcon(path), name));
+    }
 }

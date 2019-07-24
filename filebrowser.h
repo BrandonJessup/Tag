@@ -3,9 +3,12 @@
 
 #include <QWidget>
 #include <QListWidget>
+#include <QListWidgetItem>
 #include <QStackedLayout>
+#include <QList>
 
 #include "database.h"
+#include "filetuple.h"
 
 class FileBrowser : public QWidget
 {
@@ -20,6 +23,8 @@ private:
 
     void createLayout();
     void createViewingArea();
+
+    void addFileToViewingArea(const FileTuple& file);
 
 signals:
 
