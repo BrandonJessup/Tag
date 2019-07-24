@@ -2,13 +2,15 @@
 
 FileTuple::FileTuple()
 {
+    id = new int;
     name = new QString;
     path = new QString;
     type = new QString;
 }
 
-FileTuple::FileTuple(const QString& name, const QString& path, const QString& type)
+FileTuple::FileTuple(const int& id, const QString& name, const QString& path, const QString& type)
 {
+    this->id = new int(id);
     this->name = new QString(name);
     this->path = new QString(path);
     this->type = new QString(type);
@@ -16,9 +18,15 @@ FileTuple::FileTuple(const QString& name, const QString& path, const QString& ty
 
 FileTuple::~FileTuple()
 {
+    if (id != nullptr) delete id;
     if (name != nullptr) delete name;
     if (path != nullptr) delete path;
     if (type != nullptr) delete type;
+}
+
+void FileTuple::setId(const int &id)
+{
+    *(this->id) = id;
 }
 
 void FileTuple::setName(const QString& name)
@@ -34,6 +42,11 @@ void FileTuple::setPath(const QString& path)
 void FileTuple::setType(const QString& type)
 {
     *(this->type) = type;
+}
+
+int FileTuple::getId()
+{
+    return *id;
 }
 
 QString FileTuple::getName()
