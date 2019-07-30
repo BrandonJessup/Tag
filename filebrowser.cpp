@@ -32,6 +32,8 @@ void FileBrowser::createViewingArea()
 
 void FileBrowser::reloadContents()
 {
+    viewingArea->clear();
+
     Database* database = Database::getInstance();
     QList<FileTuple> files = database->getAllFiles();
 
