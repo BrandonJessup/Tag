@@ -20,6 +20,19 @@ void Database::addFile(const QString& name, const QString& path, const QString& 
     query.exec();
 }
 
+void Database::removeFile(const int& id)
+{
+    QSqlQuery query;
+
+    query.prepare("delete from FileTag where FileId = :FileId");
+    query.bindValue(":FileId", id);
+    query.exec();
+
+    query.prepare("delete from File where FileId = :FileId");
+    query.bindValue(":FileId", id);
+    query.exec();
+}
+
 QList<FileTuple> Database::getAllFiles()
 {
     QList<FileTuple> files;

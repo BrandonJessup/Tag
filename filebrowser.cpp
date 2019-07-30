@@ -73,7 +73,9 @@ void FileBrowser::removeFiles()
     for (int i = 0; i < viewingArea->selectedItems().size(); ++i) {
         QListWidgetItem* file = viewingArea->takeItem(viewingArea->currentRow());
 
-        // TODO: Remove file from database.
+        Database* database = Database::getInstance();
+        int id = file->data(UserRole::ID).toInt();
+        database->removeFile(id);
 
         // Removing the item from the list widget stop's Qt's management of it
         // and it must then be deleted manually.
