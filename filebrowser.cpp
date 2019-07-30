@@ -40,7 +40,15 @@ void FileBrowser::addFileToViewingArea(const FileTuple& file)
     QString type = file.getType();
 
     if (type == "image") {
-        viewingArea->addItem(new QListWidgetItem(QIcon(path), name));
+        QListWidgetItem* item = new QListWidgetItem(QIcon(path), name);
+
+        FileTuple tuple(id, name, path, type);
+        item->setData(UserRole::ID, id);
+        item->setData(UserRole::NAME, name);
+        item->setData(UserRole::PATH, path);
+        item->setData(UserRole::TYPE, type);
+
+        viewingArea->addItem(item);
     }
 }
 

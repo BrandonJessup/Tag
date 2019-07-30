@@ -7,6 +7,7 @@
 #include <QStackedLayout>
 #include <QList>
 #include <QMenu>
+#include <QVariant>
 
 #include "database.h"
 #include "filetuple.h"
@@ -26,8 +27,15 @@ private:
     void createViewingArea();
 
     void addFileToViewingArea(const FileTuple& file);
-
     bool somethingIsSelected();
+
+    enum UserRole
+    {
+        ID = Qt::UserRole,
+        NAME,
+        PATH,
+        TYPE
+    };
 
 signals:
 
