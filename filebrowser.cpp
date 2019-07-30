@@ -17,8 +17,16 @@ void FileBrowser::createLayout()
 void FileBrowser::createViewingArea()
 {
     viewingArea = new QListWidget;
+
+    viewingArea->setResizeMode(QListView::Adjust);
+    viewingArea->setViewMode(QListView::IconMode);
+    viewingArea->setIconSize(QSize(250, 340));
+    viewingArea->setMovement(QListView::Static);
+    viewingArea->setWordWrap(true);
+
     viewingArea->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(viewingArea, SIGNAL (customContextMenuRequested(QPoint)), this, SLOT (showContextMenu(QPoint)));
+
     layout->addWidget(viewingArea);
 }
 
