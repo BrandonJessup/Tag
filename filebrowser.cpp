@@ -17,6 +17,8 @@ void FileBrowser::createLayout()
 void FileBrowser::createViewingArea()
 {
     viewingArea = new QListWidget;
+    viewingArea->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(viewingArea, SIGNAL (customContextMenuRequested(QPoint)), this, SLOT (showContextMenu(QPoint)));
     layout->addWidget(viewingArea);
 }
 
@@ -39,5 +41,27 @@ void FileBrowser::addFileToViewingArea(const FileTuple& file)
 
     if (type == "image") {
         viewingArea->addItem(new QListWidgetItem(QIcon(path), name));
+    }
+}
+
+void FileBrowser::showContextMenu(const QPoint& point)
+{
+    QPoint position = viewingArea->mapToGlobal(point);
+
+    QMenu contextMenu;
+    contextMenu.addAction("Remove", this, SLOT (removeFiles()));
+    contextMenu.exec(position);
+}
+
+void FileBrowser::removeFiles()
+{
+    for (int i = 0; i < viewingArea->selectedItems().size(); ++i) {
+        QListWidgetItem* file = viewingArea->takeItem(viewingArea->currentRow());
+
+        // TODO: Remove file from database.
+
+        // Removing the item from the list widget stop's Qt's management of it
+        // and it must then be deleted manually.
+        delete file;
     }
 }

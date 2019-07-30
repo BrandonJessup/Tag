@@ -6,6 +6,7 @@
 #include <QListWidgetItem>
 #include <QStackedLayout>
 #include <QList>
+#include <QMenu>
 
 #include "database.h"
 #include "filetuple.h"
@@ -30,6 +31,8 @@ signals:
 
 public slots:
     void reloadContents();
+    void showContextMenu(const QPoint& point);
+    void removeFiles();
 };
 
 #endif // FILEBROWSER_H
