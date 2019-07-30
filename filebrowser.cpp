@@ -46,11 +46,18 @@ void FileBrowser::addFileToViewingArea(const FileTuple& file)
 
 void FileBrowser::showContextMenu(const QPoint& point)
 {
-    QPoint position = viewingArea->mapToGlobal(point);
+    if (somethingIsSelected()) {
+        QPoint position = viewingArea->mapToGlobal(point);
 
-    QMenu contextMenu;
-    contextMenu.addAction("Remove", this, SLOT (removeFiles()));
-    contextMenu.exec(position);
+        QMenu contextMenu;
+        contextMenu.addAction("Remove", this, SLOT (removeFiles()));
+        contextMenu.exec(position);
+    }
+}
+
+bool FileBrowser::somethingIsSelected()
+{
+    return viewingArea->currentRow() != -1;
 }
 
 void FileBrowser::removeFiles()

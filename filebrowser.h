@@ -27,6 +27,8 @@ private:
 
     void addFileToViewingArea(const FileTuple& file);
 
+    bool somethingIsSelected();
+
 signals:
 
 public slots:
