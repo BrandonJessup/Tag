@@ -27,7 +27,7 @@ private:
     void createLowerLayout();
     void createTagPanel();
     void createFileBrowser();
-    void relaySignalsFromButtonBarToFileBrowser();
+    void relaySignals();
 
 signals:
 

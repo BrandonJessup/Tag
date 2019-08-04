@@ -27,6 +27,7 @@ private:
 signals:
 
 public slots:
+    void selectionChanged(bool isSelection);
 };
 
 #endif // TAGPANEL_H

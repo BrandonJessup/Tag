@@ -28,5 +28,11 @@ void TagPanel::createSearchPanel()
 void TagPanel::createSelectedPanel()
 {
     selectedPanel = new SelectedPanel;
+    selectedPanel->setEnabled(false);
     layout->addWidget(selectedPanel);
+}
+
+void TagPanel::selectionChanged(bool isSelected)
+{
+    selectedPanel->setEnabled(isSelected);
 }

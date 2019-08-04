@@ -8,7 +8,7 @@ Window::Window(QWidget *parent) : QWidget(parent)
     createTagPanel();
     createFileBrowser();
 
-    relaySignalsFromButtonBarToFileBrowser();
+    relaySignals();
 }
 
 // topLevelLayout contains the button bar at the very top with the
@@ -45,7 +45,8 @@ void Window::createFileBrowser()
     lowerLayout->addWidget(fileBrowser);
 }
 
-void Window::relaySignalsFromButtonBarToFileBrowser()
+void Window::relaySignals()
 {
     connect(buttonBar, SIGNAL (filesChanged()), fileBrowser, SLOT (reloadContents()));
+    connect(fileBrowser, SIGNAL (selectionChanged(bool)), tagPanel, SLOT (selectionChanged(bool)));
 }

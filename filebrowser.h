@@ -25,6 +25,7 @@ private:
 
     void createLayout();
     void createViewingArea();
+    void relaySignals();
 
     void addFileToViewingArea(const FileTuple& file);
     bool somethingIsSelected();
@@ -38,8 +39,10 @@ private:
     };
 
 signals:
+    void selectionChanged(bool isSelection);
 
 public slots:
+    void selectionChangedEmitter(const QItemSelection &selected);
     void reloadContents();
     void showContextMenu(const QPoint& point);
     void removeFiles();

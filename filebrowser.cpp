@@ -4,6 +4,7 @@ FileBrowser::FileBrowser(QWidget *parent) : QWidget(parent)
 {
     createLayout();
     createViewingArea();
+    relaySignals();
 
     reloadContents();
 }
@@ -28,6 +29,17 @@ void FileBrowser::createViewingArea()
     connect(viewingArea, SIGNAL (customContextMenuRequested(QPoint)), this, SLOT (showContextMenu(QPoint)));
 
     layout->addWidget(viewingArea);
+}
+
+void FileBrowser::relaySignals()
+{
+    connect(viewingArea->selectionModel(), SIGNAL (selectionChanged(QItemSelection, QItemSelection)), this, SLOT (selectionChangedEmitter(QItemSelection)));
+}
+
+void FileBrowser::selectionChangedEmitter(const QItemSelection &selected)
+{
+    bool isSelection = !selected.isEmpty();
+    emit selectionChanged(isSelection);
 }
 
 void FileBrowser::reloadContents()
@@ -75,7 +87,7 @@ void FileBrowser::showContextMenu(const QPoint& point)
 
 bool FileBrowser::somethingIsSelected()
 {
-    return viewingArea->currentRow() != -1;
+    return !viewingArea->selectedItems().isEmpty();
 }
 
 void FileBrowser::removeFiles()
