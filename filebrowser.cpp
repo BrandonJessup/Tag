@@ -36,7 +36,7 @@ void FileBrowser::relaySignals()
     connect(viewingArea->selectionModel(), SIGNAL (selectionChanged(QItemSelection, QItemSelection)), this, SLOT (selectionChangedEmitter(QItemSelection)));
 }
 
-void FileBrowser::selectionChangedEmitter(const QItemSelection &selected)
+void FileBrowser::selectionChangedEmitter(const QItemSelection& selected)
 {
     bool isSelection = !selected.isEmpty();
     emit selectionChanged(isSelection);
