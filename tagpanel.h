@@ -19,6 +19,7 @@ private:
     SearchPanel* searchPanel;
     SelectedPanel* selectedPanel;
 
+    void setSize();
     void createLayout();
     void createSearchPanel();
     void createSelectedPanel();

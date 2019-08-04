@@ -2,9 +2,15 @@
 
 TagPanel::TagPanel(QWidget *parent) : QWidget(parent)
 {
+    setSize();
     createLayout();
     createSearchPanel();
     createSelectedPanel();
+}
+
+void TagPanel::setSize()
+{
+    this->setFixedWidth(280);
 }
 
 void TagPanel::createLayout()
