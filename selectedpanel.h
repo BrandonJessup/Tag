@@ -1,12 +1,10 @@
 #ifndef SELECTEDPANEL_H
 #define SELECTEDPANEL_H
 
-#include <QWidget>
+#include "subtagpanelbase.h"
 
-class SelectedPanel : public QWidget
+class SelectedPanel : public SubTagPanelBase
 {
-    Q_OBJECT
-
 public:
     explicit SelectedPanel(QWidget *parent = nullptr);
 

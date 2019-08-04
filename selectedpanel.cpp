@@ -1,6 +1,7 @@
 #include "selectedpanel.h"
 
-SelectedPanel::SelectedPanel(QWidget *parent) : QWidget(parent)
+SelectedPanel::SelectedPanel(QWidget *parent) : SubTagPanelBase(parent)
 {
-    // TODO: Add text input and list of tags applied to selected file.
+    setGroupLabel("Selected");
+    setTextFieldPlaceholder("Enter tag");
 }
