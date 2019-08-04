@@ -2,6 +2,8 @@
 #define TAGLIST_H
 
 #include <QWidget>
+#include <QStackedLayout>
+#include <QListWidget>
 
 class TagList : public QWidget
 {
@@ -9,6 +11,13 @@ class TagList : public QWidget
 
 public:
     explicit TagList(QWidget *parent = nullptr);
+
+private:
+    QStackedLayout* layout;
+    QListWidget* viewingArea;
+
+    void createLayout();
+    void createViewingArea();
 
 signals:
 
