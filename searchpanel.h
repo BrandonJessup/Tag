@@ -2,6 +2,12 @@
 #define SEARCHPANEL_H
 
 #include <QWidget>
+#include <QStackedLayout>
+#include <QBoxLayout>
+#include <QGroupBox>
+#include <QLineEdit>
+
+#include "taglist.h"
 
 class SearchPanel : public QWidget
 {
@@ -9,6 +15,19 @@ class SearchPanel : public QWidget
 
 public:
     explicit SearchPanel(QWidget *parent = nullptr);
+
+private:
+    QStackedLayout* outerLayout;
+    QGroupBox* groupBox;
+    QBoxLayout* innerLayout;
+    QLineEdit* textField;
+    TagList* tagList;
+
+    void createOuterLayout();
+    void createGroupBox();
+    void createInnerLayout();
+    void createTextField();
+    void createTagList();
 
 signals:
 
