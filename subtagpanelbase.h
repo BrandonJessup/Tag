@@ -10,7 +10,7 @@
 #include "taglist.h"
 
 // Because SearchPanel and SelectedPanel share a lot of functionality,
-// code they code share has been moved to this class for ease of
+// code they share has been moved to this class for ease of
 // maintenence.
 class SubTagPanelBase : public QWidget
 {
