@@ -11,6 +11,7 @@ SOURCES += \
     main.cpp \
     searchpanel.cpp \
     selectedpanel.cpp \
+    taglist.cpp \
     tagpanel.cpp \
     window.cpp
 
@@ -21,5 +22,6 @@ HEADERS += \
     filetuple.h \
     searchpanel.h \
     selectedpanel.h \
+    taglist.h \
     tagpanel.h \
     window.h
