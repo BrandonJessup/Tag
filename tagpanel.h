@@ -2,6 +2,10 @@
 #define TAGPANEL_H
 
 #include <QWidget>
+#include <QBoxLayout>
+
+#include "searchpanel.h"
+#include "selectedpanel.h"
 
 class TagPanel : public QWidget
 {
@@ -9,6 +13,15 @@ class TagPanel : public QWidget
 
 public:
     explicit TagPanel(QWidget *parent = nullptr);
+
+private:
+    QBoxLayout* layout;
+    SearchPanel* searchPanel;
+    SelectedPanel* selectedPanel;
+
+    void createLayout();
+    void createSearchPanel();
+    void createSelectedPanel();
 
 signals:
 
