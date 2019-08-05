@@ -14,6 +14,7 @@ SOURCES += \
     subtagpanelbase.cpp \
     taglist.cpp \
     tagpanel.cpp \
+    tagtuple.cpp \
     window.cpp
 
 HEADERS += \
@@ -27,5 +28,6 @@ HEADERS += \
     subtagpanelbase.h \
     taglist.h \
     tagpanel.h \
+    tagtuple.h \
     userrole.h \
     window.h
