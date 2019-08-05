@@ -22,6 +22,7 @@ HEADERS += \
     filebrowser.h \
     filetuple.h \
     searchpanel.h \
+    selected.h \
     selectedpanel.h \
     subtagpanelbase.h \
     taglist.h \
