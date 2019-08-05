@@ -17,6 +17,8 @@ private:
     int selectedFile;
 
     bool tagIsValid(const QString& tag);
+    bool hasNonWhitespaceCharacter(const QString& tag);
+    QString removeExcessWhitespace(QString tag);
 
 signals:
 

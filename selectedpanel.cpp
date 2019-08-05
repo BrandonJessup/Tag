@@ -17,6 +17,7 @@ void SelectedPanel::addTag()
     QString tag = getTextFieldContent();
     clearTextField();
     if (tagIsValid(tag)) {
+        tag = removeExcessWhitespace(tag);
         Database* database = Database::getInstance();
         database->addTagToFile(tag, selectedFile);
         refreshTagList();
@@ -32,9 +33,26 @@ void SelectedPanel::refreshTagList()
 
 bool SelectedPanel::tagIsValid(const QString& tag)
 {
-    // TODO: Perform some basic checks like whether it's empty,
-    // whether it is entirely spaces, etc.
+    bool isValid = true;
 
-    // TEMP
-    return true;
+    isValid &= !tag.isEmpty();
+    isValid &= hasNonWhitespaceCharacter(tag);
+
+    return isValid;
+}
+
+bool SelectedPanel::hasNonWhitespaceCharacter(const QString& tag)
+{
+    for (int i = 0; i < tag.length(); ++i) {
+        if (!tag[i].isSpace()) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+QString SelectedPanel::removeExcessWhitespace(QString tag)
+{
+    return tag.simplified();
 }
