@@ -19,6 +19,7 @@ public:
     void removeFile(const int& id);
     QList<FileTuple> getAllFiles();
     void addTagToFile(const QString& tag, const int& fileId);
+    void addTag(const QString& tag);
 
 protected:
     Database();
@@ -35,6 +36,7 @@ private:
     void createTagTableIfDoesntExist();
     void createFileTagTableIfDoesntExist();
     int getIdOfType(const QString& type);
+    int getIdOfTag(const QString& tag);
 };
 
 #endif // DATABASE_H

@@ -56,15 +56,38 @@ QList<FileTuple> Database::getAllFiles()
 
 void Database::addTagToFile(const QString& tag, const int& fileId)
 {
-    // TODO: Add the tag into the Tag table if it isn't already in
-    // there and then get the id of that tag and put it with the
-    // fileId in the FileTag table.
+    addTag(tag);
+    int tagId = getIdOfTag(tag);
+
+    QSqlQuery query;
+    query.prepare("insert into FileTag (FileId, TagId) values (:FileId, :TagId)");
+    query.bindValue(":FileId", fileId);
+    query.bindValue(":TagId", tagId);
+    query.exec();
+}
+
+void Database::addTag(const QString& tag)
+{
+    QSqlQuery query;
+    query.prepare("insert into Tag (Name) values (:Name)");
+    query.bindValue(":Name", tag);
+    query.exec();
 }
 
 int Database::getIdOfType(const QString& type) {
     QSqlQuery query;
     query.prepare("select TypeId from Type where Name = :type");
     query.bindValue(":type", type);
+    query.exec();
+    query.first();
+    return query.value(0).toInt();
+}
+
+int Database::getIdOfTag(const QString& tag)
+{
+    QSqlQuery query;
+    query.prepare("select TagId from Tag where Name = :Name");
+    query.bindValue(":Name", tag);
     query.exec();
     query.first();
     return query.value(0).toInt();
