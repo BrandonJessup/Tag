@@ -8,6 +8,8 @@ class SearchPanel : public SubTagPanelBase
 public:
     explicit SearchPanel(QWidget *parent = nullptr);
 
+    void addTag() override;
+
 signals:
 
 public slots:

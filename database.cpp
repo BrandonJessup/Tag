@@ -54,6 +54,13 @@ QList<FileTuple> Database::getAllFiles()
     return files;
 }
 
+void Database::addTagToFile(const QString& tag, const int& fileId)
+{
+    // TODO: Add the tag into the Tag table if it isn't already in
+    // there and then get the id of that tag and put it with the
+    // fileId in the FileTag table.
+}
+
 int Database::getIdOfType(const QString& type) {
     QSqlQuery query;
     query.prepare("select TypeId from Type where Name = :type");

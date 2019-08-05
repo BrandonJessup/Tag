@@ -9,8 +9,13 @@ class SelectedPanel : public SubTagPanelBase
 public:
     explicit SelectedPanel(QWidget *parent = nullptr);
 
+    void setSelectedFile(const int& file);
+    void addTag() override;
+
 private:
     int selectedFile;
+
+    bool tagIsValid(const QString& tag);
 
 signals:
 

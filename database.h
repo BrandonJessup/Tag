@@ -18,6 +18,7 @@ public:
     void addFile(const QString& name, const QString& path, const QString& type);
     void removeFile(const int& id);
     QList<FileTuple> getAllFiles();
+    void addTagToFile(const QString& tag, const int& fileId);
 
 protected:
     Database();

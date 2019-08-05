@@ -8,6 +8,7 @@
 #include <QLineEdit>
 
 #include "taglist.h"
+#include "database.h"
 
 // Because SearchPanel and SelectedPanel share a lot of functionality,
 // code they share has been moved to this class for ease of
@@ -22,6 +23,8 @@ public:
 protected:
     void setGroupLabel(const QString& label);
     void setTextFieldPlaceholder(const QString& placeHolder);
+    QString getTextFieldContent();
+    void clearTextField();
 
 private:
     QStackedLayout* outerLayout;
@@ -36,9 +39,12 @@ private:
     void createTextField();
     void createTagList();
 
+    void relaySignals();
+
 signals:
 
 public slots:
+    virtual void addTag() = 0;
 };
 
 #endif // SUBTAGPANELBASE_H

@@ -7,6 +7,8 @@ SubTagPanelBase::SubTagPanelBase(QWidget *parent) : QWidget(parent)
     createInnerLayout();
     createTextField();
     createTagList();
+
+    relaySignals();
 }
 
 void SubTagPanelBase::createOuterLayout()
@@ -47,4 +49,19 @@ void SubTagPanelBase::setGroupLabel(const QString& label)
 void SubTagPanelBase::setTextFieldPlaceholder(const QString& placeHolder)
 {
     textField->setPlaceholderText(placeHolder);
+}
+
+void SubTagPanelBase::relaySignals()
+{
+    connect(textField, SIGNAL (returnPressed()), this, SLOT (addTag()));
+}
+
+QString SubTagPanelBase::getTextFieldContent()
+{
+    return textField->text();
+}
+
+void SubTagPanelBase::clearTextField()
+{
+    textField->clear();
 }

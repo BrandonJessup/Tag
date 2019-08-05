@@ -6,3 +6,27 @@ SelectedPanel::SelectedPanel(QWidget *parent) : SubTagPanelBase(parent)
     setGroupLabel("Selected");
     setTextFieldPlaceholder("Enter tag");
 }
+
+void SelectedPanel::setSelectedFile(const int& file)
+{
+    selectedFile = file;
+}
+
+void SelectedPanel::addTag()
+{
+    QString tag = getTextFieldContent();
+    clearTextField();
+    if (tagIsValid(tag)) {
+        Database* database = Database::getInstance();
+        database->addTagToFile(tag, selectedFile);
+    }
+}
+
+bool SelectedPanel::tagIsValid(const QString& tag)
+{
+    // TODO: Perform some basic checks like whether it's empty,
+    // whether it is entirely spaces, etc.
+
+    // TEMP
+    return true;
+}

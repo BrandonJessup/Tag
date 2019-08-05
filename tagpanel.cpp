@@ -36,4 +36,5 @@ void TagPanel::selectionChanged(int selectedFile)
 {
     bool fileIsSelected = selectedFile != Selected::NONE;
     selectedPanel->setEnabled(fileIsSelected);
+    selectedPanel->setSelectedFile(selectedFile);
 }
