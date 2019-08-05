@@ -32,7 +32,7 @@ FileTuple::~FileTuple()
     if (type != nullptr) delete type;
 }
 
-void FileTuple::setId(const int &id)
+void FileTuple::setId(const int& id)
 {
     *(this->id) = id;
 }
