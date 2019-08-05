@@ -26,4 +26,5 @@ HEADERS += \
     subtagpanelbase.h \
     taglist.h \
     tagpanel.h \
+    userrole.h \
     window.h

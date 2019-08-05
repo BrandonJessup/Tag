@@ -9,6 +9,7 @@
 #include <QMenu>
 #include <QVariant>
 
+#include "userrole.h"
 #include "database.h"
 #include "filetuple.h"
 
@@ -29,14 +30,6 @@ private:
 
     void addFileToViewingArea(const FileTuple& file);
     bool somethingIsSelected();
-
-    enum UserRole
-    {
-        ID = Qt::UserRole,
-        NAME,
-        PATH,
-        TYPE
-    };
 
 signals:
     void selectionChanged(bool isSelection);
