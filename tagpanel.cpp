@@ -32,7 +32,8 @@ void TagPanel::createSelectedPanel()
     layout->addWidget(selectedPanel);
 }
 
-void TagPanel::selectionChanged(bool isSelected)
+void TagPanel::selectionChanged(int selectedFile)
 {
-    selectedPanel->setEnabled(isSelected);
+    bool fileIsSelected = selectedFile != Selected::NONE;
+    selectedPanel->setEnabled(fileIsSelected);
 }

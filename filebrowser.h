@@ -10,6 +10,7 @@
 #include <QVariant>
 
 #include "userrole.h"
+#include "selected.h"
 #include "database.h"
 #include "filetuple.h"
 
@@ -32,7 +33,7 @@ private:
     bool somethingIsSelected();
 
 signals:
-    void selectionChanged(bool isSelection);
+    void selectionChanged(int selectedFile);
 
 public slots:
     void selectionChangedEmitter(const QItemSelection& selected);

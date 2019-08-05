@@ -38,8 +38,16 @@ void FileBrowser::relaySignals()
 
 void FileBrowser::selectionChangedEmitter(const QItemSelection& selected)
 {
-    bool isSelection = !selected.isEmpty();
-    emit selectionChanged(isSelection);
+    int selectedFile = Selected::NONE;
+
+    // Selections are returned as a list even though we only allow
+    // for one file to be selected at a time.
+    QModelIndexList selectedFileList = selected.indexes();
+    if (!selectedFileList.isEmpty()) {
+        selectedFile = selectedFileList.first().data(UserRole::ID).toInt();
+    }
+
+    emit selectionChanged(selectedFile);
 }
 
 void FileBrowser::reloadContents()

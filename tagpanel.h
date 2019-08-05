@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QBoxLayout>
 
+#include "selected.h"
 #include "searchpanel.h"
 #include "selectedpanel.h"
 
@@ -27,7 +28,7 @@ private:
 signals:
 
 public slots:
-    void selectionChanged(bool isSelection);
+    void selectionChanged(int selectedFile);
 };
 
 #endif // TAGPANEL_H

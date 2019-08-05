@@ -48,5 +48,5 @@ void Window::createFileBrowser()
 void Window::relaySignals()
 {
     connect(buttonBar, SIGNAL (filesChanged()), fileBrowser, SLOT (reloadContents()));
-    connect(fileBrowser, SIGNAL (selectionChanged(bool)), tagPanel, SLOT (selectionChanged(bool)));
+    connect(fileBrowser, SIGNAL (selectionChanged(int)), tagPanel, SLOT (selectionChanged(int)));
 }
