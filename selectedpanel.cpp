@@ -19,7 +19,15 @@ void SelectedPanel::addTag()
     if (tagIsValid(tag)) {
         Database* database = Database::getInstance();
         database->addTagToFile(tag, selectedFile);
+        refreshTagList();
     }
+}
+
+void SelectedPanel::refreshTagList()
+{
+    Database* database = Database::getInstance();
+    QList<TagTuple> tags = database->getTagsOfFile(selectedFile);
+    populateTagList(tags);
 }
 
 bool SelectedPanel::tagIsValid(const QString& tag)

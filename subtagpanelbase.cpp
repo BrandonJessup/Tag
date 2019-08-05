@@ -65,3 +65,11 @@ void SubTagPanelBase::clearTextField()
 {
     textField->clear();
 }
+
+void SubTagPanelBase::populateTagList(QList<TagTuple> tags)
+{
+    tagList->clear();
+    for (TagTuple tag : tags) {
+        tagList->addTag(tag);
+    }
+}

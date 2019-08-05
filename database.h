@@ -9,6 +9,7 @@
 #include <QSqlRecord>
 
 #include "filetuple.h"
+#include "tagtuple.h"
 
 class Database
 {
@@ -20,6 +21,7 @@ public:
     QList<FileTuple> getAllFiles();
     void addTagToFile(const QString& tag, const int& fileId);
     void addTag(const QString& tag);
+    QList<TagTuple> getTagsOfFile(const int& fileId);
 
 protected:
     Database();

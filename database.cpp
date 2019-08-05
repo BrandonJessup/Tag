@@ -74,6 +74,32 @@ void Database::addTag(const QString& tag)
     query.exec();
 }
 
+// TEMP
+#include <QDebug>
+
+QList<TagTuple> Database::getTagsOfFile(const int& fileId)
+{
+    QSqlQuery query;
+
+    query.prepare("select Tag.TagId, Tag.Name from Tag "
+                  "where Tag.TagId in (select FileTag.TagId from FileTag where FileTag.FileId = :FileId)");
+    query.bindValue(":FileId", fileId);
+    query.exec();
+
+    int idIndex = query.record().indexOf("Tag.TagId");
+    int nameIndex = query.record().indexOf("Tag.Name");
+
+    QList<TagTuple> tags;
+    while (query.next()) {
+        TagTuple tag;
+        tag.setId(query.value(idIndex).toInt());
+        tag.setName(query.value(nameIndex).toString());
+        tags.append(tag);
+    }
+
+    return tags;
+}
+
 int Database::getIdOfType(const QString& type) {
     QSqlQuery query;
     query.prepare("select TypeId from Type where Name = :type");

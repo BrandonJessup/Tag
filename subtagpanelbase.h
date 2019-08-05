@@ -7,6 +7,7 @@
 #include <QGroupBox>
 #include <QLineEdit>
 
+#include "userrole.h"
 #include "taglist.h"
 #include "database.h"
 
@@ -20,11 +21,15 @@ class SubTagPanelBase : public QWidget
 public:
     explicit SubTagPanelBase(QWidget *parent = nullptr);
 
+    virtual void refreshTagList() = 0;
+
 protected:
     void setGroupLabel(const QString& label);
     void setTextFieldPlaceholder(const QString& placeHolder);
     QString getTextFieldContent();
     void clearTextField();
+
+    void populateTagList(QList<TagTuple> tags);
 
 private:
     QStackedLayout* outerLayout;

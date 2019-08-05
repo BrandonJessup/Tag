@@ -10,6 +10,7 @@ public:
     explicit SelectedPanel(QWidget *parent = nullptr);
 
     void setSelectedFile(const int& file);
+    void refreshTagList() override;
     void addTag() override;
 
 private:

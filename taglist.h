@@ -5,12 +5,18 @@
 #include <QStackedLayout>
 #include <QListWidget>
 
+#include "tagtuple.h"
+#include "userrole.h"
+
 class TagList : public QWidget
 {
     Q_OBJECT
 
 public:
     explicit TagList(QWidget *parent = nullptr);
+
+    void clear();
+    void addTag(const TagTuple& tag);
 
 private:
     QStackedLayout* layout;
