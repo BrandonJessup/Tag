@@ -2,10 +2,16 @@
 
 ButtonBar::ButtonBar(QWidget *parent) : QWidget(parent)
 {
+    setSize();
     createLayout();
     createAddImageButton();
     createAddFileButton();
     createAddFolderButton();
+}
+
+void ButtonBar::setSize()
+{
+    this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 }
 
 void ButtonBar::createLayout()

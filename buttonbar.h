@@ -21,6 +21,7 @@ private:
     QPushButton* addFileButton;
     QPushButton* addFolderButton;
 
+    void setSize();
     void createLayout();
     void createAddImageButton();
     void createAddFileButton();
