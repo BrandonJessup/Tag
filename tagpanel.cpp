@@ -39,5 +39,3 @@ void TagPanel::selectionChanged(int selectedFile)
     selectedPanel->setSelectedFile(selectedFile);
     selectedPanel->refreshTagList();
 }
-
-
