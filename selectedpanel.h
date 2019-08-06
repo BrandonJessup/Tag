@@ -6,6 +6,8 @@
 
 class SelectedPanel : public SubTagPanelBase
 {
+    Q_OBJECT
+
 public:
     explicit SelectedPanel(QWidget *parent = nullptr);
 
@@ -19,10 +21,12 @@ private:
     bool tagIsValid(const QString& tag);
     bool hasNonWhitespaceCharacter(const QString& tag);
     QString removeExcessWhitespace(QString tag);
+    void relaySignals();
 
 signals:
 
 public slots:
+    void removeTagFromSelectedFile(int id);
 };
 
 #endif // SELECTEDPANEL_H

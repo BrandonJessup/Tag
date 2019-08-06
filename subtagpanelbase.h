@@ -24,6 +24,8 @@ public:
     virtual void refreshTagList() = 0;
 
 protected:
+    TagList* tagList;
+
     void setGroupLabel(const QString& label);
     void setTextFieldPlaceholder(const QString& placeHolder);
     QString getTextFieldContent();
@@ -36,7 +38,6 @@ private:
     QGroupBox* groupBox;
     QBoxLayout* innerLayout;
     QLineEdit* textField;
-    TagList* tagList;
 
     void createOuterLayout();
     void createGroupBox();

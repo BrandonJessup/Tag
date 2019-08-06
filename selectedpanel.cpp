@@ -5,6 +5,12 @@ SelectedPanel::SelectedPanel(QWidget *parent) : SubTagPanelBase(parent)
     selectedFile = Selected::NONE;
     setGroupLabel("Selected");
     setTextFieldPlaceholder("Enter tag");
+    relaySignals();
+}
+
+void SelectedPanel::relaySignals()
+{
+    connect(tagList, SIGNAL (tagToBeRemovedFromSelectedFile(int)), this, SLOT (removeTagFromSelectedFile(int)));
 }
 
 void SelectedPanel::setSelectedFile(const int& file)
@@ -55,4 +61,10 @@ bool SelectedPanel::hasNonWhitespaceCharacter(const QString& tag)
 QString SelectedPanel::removeExcessWhitespace(QString tag)
 {
     return tag.simplified();
+}
+
+void SelectedPanel::removeTagFromSelectedFile(int id)
+{
+    Database* database = Database::getInstance();
+    database->removeTagFromFile(id, selectedFile);
 }

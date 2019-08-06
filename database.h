@@ -22,6 +22,7 @@ public:
     void addTagToFile(const QString& tag, const int& fileId);
     void addTag(const QString& tag);
     QList<TagTuple> getTagsOfFile(const int& fileId);
+    void removeTagFromFile(const int& tagId, const int& fileId);
 
 protected:
     Database();

@@ -79,9 +79,6 @@ void Database::addTag(const QString& tag)
     query.exec();
 }
 
-// TEMP
-#include <QDebug>
-
 QList<TagTuple> Database::getTagsOfFile(const int& fileId)
 {
     QSqlQuery query;
@@ -122,6 +119,15 @@ int Database::getIdOfTag(const QString& tag)
     query.exec();
     query.first();
     return query.value(0).toInt();
+}
+
+void Database::removeTagFromFile(const int& tagId, const int& fileId)
+{
+    QSqlQuery query;
+    query.prepare("delete from FileTag where FileId = :FileId and TagId = :TagId");
+    query.bindValue(":FileId", fileId);
+    query.bindValue(":TagId", tagId);
+    query.exec();
 }
 
 Database::Database()
