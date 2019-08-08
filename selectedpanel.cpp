@@ -24,6 +24,7 @@ void SelectedPanel::addTag()
     clearTextField();
     if (tagIsValid(tag)) {
         tag = removeExcessWhitespace(tag);
+        tag = tag.toLower();
         Database* database = Database::getInstance();
         database->addTagToFile(tag, selectedFile);
         refreshTagList();
