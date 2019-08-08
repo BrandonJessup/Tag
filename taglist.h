@@ -29,7 +29,6 @@ private:
     void createLayout();
     void createStyleSheet();
     void createViewingArea();
-    void relaySignals();
 
     bool somethingIsSelected();
     void removeTag(QListWidgetItem* tag);
@@ -40,7 +39,6 @@ signals:
 public slots:
     void showContextMenu(const QPoint& point);
     void removeSelectedTags();
-    void tagClicked(QModelIndex index);
 };
 
 #endif // TAGLIST_H

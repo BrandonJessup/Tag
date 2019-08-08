@@ -5,7 +5,6 @@ TagList::TagList(QWidget *parent) : QWidget(parent)
     createLayout();
     createStyleSheet();
     createViewingArea();
-    relaySignals();
 }
 
 void TagList::createLayout()
@@ -38,11 +37,6 @@ void TagList::createViewingArea()
     connect(viewingArea, SIGNAL (customContextMenuRequested(QPoint)), this, SLOT (showContextMenu(QPoint)));
 
     layout->addWidget(viewingArea);
-}
-
-void TagList::relaySignals()
-{
-    connect(viewingArea, SIGNAL (clicked(QModelIndex)), this, SLOT (tagClicked(QModelIndex)));
 }
 
 void TagList::clear()
@@ -85,11 +79,6 @@ void TagList::removeSelectedTags()
     for (int i = 0; i < viewingArea->selectedItems().size(); ++i) {
         removeTag(viewingArea->takeItem(viewingArea->currentRow()));
     }
-}
-
-void TagList::tagClicked(QModelIndex index)
-{
-    removeTag(viewingArea->takeItem(index.row()));
 }
 
 void TagList::removeTag(QListWidgetItem* tag)
