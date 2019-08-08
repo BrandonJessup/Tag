@@ -34,6 +34,7 @@ void TagList::createViewingArea()
     viewingArea->setResizeMode(QListView::Adjust);
     viewingArea->setStyleSheet(styleSheet);
     viewingArea->setSpacing(4);
+    viewingArea->setFocusPolicy(Qt::NoFocus);
     connect(viewingArea, SIGNAL (customContextMenuRequested(QPoint)), this, SLOT (showContextMenu(QPoint)));
 
     layout->addWidget(viewingArea);
