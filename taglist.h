@@ -32,13 +32,15 @@ private:
     void relaySignals();
 
     bool somethingIsSelected();
+    void removeTag(QListWidgetItem* tag);
 
 signals:
     void tagToBeRemovedFromSelectedFile(int id);
 
 public slots:
     void showContextMenu(const QPoint& point);
-    void removeTags();
+    void removeSelectedTags();
+    void tagClicked(QModelIndex index);
 };
 
 #endif // TAGLIST_H

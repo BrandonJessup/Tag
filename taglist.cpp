@@ -5,6 +5,7 @@ TagList::TagList(QWidget *parent) : QWidget(parent)
     createLayout();
     createStyleSheet();
     createViewingArea();
+    relaySignals();
 }
 
 void TagList::createLayout()
@@ -40,7 +41,7 @@ void TagList::createViewingArea()
 
 void TagList::relaySignals()
 {
-    connect(viewingArea->selectionModel(), SIGNAL (selectionChanged(QItemSelection, QItemSelection)), this, SLOT (showContextMenu()));
+    connect(viewingArea, SIGNAL (clicked(QModelIndex)), this, SLOT (tagClicked(QModelIndex)));
 }
 
 void TagList::clear()
@@ -73,21 +74,29 @@ void TagList::showContextMenu(const QPoint& point)
         QPoint position = viewingArea->mapToGlobal(point);
 
         QMenu contextMenu;
-        contextMenu.addAction("Remove", this, SLOT (removeTags()));
+        contextMenu.addAction("Remove", this, SLOT (removeSelectedTags()));
         contextMenu.exec(position);
     }
 }
 
-void TagList::removeTags()
+void TagList::removeSelectedTags()
 {
     for (int i = 0; i < viewingArea->selectedItems().size(); ++i) {
-        QListWidgetItem* tag = viewingArea->takeItem(viewingArea->currentRow());
-
-        int id = tag->data(UserRole::ID).toInt();
-        emit tagToBeRemovedFromSelectedFile(id);
-
-        // Removing the item from the list widget stop's Qt's management of it
-        // and it must then be deleted manually.
-        delete tag;
+        removeTag(viewingArea->takeItem(viewingArea->currentRow()));
     }
+}
+
+void TagList::tagClicked(QModelIndex index)
+{
+    removeTag(viewingArea->takeItem(index.row()));
+}
+
+void TagList::removeTag(QListWidgetItem* tag)
+{
+    int id = tag->data(UserRole::ID).toInt();
+    emit tagToBeRemovedFromSelectedFile(id);
+
+    // Removing the item from the list widget stop's Qt's management of it
+    // and it must then be deleted manually.
+    delete tag;
 }
