@@ -17,6 +17,9 @@ void TagList::createViewingArea()
     viewingArea = new QListWidget;
 
     viewingArea->setContextMenuPolicy(Qt::CustomContextMenu);
+    viewingArea->setViewMode(QListView::IconMode);
+    viewingArea->setMovement(QListView::Static);
+    viewingArea->setResizeMode(QListView::Adjust);
     connect(viewingArea, SIGNAL (customContextMenuRequested(QPoint)), this, SLOT (showContextMenu(QPoint)));
 
     layout->addWidget(viewingArea);
