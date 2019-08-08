@@ -8,6 +8,8 @@
 #include <QList>
 #include <QMenu>
 #include <QVariant>
+#include <QMessageBox>
+#include <QPushButton>
 
 #include "userrole.h"
 #include "selected.h"
@@ -31,6 +33,10 @@ private:
 
     void addFileToViewingArea(const FileTuple& file);
     bool somethingIsSelected();
+    void removeFiles();
+
+protected:
+    void keyPressEvent(QKeyEvent* event) override;
 
 signals:
     void selectionChanged(int selectedFile);
@@ -39,7 +45,7 @@ public slots:
     void selectionChangedEmitter(const QItemSelection& selected);
     void reloadContents();
     void showContextMenu(const QPoint& point);
-    void removeFiles();
+    void fileRemovePrompt();
 };
 
 #endif // FILEBROWSER_H

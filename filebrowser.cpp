@@ -88,8 +88,29 @@ void FileBrowser::showContextMenu(const QPoint& point)
         QPoint position = viewingArea->mapToGlobal(point);
 
         QMenu contextMenu;
-        contextMenu.addAction("Remove", this, SLOT (removeFiles()));
+        contextMenu.addAction("Remove", this, SLOT (fileRemovePrompt()));
         contextMenu.exec(position);
+    }
+}
+
+void FileBrowser::fileRemovePrompt()
+{
+    QPushButton* removeButton = new QPushButton("Remove");
+
+    QMessageBox prompt;
+    prompt.setText("Remove selected file?");
+    prompt.setStandardButtons(QMessageBox::Cancel);
+    prompt.addButton(removeButton, QMessageBox::AcceptRole);
+    prompt.setDefaultButton(removeButton);
+
+    int chosen = prompt.exec();
+    switch (chosen) {
+    case QMessageBox::AcceptRole:
+        removeFiles();
+        break;
+    default:
+        // Do nothing.
+        break;
     }
 }
 
@@ -110,5 +131,17 @@ void FileBrowser::removeFiles()
         // Removing the item from the list widget stop's Qt's management of it
         // and it must then be deleted manually.
         delete file;
+    }
+}
+
+void FileBrowser::keyPressEvent(QKeyEvent* event)
+{
+    switch (event->key()) {
+    case Qt::Key_Delete:
+        fileRemovePrompt();
+        break;
+    default:
+        // Do nothing.
+        break;
     }
 }
