@@ -5,6 +5,7 @@
 #include <QStackedLayout>
 #include <QListWidget>
 #include <QMenu>
+#include <QString>
 
 #include "tagtuple.h"
 #include "userrole.h"
@@ -23,8 +24,10 @@ public:
 private:
     QStackedLayout* layout;
     QListWidget* viewingArea;
+    QString styleSheet;
 
     void createLayout();
+    void createStyleSheet();
     void createViewingArea();
     void relaySignals();
 

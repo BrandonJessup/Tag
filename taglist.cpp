@@ -3,6 +3,7 @@
 TagList::TagList(QWidget *parent) : QWidget(parent)
 {
     createLayout();
+    createStyleSheet();
     createViewingArea();
 }
 
@@ -10,6 +11,16 @@ void TagList::createLayout()
 {
     layout = new QStackedLayout;
     this->setLayout(layout);
+}
+
+void TagList::createStyleSheet()
+{
+    styleSheet =
+            "QListWidget::item { "
+                "background-color: #A9DFBF;"
+                "padding: 2px;"
+                "border-radius: 2px;"
+            "}";
 }
 
 void TagList::createViewingArea()
@@ -20,6 +31,8 @@ void TagList::createViewingArea()
     viewingArea->setViewMode(QListView::IconMode);
     viewingArea->setMovement(QListView::Static);
     viewingArea->setResizeMode(QListView::Adjust);
+    viewingArea->setStyleSheet(styleSheet);
+    viewingArea->setSpacing(4);
     connect(viewingArea, SIGNAL (customContextMenuRequested(QPoint)), this, SLOT (showContextMenu(QPoint)));
 
     layout->addWidget(viewingArea);
