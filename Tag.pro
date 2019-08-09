@@ -13,6 +13,7 @@ SOURCES += \
     selectedpanel.cpp \
     subtagpanelbase.cpp \
     taglist.cpp \
+    tagnamenotfoundexception.cpp \
     tagpanel.cpp \
     tagtuple.cpp \
     window.cpp
@@ -27,6 +28,7 @@ HEADERS += \
     selectedpanel.h \
     subtagpanelbase.h \
     taglist.h \
+    tagnamenotfoundexception.h \
     tagpanel.h \
     tagtuple.h \
     userrole.h \

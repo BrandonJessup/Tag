@@ -10,6 +10,7 @@
 
 #include "filetuple.h"
 #include "tagtuple.h"
+#include "tagnamenotfoundexception.h"
 
 class Database
 {
@@ -23,6 +24,8 @@ public:
     void addTag(const QString& tag);
     QList<TagTuple> getTagsOfFile(const int& fileId);
     void removeTagFromFile(const int& tagId, const int& fileId);
+    int getIdOfTag(const QString& tag);
+    QList<TagTuple> getTuplesOfTags(QList<int> tagIds);
 
 protected:
     Database();
@@ -39,7 +42,6 @@ private:
     void createTagTableIfDoesntExist();
     void createFileTagTableIfDoesntExist();
     int getIdOfType(const QString& type);
-    int getIdOfTag(const QString& tag);
     void removeTagsFromFile(const int& id);
 };
 

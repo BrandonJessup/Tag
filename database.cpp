@@ -118,7 +118,12 @@ int Database::getIdOfTag(const QString& tag)
     query.bindValue(":Name", tag);
     query.exec();
     query.first();
-    return query.value(0).toInt();
+    if (query.isValid()) {
+        return query.value(0).toInt();
+    }
+    else {
+        throw TagNameNotFoundException("Tag Name " + tag + " not found in database.");
+    }
 }
 
 void Database::removeTagFromFile(const int& tagId, const int& fileId)
@@ -128,6 +133,41 @@ void Database::removeTagFromFile(const int& tagId, const int& fileId)
     query.bindValue(":FileId", fileId);
     query.bindValue(":TagId", tagId);
     query.exec();
+}
+
+QList<TagTuple> Database::getTuplesOfTags(QList<int> tagIds)
+{
+    QList<TagTuple> tuples;
+
+    if (!tagIds.isEmpty()) {
+        QSqlQuery query;
+        QString command = "select TagId, Name from Tag where TagId in (";
+        for (int i = 0; i < tagIds.size(); ++i) {
+            command.append(":Tag");
+            command.append(QString::number(i));
+            command.append(",");
+        }
+        command.chop(1);
+        command += ")";
+        query.prepare(command);
+
+        for (int i = 0; i < tagIds.size(); ++i) {
+            query.bindValue(i, tagIds[i]);
+        }
+        query.exec();
+
+        int idIndex = query.record().indexOf("Tag.TagId");
+        int nameIndex = query.record().indexOf("Tag.Name");
+
+        while (query.next()) {
+            TagTuple tag;
+            tag.setId(query.value(idIndex).toInt());
+            tag.setName(query.value(nameIndex).toString());
+            tuples.append(tag);
+        }
+    }
+
+    return tuples;
 }
 
 Database::Database()

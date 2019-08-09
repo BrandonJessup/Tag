@@ -30,6 +30,9 @@ protected:
     void setTextFieldPlaceholder(const QString& placeHolder);
     QString getTextFieldContent();
     void clearTextField();
+    bool tagIsValid(const QString& tag);
+    bool hasNonWhitespaceCharacter(const QString& tag);
+    QString format(QString tag);
 
     void populateTagList(QList<TagTuple> tags);
 
