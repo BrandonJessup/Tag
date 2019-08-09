@@ -10,6 +10,7 @@ SearchPanel::SearchPanel(QWidget *parent) : SubTagPanelBase(parent)
 void SearchPanel::relaySignals()
 {
     connect(tagList, SIGNAL (tagClicked(int)), this, SLOT (removeTagFromSearch(int)));
+    connect(tagList, SIGNAL (tagToBeRemovedFromSearch(int)), this, SLOT (removeTagFromSearch(int)));
 }
 
 void SearchPanel::removeTagFromSearch(int tagId)

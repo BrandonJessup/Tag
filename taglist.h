@@ -36,6 +36,7 @@ private:
 
 signals:
     void tagToBeRemovedFromSelectedFile(int id);
+    void tagToBeRemovedFromSearch(int id);
     void tagClicked(int tagId);
 
 public slots:

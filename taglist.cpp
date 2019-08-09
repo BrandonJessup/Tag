@@ -96,6 +96,7 @@ void TagList::removeTag(QListWidgetItem* tag)
 {
     int id = tag->data(UserRole::ID).toInt();
     emit tagToBeRemovedFromSelectedFile(id);
+    emit tagToBeRemovedFromSearch(id);
 
     // Removing the item from the list widget stop's Qt's management of it
     // and it must then be deleted manually.
