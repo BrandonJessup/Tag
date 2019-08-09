@@ -29,6 +29,7 @@ signals:
 
 public slots:
     void removeTagFromSearch(int tagId);
+    void toggleTagInSearch(int tagId);
 };
 
 #endif // SEARCHPANEL_H

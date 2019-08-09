@@ -24,6 +24,7 @@ private:
     void createLayout();
     void createSearchPanel();
     void createSelectedPanel();
+    void relaySignals();
 
 signals:
 

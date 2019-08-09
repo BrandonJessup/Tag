@@ -58,3 +58,15 @@ void SearchPanel::showPrompt(const QString& message)
     prompt.setDefaultButton(QMessageBox::Ok);
     prompt.exec();
 }
+
+void SearchPanel::toggleTagInSearch(int tagId)
+{
+    if (!activeSearchTags.contains(tagId)) {
+        activeSearchTags.append(tagId);
+        refreshTagList();
+        emit activeSearchTagsChanged(activeSearchTags);
+    }
+    else {
+        removeTagFromSearch(tagId);
+    }
+}

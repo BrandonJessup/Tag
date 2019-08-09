@@ -21,9 +21,11 @@ private:
     void relaySignals();
 
 signals:
+    void tagClicked(int tagId);
 
 public slots:
     void removeTagFromSelectedFile(int id);
+    void tagClickedEmitter(int tagId);
 };
 
 #endif // SELECTEDPANEL_H

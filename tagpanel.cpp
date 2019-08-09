@@ -6,6 +6,7 @@ TagPanel::TagPanel(QWidget *parent) : QWidget(parent)
     createLayout();
     createSearchPanel();
     createSelectedPanel();
+    relaySignals();
 }
 
 void TagPanel::setSize()
@@ -30,6 +31,11 @@ void TagPanel::createSelectedPanel()
     selectedPanel = new SelectedPanel;
     selectedPanel->setEnabled(false);
     layout->addWidget(selectedPanel);
+}
+
+void TagPanel::relaySignals()
+{
+    connect(selectedPanel, SIGNAL (tagClicked(int)), searchPanel, SLOT (toggleTagInSearch(int)));
 }
 
 void TagPanel::selectionChanged(int selectedFile)
