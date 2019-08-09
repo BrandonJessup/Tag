@@ -55,7 +55,13 @@ void FileBrowser::reloadContents()
     viewingArea->clear();
 
     Database* database = Database::getInstance();
-    QList<FileTuple> files = database->getAllFiles();
+    QList<FileTuple> files;
+    if (searchList.isEmpty()) {
+        files = database->getAllFiles();
+    }
+    else {
+        files = database->getFilesThatMatchTags(searchList);
+    }
 
     for (FileTuple file : files) {
         addFileToViewingArea(file);
@@ -144,4 +150,10 @@ void FileBrowser::keyPressEvent(QKeyEvent* event)
         // Do nothing.
         break;
     }
+}
+
+void FileBrowser::updateSearchList(QList<int> tagIds)
+{
+    searchList = tagIds;
+    reloadContents();
 }

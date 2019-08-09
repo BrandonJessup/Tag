@@ -36,6 +36,7 @@ void TagPanel::createSelectedPanel()
 void TagPanel::relaySignals()
 {
     connect(selectedPanel, SIGNAL (tagClicked(int)), searchPanel, SLOT (toggleTagInSearch(int)));
+    connect(searchPanel, SIGNAL (activeSearchTagsChanged(QList<int>)), this, SIGNAL (activeSearchTagsChanged(QList<int>)));
 }
 
 void TagPanel::selectionChanged(int selectedFile)

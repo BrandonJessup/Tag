@@ -27,6 +27,7 @@ private:
     void relaySignals();
 
 signals:
+    void activeSearchTagsChanged(QList<int> tags);
 
 public slots:
     void selectionChanged(int selectedFile);

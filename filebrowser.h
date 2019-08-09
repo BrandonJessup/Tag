@@ -26,6 +26,7 @@ public:
 private:
     QStackedLayout* layout;
     QListWidget* viewingArea;
+    QList<int> searchList;
 
     void createLayout();
     void createViewingArea();
@@ -46,6 +47,7 @@ public slots:
     void reloadContents();
     void showContextMenu(const QPoint& point);
     void fileRemovePrompt();
+    void updateSearchList(QList<int> tagIds);
 };
 
 #endif // FILEBROWSER_H

@@ -59,6 +59,56 @@ QList<FileTuple> Database::getAllFiles()
     return files;
 }
 
+QList<FileTuple> Database::getFilesThatMatchTags(QList<int> tagIds)
+{
+    QList<FileTuple> files;
+
+    QSqlQuery query;
+    QString command = "";
+
+    command += "select Frequency.FileId, File.Name, Type.Name, File.Path "
+               "from ("
+                    "select FileTag.FileId, count(FileTag.FileId) as Matches "
+                    "from FileTag "
+                    "where FileTag.TagId in (";
+    for (int tagId : tagIds) {
+        command.append(":Tag");
+        command.append(QString::number(tagId));
+        command.append(",");
+    }
+    command.chop(1);
+    command += ") ";
+    command += "group by FileId) as Frequency "
+               "join File "
+               "on File.FileId = Frequency.FileId "
+               "join Type "
+               "on File.TypeId = Type.TypeId "
+               "where Frequency.Matches = ";
+    command.append(QString::number(tagIds.size()));
+    query.prepare(command);
+
+    for (int i = 0; i < tagIds.size(); ++i) {
+        query.bindValue(i, tagIds[i]);
+    }
+    query.exec();
+
+    int idIndex = query.record().indexOf("FileId");
+    int nameIndex = query.record().indexOf("File.Name");
+    int pathIndex = query.record().indexOf("File.Path");
+    int typeIndex = query.record().indexOf("Type.Name");
+
+    while(query.next()) {
+        FileTuple file;
+        file.setId(query.value(idIndex).toInt());
+        file.setName(query.value(nameIndex).toString());
+        file.setPath(query.value(pathIndex).toString());
+        file.setType(query.value(typeIndex).toString());
+        files.append(file);
+    }
+
+    return files;
+}
+
 void Database::addTagToFile(const QString& tag, const int& fileId)
 {
     addTag(tag);

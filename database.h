@@ -20,6 +20,7 @@ public:
     void addFile(const QString& name, const QString& path, const QString& type);
     void removeFile(const int& id);
     QList<FileTuple> getAllFiles();
+    QList<FileTuple> getFilesThatMatchTags(QList<int> tagIds);
     void addTagToFile(const QString& tag, const int& fileId);
     void addTag(const QString& tag);
     QList<TagTuple> getTagsOfFile(const int& fileId);

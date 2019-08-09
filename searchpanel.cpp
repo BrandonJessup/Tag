@@ -15,6 +15,7 @@ void SearchPanel::relaySignals()
 void SearchPanel::removeTagFromSearch(int tagId)
 {
     activeSearchTags.removeOne(tagId);
+    emit activeSearchTagsChanged(activeSearchTags);
     refreshTagList();
 }
 

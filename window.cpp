@@ -49,4 +49,5 @@ void Window::relaySignals()
 {
     connect(buttonBar, SIGNAL (filesChanged()), fileBrowser, SLOT (reloadContents()));
     connect(fileBrowser, SIGNAL (selectionChanged(int)), tagPanel, SLOT (selectionChanged(int)));
+    connect(tagPanel, SIGNAL (activeSearchTagsChanged(QList<int>)), fileBrowser, SLOT (updateSearchList(QList<int>)));
 }
