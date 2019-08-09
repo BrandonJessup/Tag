@@ -34,6 +34,7 @@ void FileBrowser::createViewingArea()
 void FileBrowser::relaySignals()
 {
     connect(viewingArea->selectionModel(), SIGNAL (selectionChanged(QItemSelection, QItemSelection)), this, SLOT (selectionChangedEmitter(QItemSelection)));
+    connect(viewingArea, SIGNAL (itemDoubleClicked(QListWidgetItem*)), this, SLOT (openFileAtIndex(QListWidgetItem*)));
 }
 
 void FileBrowser::selectionChangedEmitter(const QItemSelection& selected)
@@ -48,6 +49,12 @@ void FileBrowser::selectionChangedEmitter(const QItemSelection& selected)
     }
 
     emit selectionChanged(selectedFile);
+}
+
+void FileBrowser::openFileAtIndex(QListWidgetItem* item)
+{
+    QString path = item->data(UserRole::PATH).toString();
+    QDesktopServices::openUrl(QUrl("file:///" + path));
 }
 
 void FileBrowser::reloadContents()

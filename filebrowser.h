@@ -10,6 +10,7 @@
 #include <QVariant>
 #include <QMessageBox>
 #include <QPushButton>
+#include <QDesktopServices>
 
 #include "userrole.h"
 #include "selected.h"
@@ -48,6 +49,7 @@ public slots:
     void showContextMenu(const QPoint& point);
     void fileRemovePrompt();
     void updateSearchList(QList<int> tagIds);
+    void openFileAtIndex(QListWidgetItem* item);
 };
 
 #endif // FILEBROWSER_H
