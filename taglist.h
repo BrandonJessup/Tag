@@ -29,16 +29,19 @@ private:
     void createLayout();
     void createStyleSheet();
     void createViewingArea();
+    void relaySignals();
 
     bool somethingIsSelected();
     void removeTag(QListWidgetItem* tag);
 
 signals:
     void tagToBeRemovedFromSelectedFile(int id);
+    void tagClicked(int tagId);
 
 public slots:
     void showContextMenu(const QPoint& point);
     void removeSelectedTags();
+    void tagClickedEmitter(QListWidgetItem* item);
 };
 
 #endif // TAGLIST_H

@@ -4,6 +4,18 @@ SearchPanel::SearchPanel(QWidget *parent) : SubTagPanelBase(parent)
 {
     setGroupLabel("Search");
     setTextFieldPlaceholder("Enter tag");
+    relaySignals();
+}
+
+void SearchPanel::relaySignals()
+{
+    connect(tagList, SIGNAL (tagClicked(int)), this, SLOT (removeTagFromSearch(int)));
+}
+
+void SearchPanel::removeTagFromSearch(int tagId)
+{
+    activeSearchTags.removeOne(tagId);
+    refreshTagList();
 }
 
 void SearchPanel::refreshTagList()

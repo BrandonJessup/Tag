@@ -5,6 +5,7 @@ TagList::TagList(QWidget *parent) : QWidget(parent)
     createLayout();
     createStyleSheet();
     createViewingArea();
+    relaySignals();
 }
 
 void TagList::createLayout()
@@ -37,6 +38,16 @@ void TagList::createViewingArea()
     connect(viewingArea, SIGNAL (customContextMenuRequested(QPoint)), this, SLOT (showContextMenu(QPoint)));
 
     layout->addWidget(viewingArea);
+}
+
+void TagList::relaySignals()
+{
+    connect(viewingArea, SIGNAL (itemClicked(QListWidgetItem*)), this, SLOT (tagClickedEmitter(QListWidgetItem*)));
+}
+
+void TagList::tagClickedEmitter(QListWidgetItem* item)
+{
+    emit tagClicked(item->data(UserRole::ID).toInt());
 }
 
 void TagList::clear()

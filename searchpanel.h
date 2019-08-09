@@ -20,12 +20,15 @@ public:
 private:
     QList<int> activeSearchTags;
 
+    void relaySignals();
+
     void showPrompt(const QString& message);
 
 signals:
     void activeSearchTagsChanged(QList<int> tagIds);
 
 public slots:
+    void removeTagFromSearch(int tagId);
 };
 
 #endif // SEARCHPANEL_H
