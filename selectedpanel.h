@@ -25,7 +25,6 @@ signals:
 
 public slots:
     void removeTagFromSelectedFile(int id);
-    void tagClickedEmitter(int tagId);
 };
 
 #endif // SELECTEDPANEL_H

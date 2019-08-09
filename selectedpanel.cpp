@@ -11,12 +11,7 @@ SelectedPanel::SelectedPanel(QWidget *parent) : SubTagPanelBase(parent)
 void SelectedPanel::relaySignals()
 {
     connect(tagList, SIGNAL (tagToBeRemovedFromSelectedFile(int)), this, SLOT (removeTagFromSelectedFile(int)));
-    connect(tagList, SIGNAL (tagClicked(int)), this, SLOT (tagClickedEmitter(int)));
-}
-
-void SelectedPanel::tagClickedEmitter(int tagId)
-{
-    emit tagClicked(tagId);
+    connect(tagList, SIGNAL (tagClicked(int)), this, SIGNAL (tagClicked(int)));
 }
 
 void SelectedPanel::setSelectedFile(const int& file)
