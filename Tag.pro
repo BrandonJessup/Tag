@@ -11,7 +11,6 @@ SOURCES += \
     main.cpp \
     searchpanel.cpp \
     selectedpanel.cpp \
-    subtagpanelbase.cpp \
     taglist.cpp \
     tagnamenotfoundexception.cpp \
     tagpanel.cpp \
@@ -27,7 +26,6 @@ HEADERS += \
     searchpanel.h \
     selected.h \
     selectedpanel.h \
-    subtagpanelbase.h \
     taglist.h \
     tagnamenotfoundexception.h \
     tagpanel.h \
