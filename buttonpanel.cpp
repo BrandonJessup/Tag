@@ -1,6 +1,6 @@
-#include "buttonbar.h"
+#include "buttonpanel.h"
 
-ButtonBar::ButtonBar(QWidget *parent) : QWidget(parent)
+ButtonPanel::ButtonPanel(QWidget *parent) : QWidget(parent)
 {
     setSize();
     createLayout();
@@ -9,18 +9,18 @@ ButtonBar::ButtonBar(QWidget *parent) : QWidget(parent)
     createAddFolderButton();
 }
 
-void ButtonBar::setSize()
+void ButtonPanel::setSize()
 {
     this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 }
 
-void ButtonBar::createLayout()
+void ButtonPanel::createLayout()
 {
     layout = new QHBoxLayout;
     this->setLayout(layout);
 }
 
-void ButtonBar::createAddImageButton()
+void ButtonPanel::createAddImageButton()
 {
     addImageButton = new QPushButton("Add Image");
     layout->addWidget(addImageButton);
@@ -28,7 +28,7 @@ void ButtonBar::createAddImageButton()
     connect(addImageButton, SIGNAL (clicked()), this, SLOT (addImage()));
 }
 
-void ButtonBar::createAddFileButton()
+void ButtonPanel::createAddFileButton()
 {
     addFileButton = new QPushButton("Add File");
     layout->addWidget(addFileButton);
@@ -36,7 +36,7 @@ void ButtonBar::createAddFileButton()
     connect(addFileButton, SIGNAL (clicked()), this, SLOT (addFile()));
 }
 
-void ButtonBar::createAddFolderButton()
+void ButtonPanel::createAddFolderButton()
 {
     addFolderButton = new QPushButton("Add Folder");
     layout->addWidget(addFolderButton);
@@ -44,7 +44,7 @@ void ButtonBar::createAddFolderButton()
     connect(addFolderButton, SIGNAL (clicked()), this, SLOT (addFolder()));
 }
 
-void ButtonBar::addImage()
+void ButtonPanel::addImage()
 {
     Database* database = Database::getInstance();
     QString path = QFileDialog::getOpenFileName(this, tr("Open File"), "/home", tr("Images (*.png *.jpg)"));
@@ -54,19 +54,19 @@ void ButtonBar::addImage()
     emit filesChanged();
 }
 
-QString ButtonBar::extractNameFromPath(const QString& path)
+QString ButtonPanel::extractNameFromPath(const QString& path)
 {
     int lastSlash = path.lastIndexOf('/');
     int stringLength = path.length();
     return path.right(stringLength - lastSlash - 1);
 }
 
-void ButtonBar::addFile()
+void ButtonPanel::addFile()
 {
     // TODO
 }
 
-void ButtonBar::addFolder()
+void ButtonPanel::addFolder()
 {
     // TODO
 }

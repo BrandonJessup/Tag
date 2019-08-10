@@ -3,7 +3,7 @@
 Window::Window(QWidget *parent) : QWidget(parent)
 {
     createTopLevelLayout();
-    createButtonBar();
+    createToolBar();
     createLowerLayout();
     createTagPanel();
     createFileBrowser();
@@ -19,10 +19,10 @@ void Window::createTopLevelLayout()
     this->setLayout(topLevelLayout);
 }
 
-void Window::createButtonBar()
+void Window::createToolBar()
 {
-    buttonBar = new ButtonBar;
-    topLevelLayout->addWidget(buttonBar);
+    toolBar = new ToolBar;
+    topLevelLayout->addWidget(toolBar);
 }
 
 // lowerLayout contains the tagPanel on the left side and the
@@ -47,7 +47,8 @@ void Window::createFileBrowser()
 
 void Window::relaySignals()
 {
-    connect(buttonBar, SIGNAL (filesChanged()), fileBrowser, SLOT (reloadContents()));
+    connect(toolBar, SIGNAL (filesChanged()), fileBrowser, SLOT (reloadContents()));
     connect(fileBrowser, SIGNAL (selectionChanged(int)), tagPanel, SLOT (selectionChanged(int)));
     connect(tagPanel, SIGNAL (activeSearchTagsChanged(QList<int>)), fileBrowser, SLOT (updateSearchList(QList<int>)));
+    connect(toolBar, SIGNAL (thumbnailSliderMoved(int)), fileBrowser, SLOT (updateThumbnailScale(int)));
 }

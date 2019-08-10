@@ -18,10 +18,11 @@ void FileBrowser::createLayout()
 void FileBrowser::createViewingArea()
 {
     viewingArea = new QListWidget;
+    baseThumbnailSize = QSize(250, 340);
 
     viewingArea->setResizeMode(QListView::Adjust);
     viewingArea->setViewMode(QListView::IconMode);
-    viewingArea->setIconSize(QSize(250, 340));
+    viewingArea->setIconSize(baseThumbnailSize);
     viewingArea->setMovement(QListView::Static);
     viewingArea->setWordWrap(true);
 
@@ -163,4 +164,16 @@ void FileBrowser::updateSearchList(QList<int> tagIds)
 {
     searchList = tagIds;
     reloadContents();
+}
+
+void FileBrowser::updateThumbnailScale(int percentage)
+{
+    int baseWidth = baseThumbnailSize.width();
+    int baseHeight = baseThumbnailSize.height();
+
+    QSize newSize;
+    newSize.setWidth(baseWidth * percentage / 100);
+    newSize.setHeight(baseHeight * percentage / 100);
+
+    viewingArea->setIconSize(newSize);
 }

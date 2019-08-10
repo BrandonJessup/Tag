@@ -4,7 +4,7 @@ TARGET = Tag
 QT = core gui widgets sql
 
 SOURCES += \
-    buttonbar.cpp \
+    buttonpanel.cpp \
     database.cpp \
     filebrowser.cpp \
     filetuple.cpp \
@@ -16,10 +16,11 @@ SOURCES += \
     tagnamenotfoundexception.cpp \
     tagpanel.cpp \
     tagtuple.cpp \
+    toolbar.cpp \
     window.cpp
 
 HEADERS += \
-    buttonbar.h \
+    buttonpanel.h \
     database.h \
     filebrowser.h \
     filetuple.h \
@@ -31,5 +32,6 @@ HEADERS += \
     tagnamenotfoundexception.h \
     tagpanel.h \
     tagtuple.h \
+    toolbar.h \
     userrole.h \
     window.h

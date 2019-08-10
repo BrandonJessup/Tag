@@ -1,5 +1,5 @@
-#ifndef BUTTONBAR_H
-#define BUTTONBAR_H
+#ifndef ButtonPanel_H
+#define ButtonPanel_H
 
 #include <QWidget>
 #include <QBoxLayout>
@@ -8,12 +8,12 @@
 
 #include "database.h"
 
-class ButtonBar : public QWidget
+class ButtonPanel : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit ButtonBar(QWidget *parent = nullptr);
+    explicit ButtonPanel(QWidget *parent = nullptr);
 
 private:
     QBoxLayout* layout;
@@ -38,4 +38,4 @@ public slots:
     void addFolder();
 };
 
-#endif // BUTTONBAR_H
+#endif // ButtonPanel_H

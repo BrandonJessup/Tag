@@ -28,6 +28,7 @@ private:
     QStackedLayout* layout;
     QListWidget* viewingArea;
     QList<int> searchList;
+    QSize baseThumbnailSize;
 
     void createLayout();
     void createViewingArea();
@@ -50,6 +51,7 @@ public slots:
     void fileRemovePrompt();
     void updateSearchList(QList<int> tagIds);
     void openFileAtIndex(QListWidgetItem* item);
+    void updateThumbnailScale(int percentage);
 };
 
 #endif // FILEBROWSER_H

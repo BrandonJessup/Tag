@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QBoxLayout>
 
-#include "buttonbar.h"
+#include "toolbar.h"
 #include "tagpanel.h"
 #include "filebrowser.h"
 
@@ -17,13 +17,13 @@ public:
 
 private:
     QBoxLayout* topLevelLayout;
-    ButtonBar* buttonBar;
+    ToolBar* toolBar;
     QBoxLayout* lowerLayout;
     TagPanel* tagPanel;
     FileBrowser* fileBrowser;
 
     void createTopLevelLayout();
-    void createButtonBar();
+    void createToolBar();
     void createLowerLayout();
     void createTagPanel();
     void createFileBrowser();
