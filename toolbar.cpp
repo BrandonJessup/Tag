@@ -54,8 +54,8 @@ void ToolBar::sliderValueChangedReceiver(int newValue)
     updateSliderLabel(newValue);
     snapSliderToDefault(newValue);
 
-    // newValue is not passed because the value of the slider may have
-    // been changed by snapSliderToDefault.
+    // The current value is passed instread of newValue because the
+    // slider may have been changed by snapSliderToDefault.
     emit thumbnailSliderMoved(thumbnailSlider->value());
 }
 
