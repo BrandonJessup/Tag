@@ -10,6 +10,7 @@
 #include "tagtuple.h"
 #include "userrole.h"
 #include "database.h"
+#include "tagcolor.h"
 
 class TagList : public QWidget
 {
@@ -19,7 +20,7 @@ public:
     explicit TagList(QWidget *parent = nullptr);
 
     void clear();
-    void addTag(const TagTuple& tag);
+    void addTag(const TagTuple& tag, TagColor color);
 
 private:
     QStackedLayout* layout;

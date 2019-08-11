@@ -28,6 +28,7 @@ private:
     QStackedLayout* layout;
     QListWidget* viewingArea;
     QList<int> searchList;
+    QList<int> excludeList;
     QSize baseThumbnailSize;
 
     void createLayout();
@@ -49,7 +50,7 @@ public slots:
     void reloadContents();
     void showContextMenu(const QPoint& point);
     void fileRemovePrompt();
-    void updateSearchList(QList<int> tagIds);
+    void updateSearchList(QList<int> tagIds, QList<int> excludeTagIds);
     void openFileAtIndex(QListWidgetItem* item);
     void updateThumbnailScale(int percentage);
 };

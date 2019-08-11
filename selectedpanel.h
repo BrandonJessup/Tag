@@ -10,6 +10,7 @@
 #include "selected.h"
 #include "taglist.h"
 #include "tagtuple.h"
+#include "tagcolor.h"
 
 class SelectedPanel : public QWidget
 {

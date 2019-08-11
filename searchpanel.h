@@ -8,10 +8,12 @@
 #include <QLineEdit>
 #include <QList>
 #include <QMessageBox>
+#include <QComboBox>
 
 #include "tagnamenotfoundexception.h"
 #include "database.h"
 #include "taglist.h"
+#include "tagcolor.h"
 
 class SearchPanel : public QWidget
 {
@@ -22,20 +24,28 @@ public:
 
     void refreshTagList();
 
+    enum DropDownIndex {
+        INCLUDE = 0,
+        EXCLUDE
+    };
+
 private:
     QList<int> activeSearchTags;
+    QList<int> activeExcludeTags;
     QStackedLayout* outerLayout;
     QGroupBox* groupBox;
     QBoxLayout* groupBoxLayout;
     QBoxLayout* searchFieldLayout;
     QLineEdit* textField;
     TagList* tagList;
+    QComboBox* excludeDropDown;
 
     void createOuterLayout();
     void createGroupBox(const QString& title);
     void createGroupBoxLayout();
     void createSearchFieldLayout();
     void createTextField();
+    void createExcludeDropDown();
     void createTagList();
     void relaySignals();
 
@@ -43,10 +53,10 @@ private:
     bool tagIsValid(const QString& tag);
     bool hasNonWhitespaceCharacter(const QString& tag);
     QString cleanUp(QString tag);
-    void populateTagList(QList<TagTuple> tags);
+    void populateTagList(QList<TagTuple> tags, QList<TagTuple> excludeTags);
 
 signals:
-    void activeSearchTagsChanged(QList<int> tagIds);
+    void activeSearchTagsChanged(QList<int> tagIds, QList<int> excludeTagIds);
 
 public slots:
     void addTag();

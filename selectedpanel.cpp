@@ -103,7 +103,7 @@ void SelectedPanel::populateTagList(QList<TagTuple> tags)
 {
     tagList->clear();
     for (TagTuple tag : tags) {
-        tagList->addTag(tag);
+        tagList->addTag(tag, TagColor::GREEN);
     }
 }
 

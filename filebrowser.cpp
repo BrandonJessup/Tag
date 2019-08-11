@@ -64,11 +64,11 @@ void FileBrowser::reloadContents()
 
     Database* database = Database::getInstance();
     QList<FileTuple> files;
-    if (searchList.isEmpty()) {
+    if (searchList.isEmpty() && excludeList.isEmpty()) {
         files = database->getAllFiles();
     }
     else {
-        files = database->getFilesThatMatchTags(searchList);
+        files = database->getFilesThatMatchTags(searchList, excludeList);
     }
 
     for (FileTuple file : files) {
@@ -160,9 +160,10 @@ void FileBrowser::keyPressEvent(QKeyEvent* event)
     }
 }
 
-void FileBrowser::updateSearchList(QList<int> tagIds)
+void FileBrowser::updateSearchList(QList<int> tagIds, QList<int> excludeTagIds)
 {
     searchList = tagIds;
+    excludeList = excludeTagIds;
     reloadContents();
 }
 

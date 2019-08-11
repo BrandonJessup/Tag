@@ -55,8 +55,12 @@ void TagList::clear()
     viewingArea->clear();
 }
 
-void TagList::addTag(const TagTuple& tag)
+void TagList::addTag(const TagTuple& tag, TagColor color)
 {
+    // TODO: Make color actually change the color of the item. This
+    // would likely also mean a change in the stylesheet for the
+    // QListWidget.
+
     int id = tag.getId();
     QString name = tag.getName();
 

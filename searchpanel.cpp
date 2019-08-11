@@ -7,6 +7,7 @@ SearchPanel::SearchPanel(QWidget *parent) : QWidget(parent)
     createGroupBoxLayout();
     createSearchFieldLayout();
     createTextField();
+    createExcludeDropDown();
     createTagList();
     relaySignals();
 }
@@ -42,6 +43,15 @@ void SearchPanel::createTextField()
     searchFieldLayout->addWidget(textField);
 }
 
+void SearchPanel::createExcludeDropDown()
+{
+    excludeDropDown = new QComboBox;
+    excludeDropDown->addItem("Include");
+    excludeDropDown->addItem("Exclude");
+    excludeDropDown->setCurrentIndex(DropDownIndex::INCLUDE);
+    searchFieldLayout->addWidget(excludeDropDown);
+}
+
 void SearchPanel::createTagList()
 {
     tagList = new TagList;
@@ -57,8 +67,14 @@ void SearchPanel::relaySignals()
 
 void SearchPanel::removeTagFromSearch(int tagId)
 {
-    activeSearchTags.removeOne(tagId);
-    emit activeSearchTagsChanged(activeSearchTags);
+    if (activeSearchTags.contains(tagId)) {
+        activeSearchTags.removeOne(tagId);
+    }
+    else {
+        activeExcludeTags.removeOne(tagId);
+    }
+
+    emit activeSearchTagsChanged(activeSearchTags, activeExcludeTags);
     refreshTagList();
 }
 
@@ -66,14 +82,18 @@ void SearchPanel::refreshTagList()
 {
     Database* database = Database::getInstance();
     QList<TagTuple> tags = database->getTuplesOfTags(activeSearchTags);
-    populateTagList(tags);
+    QList<TagTuple> excludeTags = database->getTuplesOfTags(activeExcludeTags);
+    populateTagList(tags, excludeTags);
 }
 
-void SearchPanel::populateTagList(QList<TagTuple> tags)
+void SearchPanel::populateTagList(QList<TagTuple> tags, QList<TagTuple> excludeTags)
 {
     tagList->clear();
     for (TagTuple tag : tags) {
-        tagList->addTag(tag);
+        tagList->addTag(tag, TagColor::GREEN);
+    }
+    for (TagTuple tag : excludeTags) {
+        tagList->addTag(tag, TagColor::RED);
     }
 }
 
@@ -87,10 +107,18 @@ void SearchPanel::addTag()
         Database* database = Database::getInstance();
         try {
             int id = database->getIdOfTag(tag);
-            if (!activeSearchTags.contains(id)) {
-                activeSearchTags.append(id);
+            if (!activeSearchTags.contains(id) && !activeExcludeTags.contains(id)) {
+                switch (excludeDropDown->currentIndex()) {
+                case DropDownIndex::INCLUDE:
+                    activeSearchTags.append(id);
+                    break;
+                case DropDownIndex::EXCLUDE:
+                    activeExcludeTags.append(id);
+                    break;
+                }
+
                 refreshTagList();
-                emit activeSearchTagsChanged(activeSearchTags);
+                emit activeSearchTagsChanged(activeSearchTags, activeExcludeTags);
             }
             else {
                 showPrompt("The tag " + tag + " is already in the search!");
@@ -142,7 +170,7 @@ void SearchPanel::toggleTagInSearch(int tagId)
     if (!activeSearchTags.contains(tagId)) {
         activeSearchTags.append(tagId);
         refreshTagList();
-        emit activeSearchTagsChanged(activeSearchTags);
+        emit activeSearchTagsChanged(activeSearchTags, activeExcludeTags);
     }
     else {
         removeTagFromSearch(tagId);

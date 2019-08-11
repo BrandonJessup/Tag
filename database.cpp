@@ -59,36 +59,86 @@ QList<FileTuple> Database::getAllFiles()
     return files;
 }
 
-QList<FileTuple> Database::getFilesThatMatchTags(QList<int> tagIds)
+QList<FileTuple> Database::getFilesThatMatchTags(QList<int> tagIds, QList<int> excludeTagIds)
 {
+    // TODO: Split up query into multiple methods.
+
     QList<FileTuple> files;
 
     QSqlQuery query;
     QString command = "";
 
-    command += "select Frequency.FileId, File.Name, Type.Name, File.Path "
-               "from ("
-                    "select FileTag.FileId, count(FileTag.FileId) as Matches "
-                    "from FileTag "
-                    "where FileTag.TagId in (";
-    for (int tagId : tagIds) {
-        command.append(":Tag");
-        command.append(QString::number(tagId));
-        command.append(",");
+    if (!tagIds.isEmpty()) {
+        command += "select Frequency.FileId, File.Name, Type.Name, File.Path "
+                   "from ("
+                        "select FileTag.FileId, count(FileTag.FileId) as Matches "
+                        "from FileTag "
+                        "where FileTag.TagId in (";
+        for (int tagId : tagIds) {
+            command.append(":Tag");
+            command.append(QString::number(tagId));
+            command.append(",");
+        }
+        if (!tagIds.isEmpty()) {
+            command.chop(1);
+      }
+        command.chop(1);
+        command += ") ";
+        command += "group by FileId) as Frequency "
+                   "join File "
+                   "on File.FileId = Frequency.FileId "
+                   "join Type "
+                   "on File.TypeId = Type.TypeId "
+                   "where Frequency.Matches = ";
+        command.append(QString::number(tagIds.size()));
+
+        command += " and Frequency.FileId not in ("
+                        "select Ignore.FileId "
+                        "from ("
+                            "select FileId, count(FileId) as Matches "
+                            "from FileTag "
+                            "where TagId in (";
+        for (int tagId : excludeTagIds) {
+            command.append(":Tag");
+            command.append(QString::number(tagId));
+            command.append(",");
+        }
+        if (!excludeTagIds.isEmpty()) {
+            command.chop(1);
+        }
+        command += ") ";
+        command += "group by FileId) as Ignore)";
     }
-    command.chop(1);
-    command += ") ";
-    command += "group by FileId) as Frequency "
-               "join File "
-               "on File.FileId = Frequency.FileId "
-               "join Type "
-               "on File.TypeId = Type.TypeId "
-               "where Frequency.Matches = ";
-    command.append(QString::number(tagIds.size()));
+    else {
+        command += "select File.FileId, File.Name, Type.Name, File.Path "
+                   "from File "
+                   "join Type "
+                   "on Type.TypeId = File.TypeId "
+                   "where File.FileId not in ("
+                        "select Ignore.FileId "
+                        "from ("
+                            "select FileId, count(FileId) as Matches "
+                            "from FileTag "
+                            "where TagId in (";
+        for (int tagId : excludeTagIds) {
+            command.append(":Tag");
+            command.append(QString::number(tagId));
+            command.append(",");
+        }
+        if (!excludeTagIds.isEmpty()) {
+            command.chop(1);
+        }
+        command += ") ";
+        command += "group by FileId) as Ignore)";
+    }
+
     query.prepare(command);
 
     for (int i = 0; i < tagIds.size(); ++i) {
         query.bindValue(i, tagIds[i]);
+    }
+    for (int i = 0; i < excludeTagIds.size(); ++i) {
+        query.bindValue(i + tagIds.size(), excludeTagIds[i]);
     }
     query.exec();
 

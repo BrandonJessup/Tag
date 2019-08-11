@@ -26,6 +26,7 @@ HEADERS += \
     searchpanel.h \
     selected.h \
     selectedpanel.h \
+    tagcolor.h \
     taglist.h \
     tagnamenotfoundexception.h \
     tagpanel.h \
