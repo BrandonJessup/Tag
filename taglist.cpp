@@ -3,7 +3,7 @@
 TagList::TagList(QWidget *parent) : QWidget(parent)
 {
     createLayout();
-    createStyleSheet();
+    createStyleSheets();
     createViewingArea();
     relaySignals();
 }
@@ -14,14 +14,14 @@ void TagList::createLayout()
     this->setLayout(layout);
 }
 
-void TagList::createStyleSheet()
+void TagList::createStyleSheets()
 {
-    styleSheet =
-            "QListWidget::item { "
-                "background-color: #A9DFBF;"
-                "padding: 2px;"
-                "border-radius: 2px;"
-            "}";
+    styleSheetGreen = "background-color: #A9DFBF;"
+                      "padding: 4px 2px 4px 3px;"
+                      "border-radius: 3px;";
+    styleSheetRed = "background-color: #F5B7B1;"
+                    "padding: 4px 2px 4px 3px;"
+                    "border-radius: 3px;";
 }
 
 void TagList::createViewingArea()
@@ -32,7 +32,6 @@ void TagList::createViewingArea()
     viewingArea->setViewMode(QListView::IconMode);
     viewingArea->setMovement(QListView::Static);
     viewingArea->setResizeMode(QListView::Adjust);
-    viewingArea->setStyleSheet(styleSheet);
     viewingArea->setSpacing(4);
     viewingArea->setFocusPolicy(Qt::NoFocus);
     connect(viewingArea, SIGNAL (customContextMenuRequested(QPoint)), this, SLOT (showContextMenu(QPoint)));
@@ -57,20 +56,29 @@ void TagList::clear()
 
 void TagList::addTag(const TagTuple& tag, TagColor color)
 {
-    // TODO: Make color actually change the color of the item. This
-    // would likely also mean a change in the stylesheet for the
-    // QListWidget.
-
     int id = tag.getId();
     QString name = tag.getName();
 
-    QListWidgetItem* item = new QListWidgetItem(name);
+    QListWidgetItem* item = new QListWidgetItem;
 
     TagTuple tuple(id, name);
     item->setData(UserRole::ID, id);
     item->setData(UserRole::NAME, name);
 
+    QLabel* label = new QLabel(name);
+
+    switch (color) {
+    case TagColor::GREEN:
+        label->setStyleSheet(styleSheetGreen);
+        break;
+    case TagColor::RED:
+        label->setStyleSheet(styleSheetRed);
+        break;
+    }
+
     viewingArea->addItem(item);
+    item->setSizeHint(label->sizeHint());
+    viewingArea->setItemWidget(item, label);
 }
 
 bool TagList::somethingIsSelected()
