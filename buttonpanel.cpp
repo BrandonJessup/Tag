@@ -7,6 +7,7 @@ ButtonPanel::ButtonPanel(QWidget *parent) : QWidget(parent)
     createAddImageButton();
     createAddFileButton();
     createAddFolderButton();
+    relaySignals();
 }
 
 void ButtonPanel::setSize()
@@ -44,14 +45,48 @@ void ButtonPanel::createAddFolderButton()
     connect(addFolderButton, SIGNAL (clicked()), this, SLOT (addFolder()));
 }
 
+void ButtonPanel::relaySignals()
+{
+    connect(this, SIGNAL (fileDialogClosed(QString)), this, SLOT (updateLastDirectory(QString)));
+}
+
 void ButtonPanel::addImage()
 {
     Database* database = Database::getInstance();
-    QString path = QFileDialog::getOpenFileName(this, tr("Open File"), "/home", tr("Images (*.png *.jpg)"));
+    QString path = QFileDialog::getOpenFileName(this, tr("Open File"), directoryToOpen(), tr("Images (*.png *.jpg)"));
     QString name = extractNameFromPath(path);
     QString type = "image";
     database->addFile(name, path, type);
     emit filesChanged();
+    emit fileDialogClosed(path);
+}
+
+void ButtonPanel::updateLastDirectory(QString pathToFile)
+{
+    QString pathToDirectory = getParentFolder(pathToFile);
+    lastDirectory = pathToDirectory;
+}
+
+QString ButtonPanel::directoryToOpen()
+{
+    if (lastDirectory.isEmpty()) {
+        return "/home";
+    }
+    else {
+        return lastDirectory;
+    }
+}
+
+QString ButtonPanel::getParentFolder(const QString& filePath)
+{
+    QRegularExpression expression("\\b.*/");
+    QRegularExpressionMatch match = expression.match(filePath);
+    if (match.hasMatch()) {
+        return match.captured(0);
+    }
+    else {
+        return "";
+    }
 }
 
 QString ButtonPanel::extractNameFromPath(const QString& path)
