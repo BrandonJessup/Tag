@@ -110,7 +110,7 @@ void TagList::removeTag(QListWidgetItem* tag)
     emit tagToBeRemovedFromSelectedFile(id);
     emit tagToBeRemovedFromSearch(id);
 
-    // Removing the item from the list widget stop's Qt's management of it
+    // Removing the item from the list widget stops Qt's management of it
     // and it must then be deleted manually.
     delete tag;
 }
