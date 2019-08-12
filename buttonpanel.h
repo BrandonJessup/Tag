@@ -8,6 +8,7 @@
 #include <QRegularExpression>
 
 #include "database.h"
+#include "prompt.h"
 
 class ButtonPanel : public QWidget
 {
@@ -33,6 +34,7 @@ private:
     QString directoryToOpen();
     QString getParentFolder(const QString& filePath);
     QString extractNameFromPath(const QString& path);
+    bool fileAlreadyInDatabase(QString path);
 
 signals:
     void filesChanged();

@@ -29,6 +29,7 @@ public:
     int getIdOfTag(const QString& tag);
     QList<TagTuple> getTuplesOfTags(QList<int> tagIds);
     QStringList getAllTagNames();
+    bool filePathExists(const QString& path);
 
     void debug_outputContentsOfTagTable();
 

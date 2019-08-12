@@ -16,6 +16,7 @@
 #include "database.h"
 #include "taglist.h"
 #include "tagcolor.h"
+#include "prompt.h"
 
 class SearchPanel : public QWidget
 {
@@ -54,7 +55,6 @@ private:
     void createTagList();
     void relaySignals();
 
-    void showPrompt(const QString& message);
     bool tagIsValid(const QString& tag);
     bool hasNonWhitespaceCharacter(const QString& tag);
     QString cleanUp(QString tag);

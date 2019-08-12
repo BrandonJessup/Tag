@@ -74,6 +74,16 @@ QStringList Database::getAllTagNames()
     return tags;
 }
 
+bool Database::filePathExists(const QString& path)
+{
+    QSqlQuery query;
+    query.prepare("select Path from File where Path = :Path");
+    query.bindValue(":Path", path);
+    query.exec();
+
+    return query.next();
+}
+
 QList<FileTuple> Database::getFilesThatMatchTags(QList<int> tagIds, QList<int> excludeTagIds)
 {
     // TODO: Split up query into multiple methods.
@@ -353,7 +363,7 @@ void Database::createFileTableIfDoesntExist()
                     "   FileId integer primary key autoincrement,"
                     "   TypeId integer not null,"
                     "   Name varchar(255) not null,"
-                    "   Path varchar(255) not null,"
+                    "   Path varchar(255) unique not null,"
                     "   foreign key(TypeId) references Type(TypeId)"
                     ")");
 }

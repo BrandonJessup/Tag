@@ -6,7 +6,7 @@
 | FileId | auto incrementing integer | primary key                 |
 | TypeId | integer                   | foreign key from type table |
 | Name   | varchar(255)              | filename without extension  |
-| Path   | varchar(255)              | complete file path          |
+| Path   | varchar(255) unique       | complete file path          |
 
 #### Type
 | Field  | Type                      | Description  |

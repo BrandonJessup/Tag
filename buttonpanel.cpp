@@ -54,11 +54,24 @@ void ButtonPanel::addImage()
 {
     Database* database = Database::getInstance();
     QString path = QFileDialog::getOpenFileName(this, tr("Open File"), directoryToOpen(), tr("Images (*.png *.jpg)"));
-    QString name = extractNameFromPath(path);
-    QString type = "image";
-    database->addFile(name, path, type);
-    emit filesChanged();
+
+    if (!fileAlreadyInDatabase(path)) {
+        QString name = extractNameFromPath(path);
+        QString type = "image";
+        database->addFile(name, path, type);
+        emit filesChanged();
+    }
+    else {
+        Prompt::show("File already exists!");
+    }
+
     emit fileDialogClosed(path);
+}
+
+bool ButtonPanel::fileAlreadyInDatabase(QString path)
+{
+    Database* database = Database::getInstance();
+    return database->filePathExists(path);
 }
 
 void ButtonPanel::updateLastDirectory(QString pathToFile)

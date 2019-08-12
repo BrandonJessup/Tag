@@ -140,11 +140,11 @@ void SearchPanel::addTag()
                 emit activeSearchTagsChanged(activeSearchTags, activeExcludeTags);
             }
             else {
-                showPrompt("The tag " + tag + " is already in the search!");
+                Prompt::show("The tag " + tag + " is already in the search!");
             }
         }
         catch (TagNameNotFoundException e) {
-            showPrompt("The tag " + tag + " does not exist!");
+            Prompt::show("The tag " + tag + " does not exist!");
         }
     }
 }
@@ -173,13 +173,6 @@ QString SearchPanel::cleanUp(QString tag)
     tag = tag.simplified();
     tag = tag.toLower();
     return tag;
-}
-
-void SearchPanel::showPrompt(const QString& message)
-{
-    QMessageBox prompt;
-    prompt.setText(message);
-    prompt.exec();
 }
 
 void SearchPanel::toggleTagInSearch(int tagId)

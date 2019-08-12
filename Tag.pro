@@ -9,6 +9,7 @@ SOURCES += \
     filebrowser.cpp \
     filetuple.cpp \
     main.cpp \
+    prompt.cpp \
     searchpanel.cpp \
     selectedpanel.cpp \
     taglist.cpp \
@@ -23,6 +24,7 @@ HEADERS += \
     database.h \
     filebrowser.h \
     filetuple.h \
+    prompt.h \
     searchpanel.h \
     selected.h \
     selectedpanel.h \
