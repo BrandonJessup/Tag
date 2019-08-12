@@ -60,6 +60,8 @@ void FileBrowser::openFileAtIndex(QListWidgetItem* item)
 
 void FileBrowser::reloadContents()
 {
+    int selectedFileId = getIdOfSelected();
+
     viewingArea->clear();
 
     Database* database = Database::getInstance();
@@ -73,6 +75,31 @@ void FileBrowser::reloadContents()
 
     for (FileTuple file : files) {
         addFileToViewingArea(file);
+    }
+
+    if (selectedFileId != Selected::NONE) {
+        selectFileWithId(selectedFileId);
+    }
+}
+
+int FileBrowser::getIdOfSelected()
+{
+    QList<QListWidgetItem*> items = viewingArea->selectedItems();
+    if (!items.isEmpty()) {
+        return items.first()->data(UserRole::ID).toInt();
+    }
+    else {
+        return Selected::NONE;
+    }
+}
+
+void FileBrowser::selectFileWithId(int id)
+{
+    for (int i = 0; i < viewingArea->count(); ++i) {
+        if (viewingArea->item(i)->data(UserRole::ID).toInt() == id) {
+            viewingArea->setCurrentItem(viewingArea->item(i));
+            return;
+        }
     }
 }
 

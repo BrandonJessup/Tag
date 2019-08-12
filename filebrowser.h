@@ -38,6 +38,8 @@ private:
     void addFileToViewingArea(const FileTuple& file);
     bool somethingIsSelected();
     void removeFiles();
+    int getIdOfSelected();
+    void selectFileWithId(int id);
 
 protected:
     void keyPressEvent(QKeyEvent* event) override;
