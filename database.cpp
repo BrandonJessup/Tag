@@ -365,3 +365,13 @@ void Database::createFileTagTableIfDoesntExist()
                     "   primary key(FileId, TagId)"
                     ")");
 }
+
+void Database::debug_outputContentsOfTagTable()
+{
+    QSqlQuery query("select TagId, Name from Tag");
+    int idIndex = query.record().indexOf("TagId");
+    int nameIndex = query.record().indexOf("Name");
+    while(query.next()) {
+        qDebug() << query.value(idIndex).toString() << query.value(nameIndex).toString();
+    }
+}

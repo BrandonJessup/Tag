@@ -7,6 +7,7 @@
 #include <QVariant>
 #include <QList>
 #include <QSqlRecord>
+#include <QDebug>
 
 #include "filetuple.h"
 #include "tagtuple.h"
@@ -28,6 +29,8 @@ public:
     int getIdOfTag(const QString& tag);
     QList<TagTuple> getTuplesOfTags(QList<int> tagIds);
     QStringList getAllTagNames();
+
+    void debug_outputContentsOfTagTable();
 
 protected:
     Database();
