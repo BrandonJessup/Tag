@@ -48,7 +48,7 @@ signals:
     void selectionChanged(int selectedFile);
 
 public slots:
-    void selectionChangedEmitter(const QItemSelection& selected);
+    void selectionChangedEmitter();
     void reloadContents();
     void showContextMenu(const QPoint& point);
     void fileRemovePrompt();

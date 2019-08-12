@@ -24,6 +24,7 @@ void FileBrowser::createViewingArea()
     viewingArea->setViewMode(QListView::IconMode);
     viewingArea->setIconSize(baseThumbnailSize);
     viewingArea->setMovement(QListView::Static);
+    viewingArea->setSelectionMode(QAbstractItemView::ExtendedSelection);
     viewingArea->setWordWrap(true);
 
     viewingArea->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -34,21 +35,23 @@ void FileBrowser::createViewingArea()
 
 void FileBrowser::relaySignals()
 {
-    connect(viewingArea->selectionModel(), SIGNAL (selectionChanged(QItemSelection, QItemSelection)), this, SLOT (selectionChangedEmitter(QItemSelection)));
+    connect(viewingArea, SIGNAL (itemSelectionChanged()), this, SLOT (selectionChangedEmitter()));
     connect(viewingArea, SIGNAL (itemDoubleClicked(QListWidgetItem*)), this, SLOT (openFileAtIndex(QListWidgetItem*)));
 }
 
-void FileBrowser::selectionChangedEmitter(const QItemSelection& selected)
+void FileBrowser::selectionChangedEmitter()
 {
-    int selectedFile = Selected::NONE;
-
-    // Selections are returned as a list even though we only allow
-    // for one file to be selected at a time.
-    QModelIndexList selectedFileList = selected.indexes();
-    if (!selectedFileList.isEmpty()) {
-        selectedFile = selectedFileList.first().data(UserRole::ID).toInt();
+    // The SelectedPanel is only enabled if only one file is
+    // selected, so we only emit a valid fileId if there is a single
+    // selection.
+    int selectedFile;
+    QList<QListWidgetItem*> selectedFiles = viewingArea->selectedItems();
+    if (selectedFiles.size() == 1) {
+        selectedFile = selectedFiles[0]->data(UserRole::ID).toInt();
     }
-
+    else {
+        selectedFile = Selected::NONE;
+    }
     emit selectionChanged(selectedFile);
 }
 
@@ -162,8 +165,10 @@ bool FileBrowser::somethingIsSelected()
 
 void FileBrowser::removeFiles()
 {
-    for (int i = 0; i < viewingArea->selectedItems().size(); ++i) {
-        QListWidgetItem* file = viewingArea->takeItem(viewingArea->currentRow());
+    QList<QListWidgetItem*> selectedFiles = viewingArea->selectedItems();
+
+    for (int i = 0; i < selectedFiles.size(); ++i) {
+        QListWidgetItem* file = viewingArea->takeItem(viewingArea->row(selectedFiles[i]));
 
         Database* database = Database::getInstance();
         int id = file->data(UserRole::ID).toInt();
