@@ -179,8 +179,6 @@ void SearchPanel::showPrompt(const QString& message)
 {
     QMessageBox prompt;
     prompt.setText(message);
-    prompt.setStandardButtons(QMessageBox::Ok);
-    prompt.setDefaultButton(QMessageBox::Ok);
     prompt.exec();
 }
 
