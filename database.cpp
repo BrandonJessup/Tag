@@ -59,6 +59,19 @@ QList<FileTuple> Database::getAllFiles()
     return files;
 }
 
+QStringList Database::getAllTagNames()
+{
+    QStringList tags;
+
+    QSqlQuery query("select Name from Tag");
+    int nameIndex = query.record().indexOf("Name");
+    while(query.next()) {
+        tags << query.value(nameIndex).toString();
+    }
+
+    return tags;
+}
+
 QList<FileTuple> Database::getFilesThatMatchTags(QList<int> tagIds, QList<int> excludeTagIds)
 {
     // TODO: Split up query into multiple methods.

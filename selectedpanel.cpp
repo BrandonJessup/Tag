@@ -6,6 +6,7 @@ SelectedPanel::SelectedPanel(QWidget *parent) : QWidget(parent)
     createGroupBox("Selected");
     createGroupBoxLayout();
     createTextField();
+    createCompleter();
     createTagList();
     setSelectedFile(Selected::NONE);
     relaySignals();
@@ -36,6 +37,15 @@ void SelectedPanel::createTextField()
     groupBoxLayout->addWidget(textField);
 }
 
+void SelectedPanel::createCompleter()
+{
+    completer = new QCompleter(tagDictionary);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    completer->setCompletionMode(QCompleter::InlineCompletion);
+    textField->setCompleter(completer);
+    updateTagDictionary();
+}
+
 void SelectedPanel::createTagList()
 {
     tagList = new TagList;
@@ -47,6 +57,15 @@ void SelectedPanel::relaySignals()
     connect(textField, SIGNAL (returnPressed()), this, SLOT (addTag()));
     connect(tagList, SIGNAL (tagToBeRemovedFromSelectedFile(int)), this, SLOT (removeTagFromSelectedFile(int)));
     connect(tagList, SIGNAL (tagClicked(int)), this, SIGNAL (tagClicked(int)));
+    connect(this, SIGNAL (databaseTagsChanged()), this, SLOT (updateTagDictionary()));
+}
+
+void SelectedPanel::updateTagDictionary() {
+    Database* database = Database::getInstance();
+
+    tagDictionary = database->getAllTagNames();
+    QStringListModel* model = new QStringListModel(tagDictionary);
+    completer->setModel(model);
 }
 
 void SelectedPanel::setSelectedFile(const int& file)
@@ -63,6 +82,7 @@ void SelectedPanel::addTag()
         Database* database = Database::getInstance();
         database->addTagToFile(tag, selectedFile);
         refreshTagList();
+        emit databaseTagsChanged();
     }
 }
 
@@ -111,4 +131,5 @@ void SelectedPanel::removeTagFromSelectedFile(int id)
 {
     Database* database = Database::getInstance();
     database->removeTagFromFile(id, selectedFile);
+    emit databaseTagsChanged();
 }

@@ -27,6 +27,7 @@ public:
     void removeTagFromFile(const int& tagId, const int& fileId);
     int getIdOfTag(const QString& tag);
     QList<TagTuple> getTuplesOfTags(QList<int> tagIds);
+    QStringList getAllTagNames();
 
 protected:
     Database();

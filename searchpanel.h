@@ -9,6 +9,8 @@
 #include <QList>
 #include <QMessageBox>
 #include <QComboBox>
+#include <QCompleter>
+#include <QStringListModel>
 
 #include "tagnamenotfoundexception.h"
 #include "database.h"
@@ -37,6 +39,8 @@ private:
     QBoxLayout* groupBoxLayout;
     QBoxLayout* searchFieldLayout;
     QLineEdit* textField;
+    QStringList tagDictionary;
+    QCompleter* completer;
     TagList* tagList;
     QComboBox* excludeDropDown;
 
@@ -45,6 +49,7 @@ private:
     void createGroupBoxLayout();
     void createSearchFieldLayout();
     void createTextField();
+    void createCompleter();
     void createExcludeDropDown();
     void createTagList();
     void relaySignals();
@@ -62,6 +67,7 @@ public slots:
     void addTag();
     void removeTagFromSearch(int tagId);
     void toggleTagInSearch(int tagId);
+    void updateTagDictionary();
 };
 
 #endif // SEARCHPANEL_H

@@ -6,6 +6,8 @@
 #include <QBoxLayout>
 #include <QGroupBox>
 #include <QLineEdit>
+#include <QCompleter>
+#include <QStringListModel>
 
 #include "selected.h"
 #include "taglist.h"
@@ -28,12 +30,15 @@ private:
     QGroupBox* groupBox;
     QBoxLayout* groupBoxLayout;
     QLineEdit* textField;
+    QCompleter* completer;
     TagList* tagList;
+    QStringList tagDictionary;
 
     void createOuterLayout();
     void createGroupBox(const QString& title);
     void createGroupBoxLayout();
     void createTextField();
+    void createCompleter();
     void createTagList();
     void relaySignals();
 
@@ -44,10 +49,12 @@ private:
 
 signals:
     void tagClicked(int tagId);
+    void databaseTagsChanged();
 
 public slots:
     void addTag();
     void removeTagFromSelectedFile(int id);
+    void updateTagDictionary();
 };
 
 #endif // SELECTEDPANEL_H

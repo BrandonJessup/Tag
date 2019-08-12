@@ -7,6 +7,7 @@ SearchPanel::SearchPanel(QWidget *parent) : QWidget(parent)
     createGroupBoxLayout();
     createSearchFieldLayout();
     createTextField();
+    createCompleter();
     createExcludeDropDown();
     createTagList();
     relaySignals();
@@ -43,6 +44,15 @@ void SearchPanel::createTextField()
     searchFieldLayout->addWidget(textField);
 }
 
+void SearchPanel::createCompleter()
+{
+    completer = new QCompleter(tagDictionary);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    completer->setCompletionMode(QCompleter::InlineCompletion);
+    textField->setCompleter(completer);
+    updateTagDictionary();
+}
+
 void SearchPanel::createExcludeDropDown()
 {
     excludeDropDown = new QComboBox;
@@ -63,6 +73,15 @@ void SearchPanel::relaySignals()
     connect(textField, SIGNAL (returnPressed()), this, SLOT (addTag()));
     connect(tagList, SIGNAL (tagClicked(int)), this, SLOT (removeTagFromSearch(int)));
     connect(tagList, SIGNAL (tagToBeRemovedFromSearch(int)), this, SLOT (removeTagFromSearch(int)));
+}
+
+void SearchPanel::updateTagDictionary()
+{
+    Database* database = Database::getInstance();
+
+    tagDictionary = database->getAllTagNames();
+    QStringListModel* model = new QStringListModel(tagDictionary);
+    completer->setModel(model);
 }
 
 void SearchPanel::removeTagFromSearch(int tagId)
