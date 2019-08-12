@@ -36,6 +36,8 @@ void Database::removeTagsFromFile(const int& id)
     query.prepare("delete from FileTag where FileId = :FileId");
     query.bindValue(":FileId", id);
     query.exec();
+
+    removeUnusedTags();
 }
 
 QList<FileTuple> Database::getAllFiles()
@@ -246,6 +248,8 @@ void Database::removeTagFromFile(const int& tagId, const int& fileId)
     query.bindValue(":FileId", fileId);
     query.bindValue(":TagId", tagId);
     query.exec();
+
+    removeUnusedTags();
 }
 
 QList<TagTuple> Database::getTuplesOfTags(QList<int> tagIds)
@@ -281,6 +285,13 @@ QList<TagTuple> Database::getTuplesOfTags(QList<int> tagIds)
     }
 
     return tuples;
+}
+
+// This method should be called any time a tag is removed from a
+// file.
+void Database::removeUnusedTags()
+{
+    QSqlQuery query("delete from Tag where TagId not in (select TagId from FileTag)");
 }
 
 Database::Database()

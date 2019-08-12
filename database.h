@@ -46,8 +46,10 @@ private:
     void createFileTableIfDoesntExist();
     void createTagTableIfDoesntExist();
     void createFileTagTableIfDoesntExist();
+
     int getIdOfType(const QString& type);
     void removeTagsFromFile(const int& id);
+    void removeUnusedTags();
 };
 
 #endif // DATABASE_H
