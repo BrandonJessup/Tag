@@ -76,8 +76,8 @@ void TagList::addTag(const TagTuple& tag, TagColor color)
         break;
     }
 
-    viewingArea->addItem(item);
     item->setSizeHint(label->sizeHint());
+    viewingArea->addItem(item);
     viewingArea->setItemWidget(item, label);
 }
 
