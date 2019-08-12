@@ -1,6 +1,6 @@
 # Planned features
 - Support for files other than just images, and folders.
-- Import all contents a folder.
+- Option to import folder contents.
 - Multiple file selection for mass tagging or deletion.
 - Apply tags to file as you're adding it.
 - View a slideshow of images in current search.
