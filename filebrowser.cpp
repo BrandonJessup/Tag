@@ -132,7 +132,8 @@ void FileBrowser::showContextMenu(const QPoint& point)
         QPoint position = viewingArea->mapToGlobal(point);
 
         QMenu contextMenu;
-        contextMenu.addAction("Remove", this, SLOT (fileRemovePrompt()));
+        contextMenu.addAction("Remove Selected Files", this, SLOT (fileRemovePrompt()));
+        contextMenu.addAction("Tag Selected Files", this, SLOT (tagSelectedDialog()));
         contextMenu.exec(position);
     }
 }
@@ -142,7 +143,7 @@ void FileBrowser::fileRemovePrompt()
     QPushButton* removeButton = new QPushButton("Remove");
 
     QMessageBox prompt;
-    prompt.setText("Remove selected file?");
+    prompt.setText("Remove selected files?");
     prompt.setStandardButtons(QMessageBox::Cancel);
     prompt.addButton(removeButton, QMessageBox::AcceptRole);
     prompt.setDefaultButton(removeButton);
@@ -156,6 +157,31 @@ void FileBrowser::fileRemovePrompt()
         // Do nothing.
         break;
     }
+}
+
+void FileBrowser::tagSelectedDialog()
+{
+    TagAdderDialog popup;
+    int result = popup.exec();
+
+    if (result == QDialog::Accepted) {
+        addTagsToSelected(popup.getTagsToAdd());
+    }
+}
+
+void FileBrowser::addTagsToSelected(QStringList tags)
+{
+    Database* database = Database::getInstance();
+
+    QList<QListWidgetItem*> selectedFiles = viewingArea->selectedItems();
+    for (QListWidgetItem* item : selectedFiles) {
+        for (QString tag : tags) {
+            int fileId = item->data(UserRole::ID).toInt();
+            database->addTagToFile(tag, fileId);
+        }
+    }
+
+    reloadContents();
 }
 
 bool FileBrowser::somethingIsSelected()

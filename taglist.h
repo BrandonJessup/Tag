@@ -40,7 +40,9 @@ private:
 signals:
     void tagToBeRemovedFromSelectedFile(int id);
     void tagToBeRemovedFromSearch(int id);
+    void tagToBeRemoved(QString tagName);
     void tagClicked(int tagId);
+    void tagClicked(QString tagName);
 
 public slots:
     void showContextMenu(const QPoint& point);

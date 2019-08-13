@@ -47,6 +47,7 @@ void TagList::relaySignals()
 void TagList::tagClickedEmitter(QListWidgetItem* item)
 {
     emit tagClicked(item->data(UserRole::ID).toInt());
+    emit tagClicked(item->data(UserRole::NAME).toString());
 }
 
 void TagList::clear()
@@ -107,8 +108,10 @@ void TagList::removeSelectedTags()
 void TagList::removeTag(QListWidgetItem* tag)
 {
     int id = tag->data(UserRole::ID).toInt();
+    QString name = tag->data(UserRole::NAME).toString();
     emit tagToBeRemovedFromSelectedFile(id);
     emit tagToBeRemovedFromSearch(id);
+    emit tagToBeRemoved(name);
 
     // Removing the item from the list widget stops Qt's management of it
     // and it must then be deleted manually.

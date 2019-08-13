@@ -11,11 +11,14 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QDesktopServices>
+#include <QLineEdit>
 
 #include "userrole.h"
 #include "selected.h"
 #include "database.h"
 #include "filetuple.h"
+#include "taglist.h"
+#include "tagadderdialog.h"
 
 class FileBrowser : public QWidget
 {
@@ -36,6 +39,7 @@ private:
     void relaySignals();
 
     void addFileToViewingArea(const FileTuple& file);
+    void addTagsToSelected(QStringList tags);
     bool somethingIsSelected();
     void removeFiles();
     int getIdOfSelected();
@@ -52,6 +56,7 @@ public slots:
     void reloadContents();
     void showContextMenu(const QPoint& point);
     void fileRemovePrompt();
+    void tagSelectedDialog();
     void updateSearchList(QList<int> tagIds, QList<int> excludeTagIds);
     void openFileAtIndex(QListWidgetItem* item);
     void updateThumbnailScale(int percentage);

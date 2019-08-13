@@ -12,6 +12,7 @@ SOURCES += \
     prompt.cpp \
     searchpanel.cpp \
     selectedpanel.cpp \
+    tagadderdialog.cpp \
     taglist.cpp \
     tagnamenotfoundexception.cpp \
     tagpanel.cpp \
@@ -28,6 +29,7 @@ HEADERS += \
     searchpanel.h \
     selected.h \
     selectedpanel.h \
+    tagadderdialog.h \
     tagcolor.h \
     taglist.h \
     tagnamenotfoundexception.h \
