@@ -83,6 +83,7 @@ void SelectedPanel::addTag()
         database->addTagToFile(tag, selectedFile);
         refreshTagList();
         emit databaseTagsChanged();
+        textField->setFocus();
     }
 }
 
