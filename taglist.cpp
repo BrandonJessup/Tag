@@ -46,8 +46,11 @@ void TagList::relaySignals()
 
 void TagList::tagClickedEmitter(QListWidgetItem* item)
 {
-    emit tagClicked(item->data(UserRole::ID).toInt());
-    emit tagClicked(item->data(UserRole::NAME).toString());
+    int tagId = item->data(UserRole::ID).toInt();
+    QString tagName = item->data(UserRole::NAME).toString();
+
+    emit tagClicked(tagId);
+    emit tagClicked(tagName);
 }
 
 void TagList::clear()
