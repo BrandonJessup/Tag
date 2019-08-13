@@ -53,19 +53,43 @@ void ButtonPanel::relaySignals()
 void ButtonPanel::addImage()
 {
     Database* database = Database::getInstance();
-    QString path = QFileDialog::getOpenFileName(this, tr("Open File"), directoryToOpen(), tr("Images (*.png *.jpg)"));
+    QStringList paths = QFileDialog::getOpenFileNames(this, tr("Open File"), directoryToOpen(), tr("Images (*.png *.jpg)"));
 
-    if (!fileAlreadyInDatabase(path)) {
-        QString name = extractNameFromPath(path);
-        QString type = "image";
-        database->addFile(name, path, type);
-        emit filesChanged();
+    if (paths.size() == 1) {
+        QString path = paths.first();
+        if (!fileAlreadyInDatabase(path)) {
+            QString name = extractNameFromPath(path);
+            QString type = "image";
+            database->addFile(name, path, type);
+            emit filesChanged();
+        }
+        else {
+            Prompt::show("File already exists!");
+        }
     }
     else {
-        Prompt::show("File already exists!");
+        int existingCount = 0;
+        for (QString path : paths) {
+            if (!fileAlreadyInDatabase(path)) {
+                QString name = extractNameFromPath(path);
+                QString type = "image";
+                database->addFile(name, path, type);
+            }
+            else {
+                ++existingCount;
+            }
+        }
+        if (existingCount > 0) {
+            Prompt::show(QString::number(existingCount) + " files already exist!");
+        }
+        if (!paths.isEmpty()) {
+            emit filesChanged();
+        }
     }
 
-    emit fileDialogClosed(path);
+    if (!paths.isEmpty()) {
+        emit fileDialogClosed(paths.first());
+    }
 }
 
 bool ButtonPanel::fileAlreadyInDatabase(QString path)
