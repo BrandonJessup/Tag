@@ -132,8 +132,8 @@ void FileBrowser::showContextMenu(const QPoint& point)
         QPoint position = viewingArea->mapToGlobal(point);
 
         QMenu contextMenu;
-        contextMenu.addAction("Remove Selected Files", this, SLOT (fileRemovePrompt()));
         contextMenu.addAction("Tag Selected Files", this, SLOT (tagSelectedDialog()));
+        contextMenu.addAction("Remove Selected Files", this, SLOT (fileRemovePrompt()));
         contextMenu.exec(position);
     }
 }
