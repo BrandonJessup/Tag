@@ -35,7 +35,7 @@ void TagAdderDialog::createCompleter()
 
 void TagAdderDialog::createTagList()
 {
-    tagList = new TagList;
+    tagList = new TagList(QSize(250, 100));
     layout->addWidget(tagList);
 }
 

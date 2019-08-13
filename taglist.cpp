@@ -1,7 +1,11 @@
 #include "taglist.h"
 
-TagList::TagList(QWidget *parent) : QWidget(parent)
+TagList::TagList(QSize size, QWidget *parent) : QWidget(parent)
 {
+    if (size.isValid()) {
+        this->setFixedSize(size);
+    }
+
     createLayout();
     createStyleSheets();
     createViewingArea();

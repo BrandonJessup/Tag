@@ -18,7 +18,7 @@ class TagList : public QWidget
     Q_OBJECT
 
 public:
-    explicit TagList(QWidget *parent = nullptr);
+    explicit TagList(QSize size = QSize(), QWidget *parent = nullptr);
 
     void clear();
     void addTag(const TagTuple& tag, TagColor color);
