@@ -50,6 +50,7 @@ protected:
 
 signals:
     void selectionChanged(int selectedFile);
+    void databaseTagsChanged();
 
 public slots:
     void selectionChangedEmitter();

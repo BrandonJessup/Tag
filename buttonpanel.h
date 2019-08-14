@@ -9,6 +9,7 @@
 
 #include "database.h"
 #include "prompt.h"
+#include "imagetagadderdialog.h"
 
 class ButtonPanel : public QWidget
 {
@@ -35,10 +36,13 @@ private:
     QString getParentFolder(const QString& filePath);
     QString extractNameFromPath(const QString& path);
     bool fileAlreadyInDatabase(QString path);
+    void tagAndAddToDatabase(const QString& path);
+    void addTagsToFile(int fileId, QStringList tags);
 
 signals:
     void filesChanged();
     void fileDialogClosed(QString filePath);
+    void databaseTagsChanged();
 
 public slots:
     void addImage();

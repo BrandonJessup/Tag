@@ -47,6 +47,7 @@ void ToolBar::relaySignals()
 {
     connect(buttonPanel, SIGNAL (filesChanged()), this, SIGNAL (filesChanged()));
     connect(thumbnailSlider, SIGNAL (valueChanged(int)), this, SLOT (sliderValueChangedReceiver(int)));
+    connect(buttonPanel, SIGNAL (databaseTagsChanged()), this, SIGNAL (databaseTagsChanged()));
 }
 
 void ToolBar::sliderValueChangedReceiver(int newValue)

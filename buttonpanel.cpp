@@ -52,15 +52,12 @@ void ButtonPanel::relaySignals()
 
 void ButtonPanel::addImage()
 {
-    Database* database = Database::getInstance();
     QStringList paths = QFileDialog::getOpenFileNames(this, tr("Open File"), directoryToOpen(), tr("Images (*.png *.jpg)"));
 
     if (paths.size() == 1) {
         QString path = paths.first();
         if (!fileAlreadyInDatabase(path)) {
-            QString name = extractNameFromPath(path);
-            QString type = "image";
-            database->addFile(name, path, type);
+            tagAndAddToDatabase(path);
             emit filesChanged();
         }
         else {
@@ -71,9 +68,7 @@ void ButtonPanel::addImage()
         int existingCount = 0;
         for (QString path : paths) {
             if (!fileAlreadyInDatabase(path)) {
-                QString name = extractNameFromPath(path);
-                QString type = "image";
-                database->addFile(name, path, type);
+                tagAndAddToDatabase(path);
             }
             else {
                 ++existingCount;
@@ -84,11 +79,38 @@ void ButtonPanel::addImage()
         }
         if (!paths.isEmpty()) {
             emit filesChanged();
+            emit databaseTagsChanged();
         }
     }
 
     if (!paths.isEmpty()) {
         emit fileDialogClosed(paths.first());
+    }
+}
+
+void ButtonPanel::tagAndAddToDatabase(const QString& path)
+{
+    Database* database = Database::getInstance();
+
+    QString name = extractNameFromPath(path);
+    QString type = "image";
+
+    int fileId = database->addFile(name, path, type);
+
+    ImageTagAdderDialog popup(name, path);
+    int result = popup.exec();
+
+    if (result == QDialog::Accepted) {
+        addTagsToFile(fileId, popup.getTagsToAdd());
+    }
+}
+
+void ButtonPanel::addTagsToFile(int fileId, QStringList tags)
+{
+    Database* database = Database::getInstance();
+
+    for (QString tag : tags) {
+        database->addTagToFile(tag, fileId);
     }
 }
 

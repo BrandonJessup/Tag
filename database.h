@@ -18,7 +18,7 @@ class Database
 public:
     static Database* getInstance();
 
-    void addFile(const QString& name, const QString& path, const QString& type);
+    int addFile(const QString& name, const QString& path, const QString& type);
     void removeFile(const int& id);
     QList<FileTuple> getAllFiles();
     QList<FileTuple> getFilesThatMatchTags(QList<int> tagIds, QList<int> excludeTagIds);

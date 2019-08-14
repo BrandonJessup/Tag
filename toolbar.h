@@ -33,6 +33,7 @@ private:
 signals:
     void filesChanged();
     void thumbnailSliderMoved(int newValue);
+    void databaseTagsChanged();
 
 public slots:
     void sliderValueChangedReceiver(int newValue);

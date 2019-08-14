@@ -32,6 +32,7 @@ signals:
 
 public slots:
     void selectionChanged(int selectedFile);
+    void updateTagDictionaries();
 };
 
 #endif // TAGPANEL_H

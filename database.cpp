@@ -10,7 +10,7 @@ Database* Database::getInstance()
     return instance;
 }
 
-void Database::addFile(const QString& name, const QString& path, const QString& type)
+int Database::addFile(const QString& name, const QString& path, const QString& type)
 {
     QSqlQuery query;
     query.prepare("insert into File (TypeId, Name, Path) values (:TypeId, :Name, :Path)");
@@ -18,6 +18,15 @@ void Database::addFile(const QString& name, const QString& path, const QString& 
     query.bindValue(":Path", path);
     query.bindValue(":TypeId", getIdOfType(type));
     query.exec();
+
+    query.prepare("select FileId from File where Path = :Path");
+    query.bindValue(":Path", path);
+    query.exec();
+
+    int idIndex = query.record().indexOf("FileId");
+    query.next();
+
+    return query.record().value(idIndex).toInt();
 }
 
 void Database::removeFile(const int& id)

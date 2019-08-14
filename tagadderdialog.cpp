@@ -14,6 +14,7 @@ TagAdderDialog::TagAdderDialog()
 void TagAdderDialog::createLayout()
 {
     layout = new QVBoxLayout;
+    layout->setSizeConstraint(QLayout::SetFixedSize);
     this->setLayout(layout);
 }
 
@@ -132,4 +133,19 @@ void TagAdderDialog::refreshTagList()
 QStringList TagAdderDialog::getTagsToAdd()
 {
     return tagsToAdd;
+}
+
+void TagAdderDialog::insertWidgetInLayout(int index, QWidget* widget)
+{
+    layout->insertWidget(index, widget);
+}
+
+void TagAdderDialog::setTagListSize(const QSize& size)
+{
+    tagList->setFixedSize(size);
+}
+
+void TagAdderDialog::setCancelButtonText(const QString& text)
+{
+    cancelButton->setText(text);
 }

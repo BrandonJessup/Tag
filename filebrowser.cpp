@@ -166,6 +166,7 @@ void FileBrowser::tagSelectedDialog()
 
     if (result == QDialog::Accepted) {
         addTagsToSelected(popup.getTagsToAdd());
+        emit databaseTagsChanged();
     }
 }
 

@@ -48,3 +48,9 @@ void TagPanel::selectionChanged(int selectedFile)
     selectedPanel->setSelectedFile(selectedFile);
     selectedPanel->refreshTagList();
 }
+
+void TagPanel::updateTagDictionaries()
+{
+    searchPanel->updateTagDictionary();
+    selectedPanel->updateTagDictionary();
+}

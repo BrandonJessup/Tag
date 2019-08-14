@@ -8,6 +8,7 @@ SOURCES += \
     database.cpp \
     filebrowser.cpp \
     filetuple.cpp \
+    imagetagadderdialog.cpp \
     main.cpp \
     prompt.cpp \
     searchpanel.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     database.h \
     filebrowser.h \
     filetuple.h \
+    imagetagadderdialog.h \
     prompt.h \
     searchpanel.h \
     selected.h \

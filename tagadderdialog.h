@@ -45,6 +45,11 @@ private:
     QString cleanUp(QString tag);
     void refreshTagList();
 
+protected:
+    void insertWidgetInLayout(int index, QWidget* widget);
+    void setTagListSize(const QSize& size);
+    void setCancelButtonText(const QString& text);
+
 public slots:
     void addTag();
     void removeTag(QString tagName);
