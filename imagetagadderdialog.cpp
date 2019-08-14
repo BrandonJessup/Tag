@@ -7,6 +7,7 @@ ImageTagAdderDialog::ImageTagAdderDialog(const QString& name, const QString& pat
     createThumbnailView(path);
     setTagListSize(QSize(400, 120));
     setCancelButtonText("Don't Tag");
+    updateAndLockSize();
     relaySignals();
 }
 

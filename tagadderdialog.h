@@ -49,6 +49,7 @@ protected:
     void insertWidgetInLayout(int index, QWidget* widget);
     void setTagListSize(const QSize& size);
     void setCancelButtonText(const QString& text);
+    void updateAndLockSize();
 
 public slots:
     void addTag();

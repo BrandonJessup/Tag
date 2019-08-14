@@ -8,13 +8,13 @@ TagAdderDialog::TagAdderDialog()
     createTagList();
     createButtonLayout();
     createButtons();
+    updateAndLockSize();
     relaySignals();
 }
 
 void TagAdderDialog::createLayout()
 {
     layout = new QVBoxLayout;
-    layout->setSizeConstraint(QLayout::SetFixedSize);
     this->setLayout(layout);
 }
 
@@ -74,6 +74,11 @@ void TagAdderDialog::relaySignals()
     connect(textField, SIGNAL (returnPressed()), this, SLOT (addTag()));
     connect(tagList, SIGNAL (tagToBeRemoved(QString)), this, SLOT (removeTag(QString)));
     connect(tagList, SIGNAL (tagClicked(QString)), this, SLOT (removeTag(QString)));
+}
+
+void TagAdderDialog::updateAndLockSize()
+{
+    this->setFixedSize(this->sizeHint());
 }
 
 void TagAdderDialog::addTag()
