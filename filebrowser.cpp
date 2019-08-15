@@ -4,6 +4,7 @@ FileBrowser::FileBrowser(QWidget *parent) : QWidget(parent)
 {
     createLayout();
     createViewingArea();
+    createDefaultIcons();
     relaySignals();
 
     reloadContents();
@@ -31,6 +32,12 @@ void FileBrowser::createViewingArea()
     connect(viewingArea, SIGNAL (customContextMenuRequested(QPoint)), this, SLOT (showContextMenu(QPoint)));
 
     layout->addWidget(viewingArea);
+}
+
+void FileBrowser::createDefaultIcons()
+{
+    // Temporary icon used with credit to flaticon.com/authors/smashicons
+    defaultImageIcon = QIcon("default icons/image.png");
 }
 
 void FileBrowser::relaySignals()
@@ -83,6 +90,8 @@ void FileBrowser::reloadContents()
     if (selectedFileId != Selected::NONE) {
         selectFileWithId(selectedFileId);
     }
+
+    // TODO: Launch thread to load thumbnails for each file.
 }
 
 int FileBrowser::getIdOfSelected()
@@ -114,7 +123,7 @@ void FileBrowser::addFileToViewingArea(const FileTuple& file)
     QString type = file.getType();
 
     if (type == "image") {
-        QListWidgetItem* item = new QListWidgetItem(QIcon(path), name);
+        QListWidgetItem* item = new QListWidgetItem(defaultImageIcon, name);
 
         FileTuple tuple(id, name, path, type);
         item->setData(UserRole::ID, id);

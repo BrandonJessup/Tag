@@ -33,9 +33,11 @@ private:
     QList<int> searchList;
     QList<int> excludeList;
     QSize baseThumbnailSize;
+    QIcon defaultImageIcon;
 
     void createLayout();
     void createViewingArea();
+    void createDefaultIcons();
     void relaySignals();
 
     void addFileToViewingArea(const FileTuple& file);
