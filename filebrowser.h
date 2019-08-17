@@ -12,6 +12,7 @@
 #include <QPushButton>
 #include <QDesktopServices>
 #include <QLineEdit>
+#include <QtConcurrent/QtConcurrent>
 
 #include "userrole.h"
 #include "selected.h"
@@ -28,6 +29,7 @@ public:
     explicit FileBrowser(QWidget *parent = nullptr);
 
 private:
+    int revisionCount;
     QStackedLayout* layout;
     QListWidget* viewingArea;
     QList<int> searchList;
@@ -47,12 +49,16 @@ private:
     int getIdOfSelected();
     void selectFileWithId(int id);
 
+    void loadThumbnails(QStringList thumbnailPaths, QList<QListWidgetItem*> items, int revision);
+
 protected:
     void keyPressEvent(QKeyEvent* event) override;
 
 signals:
     void selectionChanged(int selectedFile);
     void databaseTagsChanged();
+
+    void thumbnailReady(const QIcon& icon, QListWidgetItem* item, int revision);
 
 public slots:
     void selectionChangedEmitter();
@@ -63,6 +69,8 @@ public slots:
     void updateSearchList(QList<int> tagIds, QList<int> excludeTagIds);
     void openFileAtIndex(QListWidgetItem* item);
     void updateThumbnailScale(int percentage);
+
+    void applyThumbnail(const QIcon& icon, QListWidgetItem* item, int revision);
 };
 
 #endif // FILEBROWSER_H

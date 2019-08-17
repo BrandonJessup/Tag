@@ -2,6 +2,8 @@
 
 FileBrowser::FileBrowser(QWidget *parent) : QWidget(parent)
 {
+    revisionCount = 0;
+
     createLayout();
     createViewingArea();
     createDefaultIcons();
@@ -44,6 +46,7 @@ void FileBrowser::relaySignals()
 {
     connect(viewingArea, SIGNAL (itemSelectionChanged()), this, SLOT (selectionChangedEmitter()));
     connect(viewingArea, SIGNAL (itemDoubleClicked(QListWidgetItem*)), this, SLOT (openFileAtIndex(QListWidgetItem*)));
+    connect(this, SIGNAL (thumbnailReady(const QIcon&, QListWidgetItem*, int)), this, SLOT (applyThumbnail(const QIcon&, QListWidgetItem*, int)));
 }
 
 void FileBrowser::selectionChangedEmitter()
@@ -91,7 +94,36 @@ void FileBrowser::reloadContents()
         selectFileWithId(selectedFileId);
     }
 
-    // TODO: Launch thread to load thumbnails for each file.
+    QStringList thumbnailPaths;
+    QList<QListWidgetItem*> items;
+    for (int i = 0; i < viewingArea->count(); ++i) {
+        QListWidgetItem* item = viewingArea->item(i);
+        items.append(item);
+        thumbnailPaths.append(item->data(UserRole::PATH).toString());
+    }
+    revisionCount++;
+    QtConcurrent::run(this, &FileBrowser::loadThumbnails, thumbnailPaths, items, revisionCount);
+}
+
+void FileBrowser::loadThumbnails(QStringList thumbnailPaths, QList<QListWidgetItem*> items, int revision)
+{
+    int numberOfFiles = thumbnailPaths.size();
+    for (int i = 0; i < numberOfFiles; ++i) {
+        if (revision == revisionCount) {
+            if (items[i] != nullptr) {
+                QIcon icon(thumbnailPaths[i]);
+                emit thumbnailReady(icon, items[i], revision);
+            }
+        }
+    }
+}
+
+void FileBrowser::applyThumbnail(const QIcon& icon, QListWidgetItem* item, int revision)
+{
+    if (revision == revisionCount) {
+        item->setIcon(icon);
+        viewingArea->doItemsLayout();
+    }
 }
 
 int FileBrowser::getIdOfSelected()
@@ -124,6 +156,8 @@ void FileBrowser::addFileToViewingArea(const FileTuple& file)
 
     if (type == "image") {
         QListWidgetItem* item = new QListWidgetItem(defaultImageIcon, name);
+//        QListWidgetItem* item = new QListWidgetItem(defaultImageIcon, name);
+
 
         FileTuple tuple(id, name, path, type);
         item->setData(UserRole::ID, id);
