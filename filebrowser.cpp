@@ -122,6 +122,10 @@ void FileBrowser::applyThumbnail(const QIcon& icon, QListWidgetItem* item, int r
 {
     if (revision == revisionCount) {
         item->setIcon(icon);
+
+        // Refreshes the layout after an item is added to remove
+        // unsightly side effects of changing an icon. This is
+        // normally not done until mouse over of the viewing area.
         viewingArea->doItemsLayout();
     }
 }
