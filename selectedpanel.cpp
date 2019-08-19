@@ -125,7 +125,7 @@ void SelectedPanel::populateTagList(QList<TagTuple> tags)
     tagList->clear();
     std::sort(tags.begin(), tags.end(), TagTuple::alphabeticalSort);
     for (TagTuple tag : tags) {
-        tagList->addTag(tag, TagColor::GREEN);
+        tagList->addTag(tag);
     }
 }
 

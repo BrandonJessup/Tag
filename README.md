@@ -5,7 +5,6 @@
 - Set custom thumbnails.
 
 # Planned quality of life changes
-- Sort tags in list alphabetically.
 - Make last added folder persist after relaunching.
 - Cache thumbnails for better performance.
 - Locate missing files.

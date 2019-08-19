@@ -9,6 +9,8 @@
 #include <QCompleter>
 #include <QStringListModel>
 
+#include <algorithm>
+
 #include "taglist.h"
 
 class TagAdderDialog : public QDialog

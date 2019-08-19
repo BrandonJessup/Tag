@@ -21,7 +21,7 @@ public:
     explicit TagList(QSize size = QSize(), QWidget *parent = nullptr);
 
     void clear();
-    void addTag(const TagTuple& tag, TagColor color);
+    void addTag(const TagTuple& tag);
 
 private:
     QStackedLayout* layout;

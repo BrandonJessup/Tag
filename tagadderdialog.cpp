@@ -129,9 +129,10 @@ QString TagAdderDialog::cleanUp(QString tag)
 void TagAdderDialog::refreshTagList()
 {
     tagList->clear();
+    std::sort(tagsToAdd.begin(), tagsToAdd.end());
     for (QString tag : tagsToAdd) {
         TagTuple tuple(0, tag);
-        tagList->addTag(tuple, TagColor::GREEN);
+        tagList->addTag(tuple);
     }
 }
 

@@ -62,20 +62,19 @@ void TagList::clear()
     viewingArea->clear();
 }
 
-void TagList::addTag(const TagTuple& tag, TagColor color)
+void TagList::addTag(const TagTuple& tag)
 {
     int id = tag.getId();
     QString name = tag.getName();
 
     QListWidgetItem* item = new QListWidgetItem;
 
-    TagTuple tuple(id, name);
     item->setData(UserRole::ID, id);
     item->setData(UserRole::NAME, name);
 
     QLabel* label = new QLabel(name);
 
-    switch (color) {
+    switch (tag.getColor()) {
     case TagColor::GREEN:
         label->setStyleSheet(styleSheetGreen);
         break;

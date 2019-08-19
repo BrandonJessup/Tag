@@ -12,6 +12,8 @@
 #include <QCompleter>
 #include <QStringListModel>
 
+#include <algorithm>
+
 #include "tagnamenotfoundexception.h"
 #include "database.h"
 #include "taglist.h"
@@ -59,6 +61,7 @@ private:
     bool hasNonWhitespaceCharacter(const QString& tag);
     QString cleanUp(QString tag);
     void populateTagList(QList<TagTuple> tags, QList<TagTuple> excludeTags);
+    void colorTagsRed(QList<TagTuple>& tags);
 
 signals:
     void activeSearchTagsChanged(QList<int> tagIds, QList<int> excludeTagIds);

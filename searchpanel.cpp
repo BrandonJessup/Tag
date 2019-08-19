@@ -102,17 +102,24 @@ void SearchPanel::refreshTagList()
     Database* database = Database::getInstance();
     QList<TagTuple> tags = database->getTuplesOfTags(activeSearchTags);
     QList<TagTuple> excludeTags = database->getTuplesOfTags(activeExcludeTags);
+    colorTagsRed(excludeTags);
     populateTagList(tags, excludeTags);
+}
+
+void SearchPanel::colorTagsRed(QList<TagTuple>& tags)
+{
+    for (TagTuple& tag : tags) {
+        tag.setColor(TagColor::RED);
+    }
 }
 
 void SearchPanel::populateTagList(QList<TagTuple> tags, QList<TagTuple> excludeTags)
 {
     tagList->clear();
-    for (TagTuple tag : tags) {
-        tagList->addTag(tag, TagColor::GREEN);
-    }
-    for (TagTuple tag : excludeTags) {
-        tagList->addTag(tag, TagColor::RED);
+    QList<TagTuple> allTags = tags + excludeTags;
+    std::sort(allTags.begin(), allTags.end(), TagTuple::alphabeticalSort);
+    for (TagTuple tag : allTags) {
+        tagList->addTag(tag);
     }
 }
 
