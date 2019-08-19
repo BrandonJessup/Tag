@@ -6,6 +6,7 @@
 
 # Planned quality of life changes
 - Make last added folder persist after relaunching.
+- Add default tags based on filetype.
 - Cache thumbnails for better performance.
 - Locate missing files.
 - Search for untagged.
