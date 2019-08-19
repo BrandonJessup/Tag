@@ -24,6 +24,13 @@ TagTuple::~TagTuple()
     if (name != nullptr) delete name;
 }
 
+TagTuple& TagTuple::operator =(const TagTuple& tagTuple)
+{
+    this->setName(tagTuple.getName());
+    this->setId(tagTuple.getId());
+    return *this;
+}
+
 void TagTuple::setId(const int& id)
 {
     *(this->id) = id;
@@ -42,4 +49,9 @@ int TagTuple::getId() const
 QString TagTuple::getName() const
 {
     return *name;
+}
+
+bool TagTuple::sortByName(const TagTuple& t1, const TagTuple& t2)
+{
+    return t1.getName() < t2.getName();
 }

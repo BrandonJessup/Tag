@@ -9,6 +9,8 @@
 #include <QCompleter>
 #include <QStringListModel>
 
+#include <algorithm>
+
 #include "selected.h"
 #include "taglist.h"
 #include "tagtuple.h"

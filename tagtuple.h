@@ -12,10 +12,14 @@ public:
 
     ~TagTuple();
 
+    TagTuple& operator =(const TagTuple& tagTuple);
+
     void setId(const int& id);
     void setName(const QString& name);
     int getId() const;
     QString getName() const;
+
+    static bool sortByName(const TagTuple& t1, const TagTuple& t2);
 
 private:
     int* id;

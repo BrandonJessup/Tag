@@ -123,6 +123,7 @@ void SelectedPanel::refreshTagList()
 void SelectedPanel::populateTagList(QList<TagTuple> tags)
 {
     tagList->clear();
+    std::sort(tags.begin(), tags.end(), TagTuple::sortByName);
     for (TagTuple tag : tags) {
         tagList->addTag(tag, TagColor::GREEN);
     }
