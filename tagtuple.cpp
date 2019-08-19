@@ -20,8 +20,8 @@ TagTuple::TagTuple(const TagTuple& tagTuple)
 
 TagTuple::~TagTuple()
 {
-    if (id != nullptr) delete id;
-    if (name != nullptr) delete name;
+    delete id;
+    delete name;
 }
 
 TagTuple& TagTuple::operator =(const TagTuple& tagTuple)
