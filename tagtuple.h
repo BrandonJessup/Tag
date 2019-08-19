@@ -14,7 +14,7 @@ public:
     int getId() const;
     QString getName() const;
 
-    static bool sortByName(const TagTuple& t1, const TagTuple& t2);
+    static bool alphabeticalSort(const TagTuple& t1, const TagTuple& t2);
 
 private:
     int id;

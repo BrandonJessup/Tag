@@ -32,7 +32,7 @@ QString TagTuple::getName() const
     return name;
 }
 
-bool TagTuple::sortByName(const TagTuple& t1, const TagTuple& t2)
+bool TagTuple::alphabeticalSort(const TagTuple& t1, const TagTuple& t2)
 {
     return t1.getName() < t2.getName();
 }
