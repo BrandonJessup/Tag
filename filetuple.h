@@ -8,9 +8,6 @@ class FileTuple
 public:
     FileTuple();
     FileTuple(const int& id, const QString& name, const QString& path, const QString& type);
-    FileTuple(const FileTuple& fileTuple);
-
-    ~FileTuple();
 
     void setId(const int& id);
     void setName(const QString& name);
@@ -22,10 +19,10 @@ public:
     QString getType() const;
 
 private:
-    int* id;
-    QString* name;
-    QString* path;
-    QString* type;
+    int id;
+    QString name;
+    QString path;
+    QString type;
 };
 
 #endif // FILETUPLE_H

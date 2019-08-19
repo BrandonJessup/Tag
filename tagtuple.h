@@ -8,11 +8,6 @@ class TagTuple
 public:
     TagTuple();
     TagTuple(const int& id, const QString& name);
-    TagTuple(const TagTuple& tagTuple);
-
-    ~TagTuple();
-
-    TagTuple& operator =(const TagTuple& tagTuple);
 
     void setId(const int& id);
     void setName(const QString& name);
@@ -22,8 +17,8 @@ public:
     static bool sortByName(const TagTuple& t1, const TagTuple& t2);
 
 private:
-    int* id;
-    QString* name;
+    int id;
+    QString name;
 };
 
 #endif // TAGTUPLE_H
