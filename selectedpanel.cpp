@@ -63,7 +63,7 @@ void SelectedPanel::relaySignals()
 void SelectedPanel::updateTagDictionary() {
     Database* database = Database::getInstance();
 
-    tagDictionary = database->getAllTagNames();
+    tagDictionary = database->getAllTagNamesExcludingSpecial();
     QStringListModel* model = new QStringListModel(tagDictionary);
     completer->setModel(model);
 }
@@ -80,10 +80,15 @@ void SelectedPanel::addTag()
     if (tagIsValid(tag)) {
         tag = cleanUp(tag);
         Database* database = Database::getInstance();
-        database->addTagToFile(tag, selectedFile);
-        refreshTagList();
-        emit databaseTagsChanged();
-        textField->setFocus();
+        if (database->isSpecialTag(tag)) {
+            Prompt::show(tag + " is a reserved name!");
+        }
+        else {
+            database->addTagToFile(tag, selectedFile);
+            refreshTagList();
+            emit databaseTagsChanged();
+            textField->setFocus();
+        }
     }
 }
 

@@ -12,6 +12,7 @@
 #include "userrole.h"
 #include "database.h"
 #include "tagcolor.h"
+#include "prompt.h"
 
 class TagList : public QWidget
 {
@@ -46,7 +47,7 @@ signals:
 
 public slots:
     void showContextMenu(const QPoint& point);
-    void removeSelectedTags();
+    void removeSelectedTag();
     void tagClickedEmitter(QListWidgetItem* item);
 };
 

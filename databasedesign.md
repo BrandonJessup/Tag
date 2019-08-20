@@ -15,10 +15,11 @@
 | Name   | varchar(255) unique       | type of file |
 
 #### Tag
-| Field | Type                      | Description                         |
-| ----- | ------------------------- | ----------------------------------- |
-| TagId | auto incrementing integer | primary key                         |
-| Name  | varchar(255) unique       | name the tag will be displayed with |
+| Field     | Type                      | Description                         |
+| --------- | ------------------------- | ----------------------------------- |
+| TagId     | auto incrementing integer | primary key                         |
+| Name      | varchar(255) unique       | name the tag will be displayed with |
+| IsSpecial | integer(1) default 0      | whether the tag can be deleted      |
 
 #### FileTag
 | Field  | Type    | Description                 |

@@ -29,7 +29,9 @@ public:
     int getIdOfTag(const QString& tag);
     QList<TagTuple> getTuplesOfTags(QList<int> tagIds);
     QStringList getAllTagNames();
+    QStringList getAllTagNamesExcludingSpecial();
     bool filePathExists(const QString& path);
+    bool isSpecialTag(const QString& tag);
 
     void debug_outputContentsOfTagTable();
 
@@ -46,11 +48,16 @@ private:
     void populateTypeTable();
     void createFileTableIfDoesntExist();
     void createTagTableIfDoesntExist();
+    void addSpecialTags();
     void createFileTagTableIfDoesntExist();
 
     int getIdOfType(const QString& type);
     void removeTagsFromFile(const int& id);
     void removeUnusedTags();
+    void giveFileInitialSpecialTags(const int& fileId);
+    void applyUntaggedIfAppropriate(const int& fileId);
+    void removeUntaggedIfAppropriate(const int& fileId);
+    bool fileHasNonSpecialTags(const int& fileId);
 };
 
 #endif // DATABASE_H

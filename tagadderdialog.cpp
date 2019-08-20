@@ -43,7 +43,7 @@ void TagAdderDialog::createTagList()
 void TagAdderDialog::initializeTagDictionary() {
     Database* database = Database::getInstance();
 
-    tagDictionary = database->getAllTagNames();
+    tagDictionary = database->getAllTagNamesExcludingSpecial();
     QStringListModel* model = new QStringListModel(tagDictionary);
     completer->setModel(model);
 }
@@ -87,9 +87,15 @@ void TagAdderDialog::addTag()
     textField->clear();
     if (tagIsValid(tag)) {
         tag = cleanUp(tag);
-        if (!tagsToAdd.contains(tag)) {
-            tagsToAdd.append(tag);
-            refreshTagList();
+        Database* database = Database::getInstance();
+        if (database->isSpecialTag(tag)) {
+            Prompt::show(tag + " is a reserved name!");
+        }
+        else {
+            if (!tagsToAdd.contains(tag)) {
+                tagsToAdd.append(tag);
+                refreshTagList();
+            }
         }
     }
 }

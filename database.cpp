@@ -26,7 +26,11 @@ int Database::addFile(const QString& name, const QString& path, const QString& t
     int idIndex = query.record().indexOf("FileId");
     query.next();
 
-    return query.record().value(idIndex).toInt();
+    int fileId = query.record().value(idIndex).toInt();
+
+    giveFileInitialSpecialTags(fileId);
+
+    return fileId;
 }
 
 void Database::removeFile(const int& id)
@@ -82,6 +86,20 @@ QStringList Database::getAllTagNames()
 
     return tags;
 }
+
+QStringList Database::getAllTagNamesExcludingSpecial()
+{
+    QStringList tags;
+
+    QSqlQuery query("select Name from Tag where IsSpecial = 0");
+    int nameIndex = query.record().indexOf("Name");
+    while(query.next()) {
+        tags << query.value(nameIndex).toString();
+    }
+
+    return tags;
+}
+
 
 bool Database::filePathExists(const QString& path)
 {
@@ -203,6 +221,8 @@ void Database::addTagToFile(const QString& tag, const int& fileId)
     query.bindValue(":FileId", fileId);
     query.bindValue(":TagId", tagId);
     query.exec();
+
+    removeUntaggedIfAppropriate(fileId);
 }
 
 void Database::addTag(const QString& tag)
@@ -260,6 +280,20 @@ int Database::getIdOfTag(const QString& tag)
     }
 }
 
+bool Database::isSpecialTag(const QString& tag)
+{
+    QSqlQuery query;
+    query.prepare("select IsSpecial from Tag where Name = :Name");
+    query.bindValue(":Name", tag);
+    query.exec();
+    int index = query.record().indexOf("IsSpecial");
+    query.first();
+    if (query.isValid()) {
+        return query.value(index).toBool();
+    }
+    return false;
+}
+
 void Database::removeTagFromFile(const int& tagId, const int& fileId)
 {
     QSqlQuery query;
@@ -269,6 +303,7 @@ void Database::removeTagFromFile(const int& tagId, const int& fileId)
     query.exec();
 
     removeUnusedTags();
+    applyUntaggedIfAppropriate(fileId);
 }
 
 QList<TagTuple> Database::getTuplesOfTags(QList<int> tagIds)
@@ -310,7 +345,7 @@ QList<TagTuple> Database::getTuplesOfTags(QList<int> tagIds)
 // file.
 void Database::removeUnusedTags()
 {
-    QSqlQuery query("delete from Tag where TagId not in (select TagId from FileTag)");
+    QSqlQuery query("delete from Tag where TagId not in (select TagId from FileTag) and IsSpecial = 0");
 }
 
 Database::Database()
@@ -338,6 +373,7 @@ void Database::createTablesIfTheyDontExist()
     createAndPopulateTypeTableIfDoesntExist();
     createFileTableIfDoesntExist();
     createTagTableIfDoesntExist();
+    addSpecialTags();
     createFileTagTableIfDoesntExist();
 }
 
@@ -381,7 +417,8 @@ void Database::createTagTableIfDoesntExist()
 {
     QSqlQuery query("create table if not exists Tag ("
                     "   TagId integer primary key autoincrement,"
-                    "   Name varchar(255) unique not null"
+                    "   Name varchar(255) unique not null,"
+                    "   IsSpecial integer(1) default 0"
                     ")");
 }
 
@@ -396,12 +433,52 @@ void Database::createFileTagTableIfDoesntExist()
                     ")");
 }
 
+void Database::addSpecialTags()
+{
+    QSqlQuery query;
+    query.exec("insert into Tag (Name, IsSpecial) values('untagged', 1)");
+}
+
 void Database::debug_outputContentsOfTagTable()
 {
-    QSqlQuery query("select TagId, Name from Tag");
+    QSqlQuery query("select TagId, Name, IsSpecial from Tag");
     int idIndex = query.record().indexOf("TagId");
     int nameIndex = query.record().indexOf("Name");
+    int isSpecialIndex = query.record().indexOf("IsSpecial");
     while(query.next()) {
-        qDebug() << query.value(idIndex).toString() << query.value(nameIndex).toString();
+        qDebug() << query.value(idIndex).toString() << query.value(nameIndex).toString() << query.value(isSpecialIndex).toBool();
     }
+}
+
+void Database::giveFileInitialSpecialTags(const int& fileId)
+{
+    applyUntaggedIfAppropriate(fileId);
+}
+
+void Database::applyUntaggedIfAppropriate(const int& fileId)
+{
+    if (!fileHasNonSpecialTags(fileId)) {
+        addTagToFile("untagged", fileId);
+    }
+}
+
+void Database::removeUntaggedIfAppropriate(const int& fileId)
+{
+    if (fileHasNonSpecialTags(fileId)) {
+        removeTagFromFile(getIdOfTag("untagged"), fileId);
+    }
+}
+
+bool Database::fileHasNonSpecialTags(const int& fileId)
+{
+    QStringList tags;
+
+    QSqlQuery query;
+    query.prepare("select FileTag.TagId, FileTag.FileId, Tag.IsSpecial from FileTag "
+                  "join Tag on FileTag.TagId = Tag.TagId "
+                  "where Tag.IsSpecial = 0 and FileTag.FileId = :FileId");
+    query.bindValue(":FileId", fileId);
+    query.exec();
+
+    return query.next();
 }

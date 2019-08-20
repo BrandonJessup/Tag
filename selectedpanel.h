@@ -15,6 +15,7 @@
 #include "taglist.h"
 #include "tagtuple.h"
 #include "tagcolor.h"
+#include "prompt.h"
 
 class SelectedPanel : public QWidget
 {

@@ -12,6 +12,7 @@
 #include <algorithm>
 
 #include "taglist.h"
+#include "prompt.h"
 
 class TagAdderDialog : public QDialog
 {

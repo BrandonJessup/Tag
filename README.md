@@ -9,4 +9,3 @@
 - Add default tags based on filetype.
 - Cache thumbnails for better performance.
 - Locate missing files.
-- Search for untagged.

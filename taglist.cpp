@@ -99,14 +99,20 @@ void TagList::showContextMenu(const QPoint& point)
         QPoint position = viewingArea->mapToGlobal(point);
 
         QMenu contextMenu;
-        contextMenu.addAction("Remove", this, SLOT (removeSelectedTags()));
+        contextMenu.addAction("Remove", this, SLOT (removeSelectedTag()));
         contextMenu.exec(position);
     }
 }
 
-void TagList::removeSelectedTags()
+void TagList::removeSelectedTag()
 {
-    for (int i = 0; i < viewingArea->selectedItems().size(); ++i) {
+    Database* database = Database::getInstance();
+    QString name = viewingArea->currentItem()->data(UserRole::NAME).toString();
+
+    if (database->isSpecialTag(name)) {
+        Prompt::show("'" + name + "' is a special tag and cannot be removed!");
+    }
+    else {
         removeTag(viewingArea->takeItem(viewingArea->currentRow()));
     }
 }
