@@ -3,7 +3,8 @@
 
 enum TagColor {
     GREEN,
-    RED
+    RED,
+    GREY
 };
 
 #endif // TAGCOLOR_H

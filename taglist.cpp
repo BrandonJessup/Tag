@@ -26,6 +26,9 @@ void TagList::createStyleSheets()
     styleSheetRed = "background-color: #F5B7B1;"
                     "padding: 4px 2px 4px 3px;"
                     "border-radius: 3px;";
+    styleSheetGrey = "background-color: #D5DBDB;"
+                    "padding: 4px 2px 4px 3px;"
+                    "border-radius: 3px;";
 }
 
 void TagList::createViewingArea()
@@ -80,6 +83,9 @@ void TagList::addTag(const TagTuple& tag)
         break;
     case TagColor::RED:
         label->setStyleSheet(styleSheetRed);
+        break;
+    case TagColor::GREY:
+        label->setStyleSheet(styleSheetGrey);
         break;
     }
 

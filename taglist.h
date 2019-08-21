@@ -29,6 +29,7 @@ private:
     QListWidget* viewingArea;
     QString styleSheetGreen;
     QString styleSheetRed;
+    QString styleSheetGrey;
 
     void createLayout();
     void createStyleSheets();

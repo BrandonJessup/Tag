@@ -127,9 +127,14 @@ void SelectedPanel::refreshTagList()
 
 void SelectedPanel::populateTagList(QList<TagTuple> tags)
 {
+    Database* database = Database::getInstance();
+
     tagList->clear();
     std::sort(tags.begin(), tags.end(), TagTuple::alphabeticalSort);
     for (TagTuple tag : tags) {
+        if (database->isSpecialTag(tag.getName())) {
+            tag.setColor(TagColor::GREY);
+        }
         tagList->addTag(tag);
     }
 }
