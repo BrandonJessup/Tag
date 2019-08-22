@@ -10,6 +10,7 @@
 #include "database.h"
 #include "prompt.h"
 #include "imagetagadderdialog.h"
+#include "settings.h"
 
 class ButtonPanel : public QWidget
 {
@@ -23,7 +24,6 @@ private:
     QPushButton* addImageButton;
     QPushButton* addFileButton;
     QPushButton* addFolderButton;
-    QString lastDirectory;
 
     void setSize();
     void createLayout();
@@ -32,7 +32,6 @@ private:
     void createAddFolderButton();
     void relaySignals();
 
-    QString directoryToOpen();
     QString getParentFolder(const QString& filePath);
     QString extractNameFromPath(const QString& path);
     bool fileAlreadyInDatabase(QString path);

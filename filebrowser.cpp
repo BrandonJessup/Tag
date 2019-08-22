@@ -9,6 +9,7 @@ FileBrowser::FileBrowser(QWidget *parent) : QWidget(parent)
     createDefaultIcons();
     relaySignals();
 
+    updateThumbnailScale(Settings::loadThumbnailSliderPosition());
     reloadContents();
 }
 

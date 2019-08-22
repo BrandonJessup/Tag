@@ -20,6 +20,7 @@
 #include "filetuple.h"
 #include "taglist.h"
 #include "tagadderdialog.h"
+#include "settings.h"
 
 class FileBrowser : public QWidget
 {

@@ -7,6 +7,7 @@
 #include <QLabel>
 
 #include "buttonpanel.h"
+#include "settings.h"
 
 class ToolBar : public QWidget
 {

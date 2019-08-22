@@ -52,7 +52,8 @@ void ButtonPanel::relaySignals()
 
 void ButtonPanel::addImage()
 {
-    QStringList paths = QFileDialog::getOpenFileNames(this, tr("Open File"), directoryToOpen(), tr("Images (*.png *.jpg)"));
+    QString directoryToOpen = Settings::loadLastUsedDirectory();
+    QStringList paths = QFileDialog::getOpenFileNames(this, tr("Open File"), directoryToOpen, tr("Images (*.png *.jpg)"));
 
     if (paths.size() == 1) {
         QString path = paths.first();
@@ -123,17 +124,7 @@ bool ButtonPanel::fileAlreadyInDatabase(QString path)
 void ButtonPanel::updateLastDirectory(QString pathToFile)
 {
     QString pathToDirectory = getParentFolder(pathToFile);
-    lastDirectory = pathToDirectory;
-}
-
-QString ButtonPanel::directoryToOpen()
-{
-    if (lastDirectory.isEmpty()) {
-        return "/home";
-    }
-    else {
-        return lastDirectory;
-    }
+    Settings::saveLastUsedDirectory(pathToDirectory);
 }
 
 QString ButtonPanel::getParentFolder(const QString& filePath)

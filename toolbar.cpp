@@ -39,7 +39,11 @@ void ToolBar::createThumbnailSlider()
     thumbnailSlider->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     thumbnailSlider->setMinimum(50);
     thumbnailSlider->setMaximum(200);
-    thumbnailSlider->setValue(100);
+
+    int value = Settings::loadThumbnailSliderPosition();
+    thumbnailSlider->setValue(value);
+    updateSliderLabel(value);
+
     layout->addWidget(thumbnailSlider);
 }
 
@@ -58,6 +62,7 @@ void ToolBar::sliderValueChangedReceiver(int newValue)
     // The current value is passed instread of newValue because the
     // slider may have been changed by snapSliderToDefault.
     emit thumbnailSliderMoved(thumbnailSlider->value());
+    Settings::saveThumbnailSliderPosition(thumbnailSlider->value());
 }
 
 void ToolBar::updateSliderLabel(int newValue)
