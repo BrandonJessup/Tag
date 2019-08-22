@@ -482,3 +482,18 @@ bool Database::fileHasNonSpecialTags(const int& fileId)
 
     return query.next();
 }
+
+bool Database::fileHasTag(const int& fileId, const QString& tag)
+{
+    QStringList tags;
+
+    QSqlQuery query;
+    query.prepare("select FileTag.TagId, FileTag.FileId from FileTag "
+                  "join Tag on FileTag.TagId = Tag.TagId "
+                  "where FileTag.FileId = :FileId and Tag.Name = :Tag");
+    query.bindValue(":FileId", fileId);
+    query.bindValue(":Tag", tag);
+    query.exec();
+
+    return query.next();
+}
