@@ -79,17 +79,22 @@ void ButtonPanel::addImage()
             prompt.setDefaultButton(laterButton);
 
             int chosen = prompt.exec();
+            int duplicateFiles = 0;
             switch (chosen) {
             case QMessageBox::AcceptRole:
-                addNewFiles(paths);
+                duplicateFiles = addNewFiles(paths);
                 break;
             case QMessageBox::RejectRole:
-                addNewFilesWithoutTagging(paths);
+                duplicateFiles = addNewFilesWithoutTagging(paths);
                 break;
             }
 
             emit filesChanged();
             emit databaseTagsChanged();
+
+            if (duplicateFiles > 0) {
+                Prompt::show(QString::number(duplicateFiles) + " files already exist!");
+            }
         }
     }
 
@@ -98,7 +103,7 @@ void ButtonPanel::addImage()
     }
 }
 
-void ButtonPanel::addNewFiles(QStringList paths)
+int ButtonPanel::addNewFiles(QStringList paths)
 {
     int existingCount = 0;
     for (QString path : paths) {
@@ -109,12 +114,11 @@ void ButtonPanel::addNewFiles(QStringList paths)
             ++existingCount;
         }
     }
-    if (existingCount > 0) {
-        Prompt::show(QString::number(existingCount) + " files already exist!");
-    }
+
+    return existingCount;
 }
 
-void ButtonPanel::addNewFilesWithoutTagging(QStringList paths)
+int ButtonPanel::addNewFilesWithoutTagging(QStringList paths)
 {
     int existingCount = 0;
     for (QString path : paths) {
@@ -125,9 +129,8 @@ void ButtonPanel::addNewFilesWithoutTagging(QStringList paths)
             ++existingCount;
         }
     }
-    if (existingCount > 0) {
-        Prompt::show(QString::number(existingCount) + " files already exist!");
-    }
+
+    return existingCount;
 }
 
 void ButtonPanel::addToDatabase(const QString& path)
