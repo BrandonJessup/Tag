@@ -35,6 +35,9 @@ private:
     QString getParentFolder(const QString& filePath);
     QString extractNameFromPath(const QString& path);
     bool fileAlreadyInDatabase(QString path);
+    void addNewFiles(QStringList paths);
+    void addNewFilesWithoutTagging(QStringList paths);
+    void addToDatabase(const QString& path);
     void tagAndAddToDatabase(const QString& path);
     void addTagsToFile(int fileId, QStringList tags);
 

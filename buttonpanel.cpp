@@ -66,19 +66,28 @@ void ButtonPanel::addImage()
         }
     }
     else {
-        int existingCount = 0;
-        for (QString path : paths) {
-            if (!fileAlreadyInDatabase(path)) {
-                tagAndAddToDatabase(path);
-            }
-            else {
-                ++existingCount;
-            }
-        }
-        if (existingCount > 0) {
-            Prompt::show(QString::number(existingCount) + " files already exist!");
-        }
         if (!paths.isEmpty()) {
+            // Prompt user for if they want to tag all the selected files
+            // now, or if they wish to do that later.
+            QPushButton* laterButton = new QPushButton("Later");
+            QPushButton* nowButton = new QPushButton("Now");
+
+            QMessageBox prompt;
+            prompt.setText("Tag files now, or later?");
+            prompt.addButton(nowButton, QMessageBox::AcceptRole);
+            prompt.addButton(laterButton, QMessageBox::RejectRole);
+            prompt.setDefaultButton(laterButton);
+
+            int chosen = prompt.exec();
+            switch (chosen) {
+            case QMessageBox::AcceptRole:
+                addNewFiles(paths);
+                break;
+            case QMessageBox::RejectRole:
+                addNewFilesWithoutTagging(paths);
+                break;
+            }
+
             emit filesChanged();
             emit databaseTagsChanged();
         }
@@ -87,6 +96,48 @@ void ButtonPanel::addImage()
     if (!paths.isEmpty()) {
         emit fileDialogClosed(paths.first());
     }
+}
+
+void ButtonPanel::addNewFiles(QStringList paths)
+{
+    int existingCount = 0;
+    for (QString path : paths) {
+        if (!fileAlreadyInDatabase(path)) {
+            tagAndAddToDatabase(path);
+        }
+        else {
+            ++existingCount;
+        }
+    }
+    if (existingCount > 0) {
+        Prompt::show(QString::number(existingCount) + " files already exist!");
+    }
+}
+
+void ButtonPanel::addNewFilesWithoutTagging(QStringList paths)
+{
+    int existingCount = 0;
+    for (QString path : paths) {
+        if (!fileAlreadyInDatabase(path)) {
+            addToDatabase(path);
+        }
+        else {
+            ++existingCount;
+        }
+    }
+    if (existingCount > 0) {
+        Prompt::show(QString::number(existingCount) + " files already exist!");
+    }
+}
+
+void ButtonPanel::addToDatabase(const QString& path)
+{
+    Database* database = Database::getInstance();
+
+    QString name = extractNameFromPath(path);
+    QString type = "image";
+
+    database->addFile(name, path, type);
 }
 
 void ButtonPanel::tagAndAddToDatabase(const QString& path)
