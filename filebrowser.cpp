@@ -251,6 +251,7 @@ void FileBrowser::removeFiles()
 
         // Removing the item from the list widget stop's Qt's management of it
         // and it must then be deleted manually.
+        revisionCount++;
         delete file;
     }
 }
