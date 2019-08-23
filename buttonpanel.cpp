@@ -140,7 +140,11 @@ void ButtonPanel::addToDatabase(const QString& path)
     QString name = extractNameFromPath(path);
     QString type = "image";
 
-    database->addFile(name, path, type);
+    int id = database->addFile(name, path, type);
+    if (type == "image") {
+        QString thumbnail = generateAndStoreThumbnail(path, id);
+        database->setThumbnail(thumbnail, id);
+    }
 }
 
 void ButtonPanel::tagAndAddToDatabase(const QString& path)
@@ -152,12 +156,32 @@ void ButtonPanel::tagAndAddToDatabase(const QString& path)
 
     int fileId = database->addFile(name, path, type);
 
+    if (type == "image") {
+        QString thumbnail = generateAndStoreThumbnail(path, fileId);
+        database->setThumbnail(thumbnail, fileId);
+    }
+
     ImageTagAdderDialog popup(name, path);
     int result = popup.exec();
 
     if (result == QDialog::Accepted) {
         addTagsToFile(fileId, popup.getTagsToAdd());
     }
+}
+
+QString ButtonPanel::generateAndStoreThumbnail(const QString& path, const int& fileId)
+{
+    QDir dir;
+    dir.mkdir("thumbnails");
+
+    QString thumbnailPath = "thumbnails/" + QString::number(fileId) + ".jpg";
+
+    QImage image;
+    image.load(path);
+    image = image.scaled(500, 680, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    image.save(thumbnailPath);
+
+    return thumbnailPath;
 }
 
 void ButtonPanel::addTagsToFile(int fileId, QStringList tags)

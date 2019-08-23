@@ -33,6 +33,7 @@ public:
     bool filePathExists(const QString& path);
     bool isSpecialTag(const QString& tag);
     bool fileHasTag(const int& fileId, const QString& tag);
+    void setThumbnail(const QString& path, const int& fileId);
 
     void debug_outputContentsOfTagTable();
 

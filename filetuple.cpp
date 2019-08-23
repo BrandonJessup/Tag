@@ -6,9 +6,10 @@ FileTuple::FileTuple()
     name = "";
     path = "";
     type = "";
+    thumbnail = "";
 }
 
-FileTuple::FileTuple(const int& id, const QString& name, const QString& path, const QString& type)
+FileTuple::FileTuple(const int& id, const QString& name, const QString& path, const QString& type, const QString& thumbnail)
 {
     this->id = id;
     this->name = name;
@@ -36,6 +37,11 @@ void FileTuple::setType(const QString& type)
     this->type = type;
 }
 
+void FileTuple::setThumbnail(const QString& thumbnail)
+{
+    this->thumbnail = thumbnail;
+}
+
 int FileTuple::getId() const
 {
     return id;
@@ -54,4 +60,9 @@ QString FileTuple::getPath() const
 QString FileTuple::getType() const
 {
     return type;
+}
+
+QString FileTuple::getThumbnail() const
+{
+    return thumbnail;
 }

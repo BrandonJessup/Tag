@@ -57,17 +57,19 @@ QList<FileTuple> Database::getAllFiles()
 {
     QList<FileTuple> files;
 
-    QSqlQuery query("select File.FileId, File.Name, File.Path, Type.Name from File join Type on File.TypeId = Type.TypeId");
+    QSqlQuery query("select File.FileId, File.Name, File.Path, Type.Name, File.Thumbnail from File join Type on File.TypeId = Type.TypeId");
     int idIndex = query.record().indexOf("File.FileId");
     int nameIndex = query.record().indexOf("File.Name");
     int pathIndex = query.record().indexOf("File.Path");
     int typeIndex = query.record().indexOf("Type.Name");
+    int thumbnailIndex = query.record().indexOf("File.Thumbnail");
     while(query.next()) {
         FileTuple file;
         file.setId(query.value(idIndex).toInt());
         file.setName(query.value(nameIndex).toString());
         file.setPath(query.value(pathIndex).toString());
         file.setType(query.value(typeIndex).toString());
+        file.setThumbnail(query.value(thumbnailIndex).toString());
         files.append(file);
     }
 
@@ -121,7 +123,7 @@ QList<FileTuple> Database::getFilesThatMatchTags(QList<int> tagIds, QList<int> e
     QString command = "";
 
     if (!tagIds.isEmpty()) {
-        command += "select Frequency.FileId, File.Name, Type.Name, File.Path "
+        command += "select Frequency.FileId, File.Name, Type.Name, File.Path, File.Thumbnail "
                    "from ("
                         "select FileTag.FileId, count(FileTag.FileId) as Matches "
                         "from FileTag "
@@ -162,7 +164,7 @@ QList<FileTuple> Database::getFilesThatMatchTags(QList<int> tagIds, QList<int> e
         command += "group by FileId) as Ignore)";
     }
     else {
-        command += "select File.FileId, File.Name, Type.Name, File.Path "
+        command += "select File.FileId, File.Name, Type.Name, File.Path, File.Thumbnail "
                    "from File "
                    "join Type "
                    "on Type.TypeId = File.TypeId "
@@ -198,6 +200,7 @@ QList<FileTuple> Database::getFilesThatMatchTags(QList<int> tagIds, QList<int> e
     int nameIndex = query.record().indexOf("File.Name");
     int pathIndex = query.record().indexOf("File.Path");
     int typeIndex = query.record().indexOf("Type.Name");
+    int thumbnailIndex = query.record().indexOf("File.Thumbnail");
 
     while(query.next()) {
         FileTuple file;
@@ -205,6 +208,7 @@ QList<FileTuple> Database::getFilesThatMatchTags(QList<int> tagIds, QList<int> e
         file.setName(query.value(nameIndex).toString());
         file.setPath(query.value(pathIndex).toString());
         file.setType(query.value(typeIndex).toString());
+        file.setThumbnail(query.value(thumbnailIndex).toString());
         files.append(file);
     }
 
@@ -409,6 +413,7 @@ void Database::createFileTableIfDoesntExist()
                     "   TypeId integer not null,"
                     "   Name varchar(255) not null,"
                     "   Path varchar(255) unique not null,"
+                    "   Thumbnail varchar(255),"
                     "   foreign key(TypeId) references Type(TypeId)"
                     ")");
 }
@@ -496,4 +501,13 @@ bool Database::fileHasTag(const int& fileId, const QString& tag)
     query.exec();
 
     return query.next();
+}
+
+void Database::setThumbnail(const QString& path, const int& fileId)
+{
+    QSqlQuery query;
+    query.prepare("update File set Thumbnail = :Thumbnail where FileId = :FileId");
+    query.bindValue(":Thumbnail", path);
+    query.bindValue(":FileId", fileId);
+    query.exec();
 }

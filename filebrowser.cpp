@@ -100,7 +100,7 @@ void FileBrowser::reloadContents()
     for (int i = 0; i < viewingArea->count(); ++i) {
         QListWidgetItem* item = viewingArea->item(i);
         items.append(item);
-        thumbnailPaths.append(item->data(UserRole::PATH).toString());
+        thumbnailPaths.append(item->data(UserRole::THUMBNAIL).toString());
     }
     revisionCount++;
     QtConcurrent::run(this, &FileBrowser::loadThumbnails, thumbnailPaths, items, revisionCount);
@@ -158,17 +158,16 @@ void FileBrowser::addFileToViewingArea(const FileTuple& file)
     QString name = file.getName();
     QString path = file.getPath();
     QString type = file.getType();
+    QString thumbnail = file.getThumbnail();
 
     if (type == "image") {
         QListWidgetItem* item = new QListWidgetItem(defaultImageIcon, name);
-//        QListWidgetItem* item = new QListWidgetItem(defaultImageIcon, name);
 
-
-        FileTuple tuple(id, name, path, type);
         item->setData(UserRole::ID, id);
         item->setData(UserRole::NAME, name);
         item->setData(UserRole::PATH, path);
         item->setData(UserRole::TYPE, type);
+        item->setData(UserRole::THUMBNAIL, thumbnail);
 
         viewingArea->addItem(item);
     }
@@ -247,13 +246,22 @@ void FileBrowser::removeFiles()
 
         Database* database = Database::getInstance();
         int id = file->data(UserRole::ID).toInt();
+        QString thumbnailPath = file->data(UserRole::THUMBNAIL).toString();
         database->removeFile(id);
 
         // Removing the item from the list widget stop's Qt's management of it
         // and it must then be deleted manually.
         revisionCount++;
         delete file;
+
+        deleteThumbnail(thumbnailPath);
     }
+}
+
+void FileBrowser::deleteThumbnail(const QString& path)
+{
+    QFile file(path);
+    file.remove();
 }
 
 void FileBrowser::keyPressEvent(QKeyEvent* event)

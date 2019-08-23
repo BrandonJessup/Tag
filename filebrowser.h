@@ -47,6 +47,7 @@ private:
     void addTagsToSelected(QStringList tags);
     bool somethingIsSelected();
     void removeFiles();
+    void deleteThumbnail(const QString& path);
     int getIdOfSelected();
     void selectFileWithId(int id);
 

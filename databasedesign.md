@@ -1,12 +1,13 @@
 # Database Design
 ## Tables
 #### File
-| Field  | Type                      | Description                 |
-| ------ | ------------------------- | --------------------------- |
-| FileId | auto incrementing integer | primary key                 |
-| TypeId | integer                   | foreign key from type table |
-| Name   | varchar(255)              | filename without extension  |
-| Path   | varchar(255) unique       | complete file path          |
+| Field     | Type                      | Description                 |
+| --------- | ------------------------- | --------------------------- |
+| FileId    | auto incrementing integer | primary key                 |
+| TypeId    | integer                   | foreign key from type table |
+| Name      | varchar(255)              | filename without extension  |
+| Path      | varchar(255) unique       | complete file path          |
+| Thumbnail | varchar(255) unique       | relative path to thumbnail  |
 
 #### Type
 | Field  | Type                      | Description  |

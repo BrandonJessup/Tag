@@ -8,7 +8,8 @@ enum UserRole
     ID = Qt::UserRole,
     NAME,
     PATH,
-    TYPE
+    TYPE,
+    THUMBNAIL
 };
 
 #endif // USERROLE_H

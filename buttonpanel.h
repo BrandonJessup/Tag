@@ -37,6 +37,7 @@ private:
     bool fileAlreadyInDatabase(QString path);
     int addNewFiles(QStringList paths);
     int addNewFilesWithoutTagging(QStringList paths);
+    QString generateAndStoreThumbnail(const QString& path, const int& fileId);
     void addToDatabase(const QString& path);
     void tagAndAddToDatabase(const QString& path);
     void addTagsToFile(int fileId, QStringList tags);
