@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QRegularExpression>
+#include <QProgressDialog>
 
 #include "database.h"
 #include "prompt.h"

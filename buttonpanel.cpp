@@ -120,15 +120,26 @@ int ButtonPanel::addNewFiles(QStringList paths)
 
 int ButtonPanel::addNewFilesWithoutTagging(QStringList paths)
 {
+    QProgressDialog popup(this);
+    popup.setLabelText("Generating thumbnails...");
+    popup.setWindowFlag(Qt::WindowCloseButtonHint, false);
+    popup.setWindowFlag(Qt::WindowContextHelpButtonHint, false);
+    popup.setWindowModality(Qt::WindowModal);
+    popup.setCancelButton(nullptr);
+    popup.setMaximum(paths.size());
+
     int existingCount = 0;
-    for (QString path : paths) {
-        if (!fileAlreadyInDatabase(path)) {
-            addToDatabase(path);
+    for (int i = 0; i < paths.size(); ++i) {
+        popup.setValue(i);
+        if (!fileAlreadyInDatabase(paths[i])) {
+            addToDatabase(paths[i]);
         }
         else {
             ++existingCount;
         }
     }
+
+    popup.setValue(paths.size());
 
     return existingCount;
 }
