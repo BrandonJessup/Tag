@@ -10,6 +10,7 @@ SOURCES += \
     filetuple.cpp \
     imagetagadderdialog.cpp \
     main.cpp \
+    missingfiledialog.cpp \
     prompt.cpp \
     searchpanel.cpp \
     selectedpanel.cpp \
@@ -28,6 +29,7 @@ HEADERS += \
     filebrowser.h \
     filetuple.h \
     imagetagadderdialog.h \
+    missingfiledialog.h \
     prompt.h \
     searchpanel.h \
     selected.h \

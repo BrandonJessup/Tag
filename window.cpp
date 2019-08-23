@@ -20,18 +20,7 @@ void Window::checkIntegrityOfFiles()
 
     for (FileTuple file : files) {
         if (!QFileInfo::exists(file.getPath())) {
-            QString oldPath = file.getPath();
-            QString oldName = file.getName();
-
-            QPushButton* removeButton = new QPushButton("Remove");
-            QPushButton* locateButton = new QPushButton("Locate");
-
-            QMessageBox popup;
-            popup.setText("The file '" + oldName + "' could not be found at the expected location: '" + oldPath + "'!");
-            popup.setInformativeText("Would you like to locate the file, or remove it?");
-            popup.addButton(removeButton, QMessageBox::RejectRole);
-            popup.addButton(locateButton, QMessageBox::AcceptRole);
-            popup.setDefaultButton(locateButton);
+            MissingFileDialog popup(file);
 
             int choice = popup.exec();
             if (choice == QDialog::Accepted) {
@@ -40,7 +29,7 @@ void Window::checkIntegrityOfFiles()
                     searchContitions = "Image Files (*.png *.jpg)";
                 }
 
-                QString newPath = QFileDialog::getOpenFileName(this, "Locate " + oldName, Settings::loadLastUsedDirectory(), searchContitions);
+                QString newPath = QFileDialog::getOpenFileName(this, "Locate " + file.getName(), Settings::loadLastUsedDirectory(), searchContitions);
 
                 if (newPath.isNull()) {
                     deleteThumbnail(file.getThumbnail());

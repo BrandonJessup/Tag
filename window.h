@@ -12,6 +12,9 @@
 #include "tagpanel.h"
 #include "filebrowser.h"
 #include "settings.h"
+#include "database.h"
+#include "filetuple.h"
+#include "missingfiledialog.h"
 
 class Window : public QWidget
 {
