@@ -511,3 +511,21 @@ void Database::setThumbnail(const QString& path, const int& fileId)
     query.bindValue(":FileId", fileId);
     query.exec();
 }
+
+void Database::setPath(const QString& path, const int& fileId)
+{
+    QSqlQuery query;
+    query.prepare("update File set Path = :Path where FileId = :FileId");
+    query.bindValue(":Path", path);
+    query.bindValue(":FileId", fileId);
+    query.exec();
+}
+
+void Database::setFileName(const QString& name, const int& fileId)
+{
+    QSqlQuery query;
+    query.prepare("update File set Name = :Name where FileId = :FileId");
+    query.bindValue(":Name", name);
+    query.bindValue(":FileId", fileId);
+    query.exec();
+}

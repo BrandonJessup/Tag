@@ -3,10 +3,15 @@
 
 #include <QWidget>
 #include <QBoxLayout>
+#include <QFileInfo>
+#include <QMessageBox>
+#include <QPushButton>
+#include <QFileDialog>
 
 #include "toolbar.h"
 #include "tagpanel.h"
 #include "filebrowser.h"
+#include "settings.h"
 
 class Window : public QWidget
 {
@@ -27,7 +32,11 @@ private:
     void createLowerLayout();
     void createTagPanel();
     void createFileBrowser();
+    void checkIntegrityOfFiles();
     void relaySignals();
+
+    void deleteThumbnail(const QString& path);
+    QString extractNameFromPath(const QString& path);
 
 signals:
 

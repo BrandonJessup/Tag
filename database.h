@@ -34,6 +34,8 @@ public:
     bool isSpecialTag(const QString& tag);
     bool fileHasTag(const int& fileId, const QString& tag);
     void setThumbnail(const QString& path, const int& fileId);
+    void setPath(const QString& path, const int& fileId);
+    void setFileName(const QString& name, const int& fileId);
 
     void debug_outputContentsOfTagTable();
 

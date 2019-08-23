@@ -6,4 +6,3 @@
 
 # Planned quality of life changes
 - Add default tags based on filetype.
-- Locate missing files.
