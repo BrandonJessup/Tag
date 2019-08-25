@@ -39,7 +39,7 @@ void FileBrowser::createViewingArea()
 
 void FileBrowser::createDefaultIcons()
 {
-    // Temporary icons used with credit to flaticon.com/authors/smashicons
+    // Icons made by Nysttren.
     defaultImageIcon = QIcon("default icons/image.png");
     defaultVideoIcon = QIcon("default icons/video.png");
     defaultFileIcon = QIcon("default icons/file.png");
