@@ -175,7 +175,16 @@ void FileBrowser::addFileToViewingArea(const FileTuple& file)
 
 void FileBrowser::showContextMenu(const QPoint& point)
 {
-    if (somethingIsSelected()) {
+    int numberOfSelectedItems = viewingArea->selectedItems().size();
+    if (numberOfSelectedItems == 1) {
+        QPoint position = viewingArea->mapToGlobal(point);
+
+        QMenu contextMenu;
+        contextMenu.addAction("Tag Selected File", this, SLOT (tagSelectedDialog()));
+        contextMenu.addAction("Remove Selected File", this, SLOT (fileRemovePrompt()));
+        contextMenu.exec(position);
+    }
+    else if (numberOfSelectedItems > 1) {
         QPoint position = viewingArea->mapToGlobal(point);
 
         QMenu contextMenu;
@@ -230,11 +239,6 @@ void FileBrowser::addTagsToSelected(QStringList tags)
     }
 
     reloadContents();
-}
-
-bool FileBrowser::somethingIsSelected()
-{
-    return !viewingArea->selectedItems().isEmpty();
 }
 
 void FileBrowser::removeFiles()

@@ -45,7 +45,6 @@ private:
 
     void addFileToViewingArea(const FileTuple& file);
     void addTagsToSelected(QStringList tags);
-    bool somethingIsSelected();
     void removeFiles();
     void deleteThumbnail(const QString& path);
     int getIdOfSelected();
