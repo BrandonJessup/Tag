@@ -336,7 +336,7 @@ void ButtonPanel::addFolder()
 
     if (!path.isEmpty()) {
         if (!fileAlreadyInDatabase(path)) {
-            addToDatabase(path, "file");
+            addToDatabase(path, "folder");
             emit filesChanged();
         }
         else {
