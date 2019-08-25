@@ -37,6 +37,9 @@ private:
     QList<int> excludeList;
     QSize baseThumbnailSize;
     QIcon defaultImageIcon;
+    QIcon defaultVideoIcon;
+    QIcon defaultFileIcon;
+    QIcon defaultFolderIcon;
 
     void createLayout();
     void createViewingArea();

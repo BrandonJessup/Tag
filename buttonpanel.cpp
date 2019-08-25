@@ -5,6 +5,7 @@ ButtonPanel::ButtonPanel(QWidget *parent) : QWidget(parent)
     setSize();
     createLayout();
     createAddImageButton();
+    createAddVideoButton();
     createAddFileButton();
     createAddFolderButton();
     relaySignals();
@@ -27,6 +28,14 @@ void ButtonPanel::createAddImageButton()
     layout->addWidget(addImageButton);
 
     connect(addImageButton, SIGNAL (clicked()), this, SLOT (addImage()));
+}
+
+void ButtonPanel::createAddVideoButton()
+{
+    addVideoButton = new QPushButton("Add Video");
+    layout->addWidget(addVideoButton);
+
+    connect(addVideoButton, SIGNAL (clicked()), this, SLOT (addVideo()));
 }
 
 void ButtonPanel::createAddFileButton()
@@ -53,12 +62,13 @@ void ButtonPanel::relaySignals()
 void ButtonPanel::addImage()
 {
     QString directoryToOpen = Settings::loadLastUsedDirectory();
-    QStringList paths = QFileDialog::getOpenFileNames(this, tr("Open File"), directoryToOpen, tr("Images (*.png *.jpg)"));
+    QString filter = "Images (*.png *.jpg)";
+    QStringList paths = QFileDialog::getOpenFileNames(this, tr("Add Image(s)"), directoryToOpen, filter);
 
     if (paths.size() == 1) {
         QString path = paths.first();
         if (!fileAlreadyInDatabase(path)) {
-            tagAndAddToDatabase(path);
+            tagAndAddToDatabase(path, "image");
             emit filesChanged();
         }
         else {
@@ -82,10 +92,10 @@ void ButtonPanel::addImage()
             int duplicateFiles = 0;
             switch (chosen) {
             case QMessageBox::AcceptRole:
-                duplicateFiles = addNewFiles(paths);
+                duplicateFiles = addNewImages(paths);
                 break;
             case QMessageBox::RejectRole:
-                duplicateFiles = addNewFilesWithoutTagging(paths);
+                duplicateFiles = addNewImagesWithoutTagging(paths);
                 break;
             }
 
@@ -103,12 +113,12 @@ void ButtonPanel::addImage()
     }
 }
 
-int ButtonPanel::addNewFiles(QStringList paths)
+int ButtonPanel::addNewImages(QStringList paths)
 {
     int existingCount = 0;
     for (QString path : paths) {
         if (!fileAlreadyInDatabase(path)) {
-            tagAndAddToDatabase(path);
+            tagAndAddToDatabase(path, "image");
         }
         else {
             ++existingCount;
@@ -118,7 +128,7 @@ int ButtonPanel::addNewFiles(QStringList paths)
     return existingCount;
 }
 
-int ButtonPanel::addNewFilesWithoutTagging(QStringList paths)
+int ButtonPanel::addNewImagesWithoutTagging(QStringList paths)
 {
     QProgressDialog popup(this);
     popup.setLabelText("Generating thumbnails...");
@@ -132,7 +142,7 @@ int ButtonPanel::addNewFilesWithoutTagging(QStringList paths)
     for (int i = 0; i < paths.size(); ++i) {
         popup.setValue(i);
         if (!fileAlreadyInDatabase(paths[i])) {
-            addToDatabase(paths[i]);
+            addToDatabase(paths[i], "image");
         }
         else {
             ++existingCount;
@@ -144,12 +154,11 @@ int ButtonPanel::addNewFilesWithoutTagging(QStringList paths)
     return existingCount;
 }
 
-void ButtonPanel::addToDatabase(const QString& path)
+void ButtonPanel::addToDatabase(const QString& path, const QString& type)
 {
     Database* database = Database::getInstance();
 
     QString name = extractNameFromPath(path);
-    QString type = "image";
 
     int id = database->addFile(name, path, type);
     if (type == "image") {
@@ -158,25 +167,24 @@ void ButtonPanel::addToDatabase(const QString& path)
     }
 }
 
-void ButtonPanel::tagAndAddToDatabase(const QString& path)
+void ButtonPanel::tagAndAddToDatabase(const QString& path, const QString& type)
 {
     Database* database = Database::getInstance();
 
     QString name = extractNameFromPath(path);
-    QString type = "image";
 
     int fileId = database->addFile(name, path, type);
 
     if (type == "image") {
         QString thumbnail = generateAndStoreThumbnail(path, fileId);
         database->setThumbnail(thumbnail, fileId);
-    }
 
-    ImageTagAdderDialog popup(name, path);
-    int result = popup.exec();
+        ImageTagAdderDialog popup(name, path);
+        int result = popup.exec();
 
-    if (result == QDialog::Accepted) {
-        addTagsToFile(fileId, popup.getTagsToAdd());
+        if (result == QDialog::Accepted) {
+            addTagsToFile(fileId, popup.getTagsToAdd());
+        }
     }
 }
 
@@ -235,12 +243,106 @@ QString ButtonPanel::extractNameFromPath(const QString& path)
     return path.right(stringLength - lastSlash - 1);
 }
 
+void ButtonPanel::addVideo()
+{
+    QString directoryToOpen = Settings::loadLastUsedDirectory();
+    QString filter = "Videos (*.mp4 *.mkv *.avi *.webm)";
+    QStringList paths = QFileDialog::getOpenFileNames(this, tr("Add Video(s)"), directoryToOpen, filter);
+
+    if (paths.size() == 1) {
+        QString path = paths.first();
+        if (!fileAlreadyInDatabase(path)) {
+            addToDatabase(path, "video");
+            emit filesChanged();
+        }
+        else {
+            Prompt::show("File already exists!");
+        }
+    }
+    else {
+        if (!paths.isEmpty()) {
+            int duplicateFiles = 0;
+            for (int i = 0; i < paths.size(); ++i) {
+                if (!fileAlreadyInDatabase(paths[i])) {
+                    addToDatabase(paths[i], "video");
+                }
+                else {
+                    ++duplicateFiles;
+                }
+            }
+
+            emit filesChanged();
+            emit databaseTagsChanged();
+
+            if (duplicateFiles > 0) {
+                Prompt::show(QString::number(duplicateFiles) + " files already exist!");
+            }
+        }
+    }
+
+    if (!paths.isEmpty()) {
+        emit fileDialogClosed(paths.first());
+    }
+}
+
+
+
 void ButtonPanel::addFile()
 {
-    // TODO
+    QString directoryToOpen = Settings::loadLastUsedDirectory();
+    QString filter = "All Files (*)";
+    QStringList paths = QFileDialog::getOpenFileNames(this, tr("Add File(s)"), directoryToOpen, filter);
+
+    if (paths.size() == 1) {
+        QString path = paths.first();
+        if (!fileAlreadyInDatabase(path)) {
+            addToDatabase(path, "file");
+            emit filesChanged();
+        }
+        else {
+            Prompt::show("File already exists!");
+        }
+    }
+    else {
+        if (!paths.isEmpty()) {
+            int duplicateFiles = 0;
+            for (int i = 0; i < paths.size(); ++i) {
+                if (!fileAlreadyInDatabase(paths[i])) {
+                    addToDatabase(paths[i], "file");
+                }
+                else {
+                    ++duplicateFiles;
+                }
+            }
+
+            emit filesChanged();
+            emit databaseTagsChanged();
+
+            if (duplicateFiles > 0) {
+                Prompt::show(QString::number(duplicateFiles) + " files already exist!");
+            }
+        }
+    }
+
+    if (!paths.isEmpty()) {
+        emit fileDialogClosed(paths.first());
+    }
 }
 
 void ButtonPanel::addFolder()
 {
-    // TODO
+    QString directoryToOpen = Settings::loadLastUsedDirectory();
+    QString path = QFileDialog::getExistingDirectory(this, tr("Add Folder"), directoryToOpen, QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
+    if (!path.isEmpty()) {
+        if (!fileAlreadyInDatabase(path)) {
+            addToDatabase(path, "file");
+            emit filesChanged();
+        }
+        else {
+            Prompt::show("File already exists!");
+        }
+
+        emit fileDialogClosed(path);
+    }
 }

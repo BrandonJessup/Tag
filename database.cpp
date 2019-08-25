@@ -403,7 +403,7 @@ void Database::populateTypeTable()
     query.exec("insert into Type (name) values('image')");
     query.exec("insert into Type (name) values('video')");
     query.exec("insert into Type (name) values('folder')");
-    query.exec("insert into Type (name) values('other')");
+    query.exec("insert into Type (name) values('file')");
 }
 
 void Database::createFileTableIfDoesntExist()

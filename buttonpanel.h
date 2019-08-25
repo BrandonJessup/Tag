@@ -23,12 +23,14 @@ public:
 private:
     QBoxLayout* layout;
     QPushButton* addImageButton;
+    QPushButton* addVideoButton;
     QPushButton* addFileButton;
     QPushButton* addFolderButton;
 
     void setSize();
     void createLayout();
     void createAddImageButton();
+    void createAddVideoButton();
     void createAddFileButton();
     void createAddFolderButton();
     void relaySignals();
@@ -36,11 +38,11 @@ private:
     QString getParentFolder(const QString& filePath);
     QString extractNameFromPath(const QString& path);
     bool fileAlreadyInDatabase(QString path);
-    int addNewFiles(QStringList paths);
-    int addNewFilesWithoutTagging(QStringList paths);
+    int addNewImages(QStringList paths);
+    int addNewImagesWithoutTagging(QStringList paths);
     QString generateAndStoreThumbnail(const QString& path, const int& fileId);
-    void addToDatabase(const QString& path);
-    void tagAndAddToDatabase(const QString& path);
+    void addToDatabase(const QString& path, const QString& type);
+    void tagAndAddToDatabase(const QString& path, const QString& type);
     void addTagsToFile(int fileId, QStringList tags);
 
 signals:
@@ -50,6 +52,7 @@ signals:
 
 public slots:
     void addImage();
+    void addVideo();
     void addFile();
     void addFolder();
     void updateLastDirectory(QString pathToFile);

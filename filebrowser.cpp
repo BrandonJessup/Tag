@@ -39,8 +39,11 @@ void FileBrowser::createViewingArea()
 
 void FileBrowser::createDefaultIcons()
 {
-    // Temporary icon used with credit to flaticon.com/authors/smashicons
+    // Temporary icons used with credit to flaticon.com/authors/smashicons
     defaultImageIcon = QIcon("default icons/image.png");
+    defaultVideoIcon = QIcon("default icons/video.png");
+    defaultFileIcon = QIcon("default icons/file.png");
+    defaultFolderIcon = QIcon("default icons/folder.png");
 }
 
 void FileBrowser::relaySignals()
@@ -99,8 +102,11 @@ void FileBrowser::reloadContents()
     QList<QListWidgetItem*> items;
     for (int i = 0; i < viewingArea->count(); ++i) {
         QListWidgetItem* item = viewingArea->item(i);
-        items.append(item);
-        thumbnailPaths.append(item->data(UserRole::THUMBNAIL).toString());
+        QString thumbnailPath = item->data(UserRole::THUMBNAIL).toString();
+        if (!thumbnailPath.isEmpty()) {
+            items.append(item);
+            thumbnailPaths.append(thumbnailPath);
+        }
     }
     revisionCount++;
     QtConcurrent::run(this, &FileBrowser::loadThumbnails, thumbnailPaths, items, revisionCount);
@@ -160,17 +166,28 @@ void FileBrowser::addFileToViewingArea(const FileTuple& file)
     QString type = file.getType();
     QString thumbnail = file.getThumbnail();
 
+    QListWidgetItem* item = new QListWidgetItem;
+    item->setText(name);
     if (type == "image") {
-        QListWidgetItem* item = new QListWidgetItem(defaultImageIcon, name);
-
-        item->setData(UserRole::ID, id);
-        item->setData(UserRole::NAME, name);
-        item->setData(UserRole::PATH, path);
-        item->setData(UserRole::TYPE, type);
-        item->setData(UserRole::THUMBNAIL, thumbnail);
-
-        viewingArea->addItem(item);
+        item->setIcon(defaultImageIcon);
     }
+    else if (type == "video") {
+        item->setIcon(defaultVideoIcon);
+    }
+    else if (type == "file") {
+        item->setIcon(defaultFileIcon);
+    }
+    else if (type == "folder") {
+        item->setIcon(defaultFolderIcon);
+    }
+
+    item->setData(UserRole::ID, id);
+    item->setData(UserRole::NAME, name);
+    item->setData(UserRole::PATH, path);
+    item->setData(UserRole::TYPE, type);
+    item->setData(UserRole::THUMBNAIL, thumbnail);
+
+    viewingArea->addItem(item);
 }
 
 void FileBrowser::showContextMenu(const QPoint& point)
