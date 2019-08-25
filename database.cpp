@@ -442,6 +442,10 @@ void Database::addSpecialTags()
 {
     QSqlQuery query;
     query.exec("insert into Tag (Name, IsSpecial) values('untagged', 1)");
+    query.exec("insert into Tag (Name, IsSpecial) values('image', 1)");
+    query.exec("insert into Tag (Name, IsSpecial) values('video', 1)");
+    query.exec("insert into Tag (Name, IsSpecial) values('file', 1)");
+    query.exec("insert into Tag (Name, IsSpecial) values('folder', 1)");
 }
 
 void Database::debug_outputContentsOfTagTable()
@@ -458,6 +462,20 @@ void Database::debug_outputContentsOfTagTable()
 void Database::giveFileInitialSpecialTags(const int& fileId)
 {
     applyUntaggedIfAppropriate(fileId);
+
+    QString type = getFileType(fileId);
+    if (type == "image") {
+        addTagToFile("image", fileId);
+    }
+    else if (type == "video") {
+        addTagToFile("video", fileId);
+    }
+    else if (type == "file") {
+        addTagToFile("file", fileId);
+    }
+    else if (type == "folder") {
+        addTagToFile("folder", fileId);
+    }
 }
 
 void Database::applyUntaggedIfAppropriate(const int& fileId)
@@ -465,6 +483,21 @@ void Database::applyUntaggedIfAppropriate(const int& fileId)
     if (!fileHasNonSpecialTags(fileId)) {
         addTagToFile("untagged", fileId);
     }
+}
+
+QString Database::getFileType(const int& fileId)
+{
+    QSqlQuery query;
+    query.prepare("select File.FileId, Type.Name from File "
+                  "join Type on Type.TypeId = File.TypeId "
+                  "where File.FileId = :FileId");
+    query.bindValue(":FileId", fileId);
+    query.exec();
+
+    int typeIndex = query.record().indexOf("Type.Name");
+    query.next();
+
+    return query.value(typeIndex).toString();
 }
 
 void Database::removeUntaggedIfAppropriate(const int& fileId)

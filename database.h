@@ -60,6 +60,7 @@ private:
     void removeUnusedTags();
     void giveFileInitialSpecialTags(const int& fileId);
     void applyUntaggedIfAppropriate(const int& fileId);
+    QString getFileType(const int& fileId);
     void removeUntaggedIfAppropriate(const int& fileId);
     bool fileHasNonSpecialTags(const int& fileId);
 };
