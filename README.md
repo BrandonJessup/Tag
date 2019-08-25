@@ -3,6 +3,3 @@
 - Option to import folder contents.
 - View a slideshow of images in current search.
 - Set custom thumbnails.
-
-# Planned quality of life changes
-- Add default tags based on filetype.
