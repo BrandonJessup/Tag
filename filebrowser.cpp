@@ -198,6 +198,12 @@ void FileBrowser::showContextMenu(const QPoint& point)
 
         QMenu contextMenu;
         contextMenu.addAction("Tag Selected File", this, SLOT (tagSelectedDialog()));
+
+        QString selectedItemType = viewingArea->selectedItems().first()->data(UserRole::TYPE).toString();
+        if (selectedItemType != "image") {
+            contextMenu.addAction("Change Thumbnail", this, SLOT (changeThumbnailOfSelectedFile()));
+        }
+
         contextMenu.addAction("Remove Selected File", this, SLOT (fileRemovePrompt()));
         contextMenu.exec(position);
     }
@@ -209,6 +215,43 @@ void FileBrowser::showContextMenu(const QPoint& point)
         contextMenu.addAction("Remove Selected Files", this, SLOT (fileRemovePrompt()));
         contextMenu.exec(position);
     }
+}
+
+void FileBrowser::changeThumbnailOfSelectedFile()
+{
+    QString directoryToOpen = Settings::loadLastUsedDirectory();
+    QString filter = "Images (*.png *.jpg)";
+    QString sourcePath = QFileDialog::getOpenFileName(this, tr("Select New Thumbnail"), directoryToOpen, filter);
+
+    QListWidgetItem* item = viewingArea->selectedItems().first();
+    int fileId = item->data(UserRole::ID).toInt();
+    QString oldThumbnailPath = item->data(UserRole::THUMBNAIL).toString();
+
+    if (!sourcePath.isEmpty()) {
+        deleteThumbnail(oldThumbnailPath);
+
+        QString newThumbnailPath = generateAndStoreThumbnail(sourcePath, fileId);
+
+        Database* database = Database::getInstance();
+        database->setThumbnail(newThumbnailPath, fileId);
+
+        reloadContents();
+    }
+}
+
+QString FileBrowser::generateAndStoreThumbnail(const QString& path, const int& fileId)
+{
+    QDir dir;
+    dir.mkdir("thumbnails");
+
+    QString thumbnailPath = "thumbnails/" + QString::number(fileId) + ".jpg";
+
+    QImage image;
+    image.load(path);
+    image = image.scaled(500, 680, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    image.save(thumbnailPath);
+
+    return thumbnailPath;
 }
 
 void FileBrowser::fileRemovePrompt()
@@ -282,7 +325,9 @@ void FileBrowser::removeFiles()
 void FileBrowser::deleteThumbnail(const QString& path)
 {
     QFile file(path);
-    file.remove();
+    if (file.isOpen()) {
+        file.remove();
+    }
 }
 
 void FileBrowser::keyPressEvent(QKeyEvent* event)

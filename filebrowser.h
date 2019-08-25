@@ -13,6 +13,7 @@
 #include <QDesktopServices>
 #include <QLineEdit>
 #include <QtConcurrent/QtConcurrent>
+#include <QFileDialog>
 
 #include "userrole.h"
 #include "selected.h"
@@ -52,6 +53,7 @@ private:
     void deleteThumbnail(const QString& path);
     int getIdOfSelected();
     void selectFileWithId(int id);
+    QString generateAndStoreThumbnail(const QString& path, const int& fileId);
 
     void loadThumbnails(QStringList thumbnailPaths, QList<QListWidgetItem*> items, int revision);
 
@@ -73,6 +75,7 @@ public slots:
     void updateSearchList(QList<int> tagIds, QList<int> excludeTagIds);
     void openFileAtIndex(QListWidgetItem* item);
     void updateThumbnailScale(int percentage);
+    void changeThumbnailOfSelectedFile();
 
     void applyThumbnail(const QIcon& icon, QListWidgetItem* item, int revision);
 };
