@@ -3,6 +3,8 @@ TARGET = Tag
 
 QT = core gui widgets sql
 
+RC_ICONS = icon.ico
+
 SOURCES += \
     buttonpanel.cpp \
     database.cpp \
