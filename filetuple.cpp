@@ -15,6 +15,7 @@ FileTuple::FileTuple(const int& id, const QString& name, const QString& path, co
     this->name = name;
     this->path = path;
     this->type = type;
+    this->thumbnail = thumbnail;
 }
 
 void FileTuple::setId(const int& id)
