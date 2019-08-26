@@ -223,6 +223,8 @@ void FileBrowser::changeThumbnailOfSelectedFile()
     QString filter = "Images (*.png *.jpg)";
     QString sourcePath = QFileDialog::getOpenFileName(this, tr("Select New Thumbnail"), directoryToOpen, filter);
 
+    updateLastDirectory(sourcePath);
+
     QListWidgetItem* item = viewingArea->selectedItems().first();
     int fileId = item->data(UserRole::ID).toInt();
     QString oldThumbnailPath = item->data(UserRole::THUMBNAIL).toString();
@@ -236,6 +238,24 @@ void FileBrowser::changeThumbnailOfSelectedFile()
         database->setThumbnail(newThumbnailPath, fileId);
 
         reloadContents();
+    }
+}
+
+void FileBrowser::updateLastDirectory(QString pathToFile)
+{
+    QString pathToDirectory = getParentFolder(pathToFile);
+    Settings::saveLastUsedDirectory(pathToDirectory);
+}
+
+QString FileBrowser::getParentFolder(const QString& filePath)
+{
+    QRegularExpression expression("\\b.*/");
+    QRegularExpressionMatch match = expression.match(filePath);
+    if (match.hasMatch()) {
+        return match.captured(0);
+    }
+    else {
+        return "";
     }
 }
 

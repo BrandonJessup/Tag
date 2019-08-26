@@ -54,6 +54,8 @@ private:
     int getIdOfSelected();
     void selectFileWithId(int id);
     QString generateAndStoreThumbnail(const QString& path, const int& fileId);
+    void updateLastDirectory(QString pathToFile);
+    QString getParentFolder(const QString& filePath);
 
     void loadThumbnails(QStringList thumbnailPaths, QList<QListWidgetItem*> items, int revision);
 
