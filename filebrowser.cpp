@@ -325,9 +325,7 @@ void FileBrowser::removeFiles()
 void FileBrowser::deleteThumbnail(const QString& path)
 {
     QFile file(path);
-    if (file.isOpen()) {
-        file.remove();
-    }
+    file.remove();
 }
 
 void FileBrowser::keyPressEvent(QKeyEvent* event)
