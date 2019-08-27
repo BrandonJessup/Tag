@@ -3,11 +3,11 @@
 
 #include <QWidget>
 #include <QBoxLayout>
-#include <QSlider>
 #include <QLabel>
 
 #include "buttonpanel.h"
 #include "settings.h"
+#include "thumbnailslider.h"
 
 class ToolBar : public QWidget
 {
@@ -19,7 +19,7 @@ public:
 private:
     QBoxLayout* layout;
     QLabel* sliderLabel;
-    QSlider* thumbnailSlider;
+    ThumbnailSlider* thumbnailSlider;
     ButtonPanel* buttonPanel;
 
     void createLayout();

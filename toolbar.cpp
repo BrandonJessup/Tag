@@ -35,15 +35,8 @@ void ToolBar::createSliderLabel()
 
 void ToolBar::createThumbnailSlider()
 {
-    thumbnailSlider = new QSlider(Qt::Horizontal);
-    thumbnailSlider->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    thumbnailSlider->setMinimum(50);
-    thumbnailSlider->setMaximum(200);
-
-    int value = Settings::loadThumbnailSliderPosition();
-    thumbnailSlider->setValue(value);
-    updateSliderLabel(value);
-
+    thumbnailSlider = new ThumbnailSlider;
+    updateSliderLabel(thumbnailSlider->value());
     layout->addWidget(thumbnailSlider);
 }
 
