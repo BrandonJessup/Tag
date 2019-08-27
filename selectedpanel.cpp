@@ -57,7 +57,8 @@ void SelectedPanel::relaySignals()
     connect(textField, SIGNAL (returnPressed()), this, SLOT (addTag()));
     connect(tagList, SIGNAL (tagToBeRemovedFromSelectedFile(int)), this, SLOT (removeTagFromSelectedFile(int)));
     connect(tagList, SIGNAL (tagClicked(int)), this, SIGNAL (tagClicked(int)));
-    connect(this, SIGNAL (databaseTagsChanged()), this, SLOT (updateTagDictionary()));
+    connect(this, SIGNAL (tagAddedToSelectedFile(int)), this, SLOT (updateTagDictionary()));
+    connect(this, SIGNAL (tagRemovedFromSelectedFile(int)), this, SLOT (updateTagDictionary()));
 }
 
 void SelectedPanel::updateTagDictionary() {
@@ -89,7 +90,8 @@ void SelectedPanel::addTag()
         else {
             database->addTagToFile(tag, selectedFile);
             refreshTagList();
-            emit databaseTagsChanged();
+            int tagId = database->getIdOfTag(tag);
+            emit tagAddedToSelectedFile(tagId);
             textField->setFocus();
         }
     }
@@ -146,5 +148,5 @@ void SelectedPanel::removeTagFromSelectedFile(int id)
 {
     Database* database = Database::getInstance();
     database->removeTagFromFile(id, selectedFile);
-    emit databaseTagsChanged();
+    emit tagRemovedFromSelectedFile(id);
 }

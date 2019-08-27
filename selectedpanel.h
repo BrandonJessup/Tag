@@ -52,7 +52,8 @@ private:
 
 signals:
     void tagClicked(int tagId);
-    void databaseTagsChanged();
+    void tagAddedToSelectedFile(int tagId);
+    void tagRemovedFromSelectedFile(int tagId);
 
 public slots:
     void addTag();

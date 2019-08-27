@@ -106,6 +106,7 @@ void Window::relaySignals()
     connect(fileBrowser, SIGNAL (databaseTagsChanged()), tagPanel, SLOT (updateTagDictionaries()));
     connect(toolBar, SIGNAL (databaseTagsChanged()), tagPanel, SLOT (updateTagDictionaries()));
     connect(tagPanel, SIGNAL (activeSearchTagsChanged(QList<int>, QList<int>)), fileBrowser, SLOT (updateSearchList(QList<int>, QList<int>)));
-    connect(tagPanel, SIGNAL (databaseTagsChanged()), fileBrowser, SLOT (reloadContents()));
+    connect(tagPanel, SIGNAL (tagAddedToSelectedFile(int)), fileBrowser, SLOT (reloadIfTagAddedImpactsSearch(int)));
+    connect(tagPanel, SIGNAL (tagRemovedFromSelectedFile(int)), fileBrowser, SLOT (reloadIfTagRemovedImpactsSearch(int)));
     connect(toolBar, SIGNAL (thumbnailSliderMoved(int)), fileBrowser, SLOT (updateThumbnailScale(int)));
 }

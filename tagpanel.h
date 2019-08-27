@@ -28,7 +28,8 @@ private:
 
 signals:
     void activeSearchTagsChanged(QList<int> tags, QList<int> excludeTags);
-    void databaseTagsChanged();
+    void tagAddedToSelectedFile(int tagId);
+    void tagRemovedFromSelectedFile(int tagId);
 
 public slots:
     void selectionChanged(int selectedFile);

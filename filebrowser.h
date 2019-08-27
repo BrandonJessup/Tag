@@ -78,6 +78,8 @@ public slots:
     void openFileAtIndex(QListWidgetItem* item);
     void updateThumbnailScale(int percentage);
     void changeThumbnailOfSelectedFile();
+    void reloadIfTagAddedImpactsSearch(int tagId);
+    void reloadIfTagRemovedImpactsSearch(int tagId);
 
     void applyThumbnail(const QIcon& icon, QListWidgetItem* item, int revision);
 };

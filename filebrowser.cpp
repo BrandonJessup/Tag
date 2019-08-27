@@ -380,3 +380,17 @@ void FileBrowser::updateThumbnailScale(int percentage)
     viewingArea->setIconSize(newSize);
     viewingArea->setGridSize(QSize(newSize.width() + 2, newSize.height() + 2));
 }
+
+void FileBrowser::reloadIfTagAddedImpactsSearch(int tagId)
+{
+    if (excludeList.contains(tagId)) {
+        reloadContents();
+    }
+}
+
+void FileBrowser::reloadIfTagRemovedImpactsSearch(int tagId)
+{
+    if (searchList.contains(tagId)) {
+        reloadContents();
+    }
+}
