@@ -26,11 +26,12 @@ void FileBrowser::createViewingArea()
 
     viewingArea->setResizeMode(QListView::Adjust);
     viewingArea->setViewMode(QListView::IconMode);
-    viewingArea->setGridSize(QSize(baseThumbnailSize.width() + 2, baseThumbnailSize.height() + 2));
+    viewingArea->setGridSize(QSize(baseThumbnailSize.width() + 1, baseThumbnailSize.height() + 1));
     viewingArea->setIconSize(baseThumbnailSize);
     viewingArea->setMovement(QListView::Static);
     viewingArea->setSelectionMode(QAbstractItemView::ExtendedSelection);
     viewingArea->setWordWrap(true);
+    viewingArea->verticalScrollBar()->setSingleStep(40);
 
     viewingArea->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(viewingArea, SIGNAL (customContextMenuRequested(QPoint)), this, SLOT (showContextMenu(QPoint)));
@@ -378,7 +379,7 @@ void FileBrowser::updateThumbnailScale(int percentage)
     newSize.setHeight(baseHeight * percentage / 100);
 
     viewingArea->setIconSize(newSize);
-    viewingArea->setGridSize(QSize(newSize.width() + 2, newSize.height() + 2));
+    viewingArea->setGridSize(QSize(newSize.width() + 1, newSize.height() + 1));
 }
 
 void FileBrowser::reloadIfTagAddedImpactsSearch(int tagId)

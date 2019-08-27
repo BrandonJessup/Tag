@@ -14,6 +14,7 @@
 #include <QLineEdit>
 #include <QtConcurrent/QtConcurrent>
 #include <QFileDialog>
+#include <QScrollBar>
 
 #include "userrole.h"
 #include "selected.h"
