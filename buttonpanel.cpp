@@ -246,7 +246,7 @@ QString ButtonPanel::extractNameFromPath(const QString& path)
 void ButtonPanel::addVideo()
 {
     QString directoryToOpen = Settings::loadLastUsedDirectory();
-    QString filter = "Videos (*.mp4 *.mkv *.avi *.webm)";
+    QString filter = "Videos (*.mp4 *.mkv *.avi *.webm *.m4v)";
     QStringList paths = QFileDialog::getOpenFileNames(this, tr("Add Video(s)"), directoryToOpen, filter);
 
     if (paths.size() == 1) {
