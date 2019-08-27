@@ -5,6 +5,8 @@ QT = core gui widgets sql
 
 RC_ICONS = icon.ico
 
+VERSION = 0.8.0.0
+
 SOURCES += \
     buttonpanel.cpp \
     database.cpp \
