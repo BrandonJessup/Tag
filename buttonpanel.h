@@ -6,12 +6,12 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QRegularExpression>
-#include <QProgressDialog>
 
 #include "database.h"
 #include "prompt.h"
 #include "imagetagadderdialog.h"
 #include "settings.h"
+#include "progressdialog.h"
 
 class ButtonPanel : public QWidget
 {

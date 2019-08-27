@@ -23,6 +23,7 @@
 #include "taglist.h"
 #include "tagadderdialog.h"
 #include "settings.h"
+#include "progressdialog.h"
 
 class FileBrowser : public QWidget
 {

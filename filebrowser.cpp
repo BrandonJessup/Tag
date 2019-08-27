@@ -313,11 +313,24 @@ void FileBrowser::addTagsToSelected(QStringList tags)
     Database* database = Database::getInstance();
 
     QList<QListWidgetItem*> selectedFiles = viewingArea->selectedItems();
-    for (QListWidgetItem* item : selectedFiles) {
+    if (selectedFiles.size() == 1) {
         for (QString tag : tags) {
-            int fileId = item->data(UserRole::ID).toInt();
+            int fileId = selectedFiles.first()->data(UserRole::ID).toInt();
             database->addTagToFile(tag, fileId);
         }
+    }
+    else {
+        ProgressDialog popup(this, "Applying tags...", selectedFiles.size());
+
+        for (int i = 0; i < selectedFiles.size(); ++i) {
+            popup.setValue(i);
+            for (QString tag : tags) {
+                int fileId = selectedFiles[i]->data(UserRole::ID).toInt();
+                database->addTagToFile(tag, fileId);
+            }
+        }
+
+        popup.setValueToMaximum();
     }
 
     reloadContents();
@@ -327,8 +340,8 @@ void FileBrowser::removeFiles()
 {
     QList<QListWidgetItem*> selectedFiles = viewingArea->selectedItems();
 
-    for (int i = 0; i < selectedFiles.size(); ++i) {
-        QListWidgetItem* file = viewingArea->takeItem(viewingArea->row(selectedFiles[i]));
+    if (selectedFiles.size() == 1) {
+        QListWidgetItem* file = viewingArea->takeItem(viewingArea->row(selectedFiles.first()));
 
         Database* database = Database::getInstance();
         int id = file->data(UserRole::ID).toInt();
@@ -339,8 +352,29 @@ void FileBrowser::removeFiles()
         // and it must then be deleted manually.
         revisionCount++;
         delete file;
+    }
+    else {
+        ProgressDialog popup(this, "Removing files...", selectedFiles.size());
 
-        deleteThumbnail(thumbnailPath);
+        for (int i = 0; i < selectedFiles.size(); ++i) {
+            popup.setValue(i);
+
+            QListWidgetItem* file = viewingArea->takeItem(viewingArea->row(selectedFiles[i]));
+
+            Database* database = Database::getInstance();
+            int id = file->data(UserRole::ID).toInt();
+            QString thumbnailPath = file->data(UserRole::THUMBNAIL).toString();
+            database->removeFile(id);
+
+            // Removing the item from the list widget stop's Qt's management of it
+            // and it must then be deleted manually.
+            revisionCount++;
+            delete file;
+
+            deleteThumbnail(thumbnailPath);
+        }
+
+        popup.setValueToMaximum();
     }
 }
 

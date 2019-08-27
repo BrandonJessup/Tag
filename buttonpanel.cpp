@@ -130,13 +130,7 @@ int ButtonPanel::addNewImages(QStringList paths)
 
 int ButtonPanel::addNewImagesWithoutTagging(QStringList paths)
 {
-    QProgressDialog popup(this);
-    popup.setLabelText("Generating thumbnails...");
-    popup.setWindowFlag(Qt::WindowCloseButtonHint, false);
-    popup.setWindowFlag(Qt::WindowContextHelpButtonHint, false);
-    popup.setWindowModality(Qt::WindowModal);
-    popup.setCancelButton(nullptr);
-    popup.setMaximum(paths.size());
+    ProgressDialog popup(this, "Generating thumbnails...", paths.size());
 
     int existingCount = 0;
     for (int i = 0; i < paths.size(); ++i) {
@@ -149,7 +143,7 @@ int ButtonPanel::addNewImagesWithoutTagging(QStringList paths)
         }
     }
 
-    popup.setValue(paths.size());
+    popup.setValueToMaximum();
 
     return existingCount;
 }

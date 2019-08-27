@@ -15,6 +15,7 @@ SOURCES += \
     imagetagadderdialog.cpp \
     main.cpp \
     missingfiledialog.cpp \
+    progressdialog.cpp \
     prompt.cpp \
     searchpanel.cpp \
     selectedpanel.cpp \
@@ -35,6 +36,7 @@ HEADERS += \
     filetuple.h \
     imagetagadderdialog.h \
     missingfiledialog.h \
+    progressdialog.h \
     prompt.h \
     searchpanel.h \
     selected.h \
