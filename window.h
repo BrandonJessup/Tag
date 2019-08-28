@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QFileDialog>
+#include <QStringList>
 
 #include "toolbar.h"
 #include "tagpanel.h"
@@ -40,8 +41,11 @@ private:
 
     void deleteThumbnail(const QString& path);
     QString extractNameFromPath(const QString& path);
+    void dragEnterEvent(QDragEnterEvent* event) override;
+    void dropEvent(QDropEvent* event) override;
 
 signals:
+    void filesDropped(QStringList paths);
 
 public slots:
 };

@@ -11,6 +11,8 @@ Window::Window(QWidget *parent) : QWidget(parent)
     createFileBrowser();
 
     relaySignals();
+
+    setAcceptDrops(true);
 }
 
 void Window::checkIntegrityOfFiles()
@@ -109,4 +111,25 @@ void Window::relaySignals()
     connect(tagPanel, SIGNAL (tagAddedToSelectedFile(int)), fileBrowser, SLOT (reloadIfTagAddedImpactsSearch(int)));
     connect(tagPanel, SIGNAL (tagRemovedFromSelectedFile(int)), fileBrowser, SLOT (reloadIfTagRemovedImpactsSearch(int)));
     connect(toolBar, SIGNAL (thumbnailSliderMoved(int)), fileBrowser, SLOT (updateThumbnailScale(int)));
+}
+
+void Window::dragEnterEvent(QDragEnterEvent* event)
+{
+    if (event->mimeData()->hasUrls()) {
+        event->acceptProposedAction();
+    }
+}
+
+void Window::dropEvent(QDropEvent* event)
+{
+    if (event->mimeData()->hasUrls()) {
+        QStringList paths;
+        QList<QUrl> urls = event->mimeData()->urls();
+
+        for (int i = 0; i < urls.size(); ++i) {
+            paths.append(urls[i].toLocalFile());
+        }
+
+        emit filesDropped(paths);
+    }
 }
