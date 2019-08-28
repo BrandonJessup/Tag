@@ -22,11 +22,11 @@ void FileBrowser::createLayout()
 void FileBrowser::createViewingArea()
 {
     viewingArea = new QListWidget;
-    baseThumbnailSize = QSize(250, 340);
+    baseThumbnailSize = QSize(250, 250);
 
     viewingArea->setResizeMode(QListView::Adjust);
     viewingArea->setViewMode(QListView::IconMode);
-    viewingArea->setGridSize(QSize(baseThumbnailSize.width() + 1, baseThumbnailSize.height() + 1));
+    viewingArea->setGridSize(QSize(baseThumbnailSize.width() + 2, baseThumbnailSize.height() + 20));
     viewingArea->setIconSize(baseThumbnailSize);
     viewingArea->setMovement(QListView::Static);
     viewingArea->setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -413,7 +413,7 @@ void FileBrowser::updateThumbnailScale(int percentage)
     newSize.setHeight(baseHeight * percentage / 100);
 
     viewingArea->setIconSize(newSize);
-    viewingArea->setGridSize(QSize(newSize.width() + 1, newSize.height() + 1));
+    viewingArea->setGridSize(QSize(newSize.width() + 2, newSize.height() + 20));
 }
 
 void FileBrowser::reloadIfTagAddedImpactsSearch(int tagId)

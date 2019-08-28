@@ -191,7 +191,7 @@ QString ButtonPanel::generateAndStoreThumbnail(const QString& path, const int& f
 
     QImage image;
     image.load(path);
-    image = image.scaled(500, 680, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    image = image.scaled(500, 500, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     image.save(thumbnailPath);
 
     return thumbnailPath;
