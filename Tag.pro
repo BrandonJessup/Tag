@@ -25,6 +25,7 @@ SOURCES += \
     tagnamenotfoundexception.cpp \
     tagpanel.cpp \
     tagtuple.cpp \
+    thumbnailmanager.cpp \
     thumbnailslider.cpp \
     toolbar.cpp \
     window.cpp
@@ -48,6 +49,7 @@ HEADERS += \
     tagnamenotfoundexception.h \
     tagpanel.h \
     tagtuple.h \
+    thumbnailmanager.h \
     thumbnailslider.h \
     toolbar.h \
     userrole.h \

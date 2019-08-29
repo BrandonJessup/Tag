@@ -12,7 +12,6 @@
 #include <QPushButton>
 #include <QDesktopServices>
 #include <QLineEdit>
-#include <QtConcurrent/QtConcurrent>
 #include <QFileDialog>
 #include <QScrollBar>
 
@@ -24,35 +23,30 @@
 #include "tagadderdialog.h"
 #include "settings.h"
 #include "progressdialog.h"
+#include "thumbnailmanager.h"
 
 class FileBrowser : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit FileBrowser(QWidget *parent = nullptr);
+    explicit FileBrowser(ThumbnailManager* manager, QWidget *parent = nullptr);
 
 private:
+    ThumbnailManager* thumbnailManager;
     int revisionCount;
     QStackedLayout* layout;
     QListWidget* viewingArea;
     QList<int> searchList;
     QList<int> excludeList;
-    QSize baseThumbnailSize;
-    QIcon defaultImageIcon;
-    QIcon defaultVideoIcon;
-    QIcon defaultFileIcon;
-    QIcon defaultFolderIcon;
 
     void createLayout();
     void createViewingArea();
-    void createDefaultIcons();
     void relaySignals();
 
     void addFileToViewingArea(const FileTuple& file);
     void addTagsToSelected(QStringList tags);
     void removeFiles();
-    void deleteThumbnail(const QString& path);
     int getIdOfSelected();
     void selectFileWithId(int id);
     QString generateAndStoreThumbnail(const QString& path, const int& fileId);
@@ -68,8 +62,6 @@ signals:
     void selectionChanged(int selectedFile);
     void databaseTagsChanged();
 
-    void thumbnailReady(const QIcon& icon, QListWidgetItem* item, int revision);
-
 public slots:
     void selectionChangedEmitter();
     void reloadContents();
@@ -77,13 +69,11 @@ public slots:
     void fileRemovePrompt();
     void tagSelectedDialog();
     void updateSearchList(QList<int> tagIds, QList<int> excludeTagIds);
-    void openFileAtIndex(QListWidgetItem* item);
+    void openFile(QListWidgetItem* item);
     void updateThumbnailScale(int percentage);
     void changeThumbnailOfSelectedFile();
     void reloadIfTagAddedImpactsSearch(int tagId);
     void reloadIfTagRemovedImpactsSearch(int tagId);
-
-    void applyThumbnail(const QIcon& icon, QListWidgetItem* item, int revision);
 };
 
 #endif // FILEBROWSER_H

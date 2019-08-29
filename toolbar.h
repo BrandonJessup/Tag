@@ -14,9 +14,10 @@ class ToolBar : public QWidget
     Q_OBJECT
 
 public:
-    explicit ToolBar(QWidget *parent = nullptr);
+    explicit ToolBar(ThumbnailManager* thumbnailManager, QWidget *parent = nullptr);
 
 private:
+    ThumbnailManager* thumbnailManager;
     QBoxLayout* layout;
     QLabel* sliderLabel;
     ThumbnailSlider* thumbnailSlider;

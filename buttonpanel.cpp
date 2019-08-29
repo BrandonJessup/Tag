@@ -1,7 +1,9 @@
 #include "buttonpanel.h"
 
-ButtonPanel::ButtonPanel(QWidget *parent) : QWidget(parent)
+ButtonPanel::ButtonPanel(ThumbnailManager* thumbnailManager, QWidget *parent) : QWidget(parent)
 {
+    this->thumbnailManager = thumbnailManager;
+
     setSize();
     createLayout();
     createAddImageButton();
@@ -156,8 +158,7 @@ void ButtonPanel::addToDatabase(const QString& path, const QString& type)
 
     int id = database->addFile(name, path, type);
     if (type == "image") {
-        QString thumbnail = generateAndStoreThumbnail(path, id);
-        database->setThumbnail(thumbnail, id);
+        thumbnailManager->generateAndSaveThumbnail(path, id);
     }
 }
 
@@ -170,8 +171,7 @@ void ButtonPanel::tagAndAddToDatabase(const QString& path, const QString& type)
     int fileId = database->addFile(name, path, type);
 
     if (type == "image") {
-        QString thumbnail = generateAndStoreThumbnail(path, fileId);
-        database->setThumbnail(thumbnail, fileId);
+        thumbnailManager->generateAndSaveThumbnail(path, fileId);
 
         ImageTagAdderDialog popup(name, path);
         int result = popup.exec();
@@ -180,21 +180,6 @@ void ButtonPanel::tagAndAddToDatabase(const QString& path, const QString& type)
             addTagsToFile(fileId, popup.getTagsToAdd());
         }
     }
-}
-
-QString ButtonPanel::generateAndStoreThumbnail(const QString& path, const int& fileId)
-{
-    QDir dir;
-    dir.mkdir("thumbnails");
-
-    QString thumbnailPath = "thumbnails/" + QString::number(fileId) + ".jpg";
-
-    QImage image;
-    image.load(path);
-    image = image.scaled(500, 500, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    image.save(thumbnailPath);
-
-    return thumbnailPath;
 }
 
 void ButtonPanel::addTagsToFile(int fileId, QStringList tags)

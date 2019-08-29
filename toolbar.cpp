@@ -1,7 +1,9 @@
 #include "toolbar.h"
 
-ToolBar::ToolBar(QWidget *parent) : QWidget(parent)
+ToolBar::ToolBar(ThumbnailManager* thumbnailManager, QWidget *parent) : QWidget(parent)
 {
+    this->thumbnailManager = thumbnailManager;
+
     createLayout();
     createButtonPanel();
     createSpacer();
@@ -18,7 +20,7 @@ void ToolBar::createLayout()
 
 void ToolBar::createButtonPanel()
 {
-    buttonPanel = new ButtonPanel;
+    buttonPanel = new ButtonPanel(thumbnailManager);
     layout->addWidget(buttonPanel);
 }
 

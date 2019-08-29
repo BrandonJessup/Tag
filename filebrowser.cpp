@@ -1,12 +1,12 @@
 #include "filebrowser.h"
 
-FileBrowser::FileBrowser(QWidget *parent) : QWidget(parent)
+FileBrowser::FileBrowser(ThumbnailManager* thumbnailManager, QWidget *parent) : QWidget(parent)
 {
+    this->thumbnailManager = thumbnailManager;
     revisionCount = 0;
 
     createLayout();
     createViewingArea();
-    createDefaultIcons();
     relaySignals();
 
     updateThumbnailScale(Settings::loadThumbnailSliderPosition());
@@ -21,13 +21,13 @@ void FileBrowser::createLayout()
 
 void FileBrowser::createViewingArea()
 {
-    viewingArea = new QListWidget;
-    baseThumbnailSize = QSize(250, 250);
+    QSize defaultThumbnailSize = thumbnailManager->getDefaultSize();
 
+    viewingArea = new QListWidget;
     viewingArea->setResizeMode(QListView::Adjust);
     viewingArea->setViewMode(QListView::IconMode);
-    viewingArea->setGridSize(QSize(baseThumbnailSize.width() + 2, baseThumbnailSize.height() + 20));
-    viewingArea->setIconSize(baseThumbnailSize);
+    viewingArea->setGridSize(QSize(defaultThumbnailSize.width() + 2, defaultThumbnailSize.height() + 20));
+    viewingArea->setIconSize(defaultThumbnailSize);
     viewingArea->setMovement(QListView::Static);
     viewingArea->setSelectionMode(QAbstractItemView::ExtendedSelection);
     viewingArea->setWordWrap(true);
@@ -39,20 +39,10 @@ void FileBrowser::createViewingArea()
     layout->addWidget(viewingArea);
 }
 
-void FileBrowser::createDefaultIcons()
-{
-    // Icons made by Nysttren.
-    defaultImageIcon = QIcon("default icons/image.png");
-    defaultVideoIcon = QIcon("default icons/video.png");
-    defaultFileIcon = QIcon("default icons/file.png");
-    defaultFolderIcon = QIcon("default icons/folder.png");
-}
-
 void FileBrowser::relaySignals()
 {
     connect(viewingArea, SIGNAL (itemSelectionChanged()), this, SLOT (selectionChangedEmitter()));
-    connect(viewingArea, SIGNAL (itemDoubleClicked(QListWidgetItem*)), this, SLOT (openFileAtIndex(QListWidgetItem*)));
-    connect(this, SIGNAL (thumbnailReady(const QIcon&, QListWidgetItem*, int)), this, SLOT (applyThumbnail(const QIcon&, QListWidgetItem*, int)));
+    connect(viewingArea, SIGNAL (itemDoubleClicked(QListWidgetItem*)), this, SLOT (openFile(QListWidgetItem*)));
 }
 
 void FileBrowser::selectionChangedEmitter()
@@ -71,10 +61,10 @@ void FileBrowser::selectionChangedEmitter()
     emit selectionChanged(selectedFile);
 }
 
-void FileBrowser::openFileAtIndex(QListWidgetItem* item)
+void FileBrowser::openFile(QListWidgetItem* item)
 {
     QString path = item->data(UserRole::PATH).toString();
-    QDesktopServices::openUrl(QUrl("file:///" + path));
+    QDesktopServices::openUrl(QUrl::fromLocalFile(path));
 }
 
 void FileBrowser::reloadContents()
@@ -98,44 +88,6 @@ void FileBrowser::reloadContents()
 
     if (selectedFileId != Selected::NONE) {
         selectFileWithId(selectedFileId);
-    }
-
-    QStringList thumbnailPaths;
-    QList<QListWidgetItem*> items;
-    for (int i = 0; i < viewingArea->count(); ++i) {
-        QListWidgetItem* item = viewingArea->item(i);
-        QString thumbnailPath = item->data(UserRole::THUMBNAIL).toString();
-        if (!thumbnailPath.isEmpty()) {
-            items.append(item);
-            thumbnailPaths.append(thumbnailPath);
-        }
-    }
-    revisionCount++;
-    QtConcurrent::run(this, &FileBrowser::loadThumbnails, thumbnailPaths, items, revisionCount);
-}
-
-void FileBrowser::loadThumbnails(QStringList thumbnailPaths, QList<QListWidgetItem*> items, int revision)
-{
-    int numberOfFiles = thumbnailPaths.size();
-    for (int i = 0; i < numberOfFiles; ++i) {
-        if (revision == revisionCount) {
-            if (items[i] != nullptr) {
-                QIcon icon(thumbnailPaths[i]);
-                emit thumbnailReady(icon, items[i], revision);
-            }
-        }
-    }
-}
-
-void FileBrowser::applyThumbnail(const QIcon& icon, QListWidgetItem* item, int revision)
-{
-    if (revision == revisionCount) {
-        item->setIcon(icon);
-
-        // Refreshes the layout after an item is added to remove
-        // unsightly side effects of changing an icon. This is
-        // normally not done until mouse over of the viewing area.
-        viewingArea->doItemsLayout();
     }
 }
 
@@ -170,18 +122,8 @@ void FileBrowser::addFileToViewingArea(const FileTuple& file)
 
     QListWidgetItem* item = new QListWidgetItem;
     item->setText(name);
-    if (type == "image") {
-        item->setIcon(defaultImageIcon);
-    }
-    else if (type == "video") {
-        item->setIcon(defaultVideoIcon);
-    }
-    else if (type == "file") {
-        item->setIcon(defaultFileIcon);
-    }
-    else if (type == "folder") {
-        item->setIcon(defaultFolderIcon);
-    }
+
+    item->setIcon(thumbnailManager->getThumbnail(file));
 
     item->setData(UserRole::ID, id);
     item->setData(UserRole::NAME, name);
@@ -220,24 +162,23 @@ void FileBrowser::showContextMenu(const QPoint& point)
 }
 
 void FileBrowser::changeThumbnailOfSelectedFile()
-{
+{    
     QString directoryToOpen = Settings::loadLastUsedDirectory();
     QString filter = "Images (*.png *.jpg)";
     QString sourcePath = QFileDialog::getOpenFileName(this, tr("Select New Thumbnail"), directoryToOpen, filter);
 
-    updateLastDirectory(sourcePath);
-
-    QListWidgetItem* item = viewingArea->selectedItems().first();
-    int fileId = item->data(UserRole::ID).toInt();
-    QString oldThumbnailPath = item->data(UserRole::THUMBNAIL).toString();
-
     if (!sourcePath.isEmpty()) {
-        deleteThumbnail(oldThumbnailPath);
+        updateLastDirectory(sourcePath);
 
-        QString newThumbnailPath = generateAndStoreThumbnail(sourcePath, fileId);
+        QListWidgetItem* item = viewingArea->selectedItems().first();
+        FileTuple file;
+        file.setId(item->data(UserRole::ID).toInt());
+        file.setName(item->data(UserRole::NAME).toString());
+        file.setPath(item->data(UserRole::PATH).toString());
+        file.setType(item->data(UserRole::TYPE).toString());
+        file.setThumbnail(item->data(UserRole::THUMBNAIL).toString());
 
-        Database* database = Database::getInstance();
-        database->setThumbnail(newThumbnailPath, fileId);
+        thumbnailManager->changeThumbnail(file, sourcePath);
 
         reloadContents();
     }
@@ -259,21 +200,6 @@ QString FileBrowser::getParentFolder(const QString& filePath)
     else {
         return "";
     }
-}
-
-QString FileBrowser::generateAndStoreThumbnail(const QString& path, const int& fileId)
-{
-    QDir dir;
-    dir.mkdir("thumbnails");
-
-    QString thumbnailPath = "thumbnails/" + QString::number(fileId) + ".jpg";
-
-    QImage image;
-    image.load(path);
-    image = image.scaled(500, 680, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    image.save(thumbnailPath);
-
-    return thumbnailPath;
 }
 
 void FileBrowser::fileRemovePrompt()
@@ -352,6 +278,8 @@ void FileBrowser::removeFiles()
         // and it must then be deleted manually.
         revisionCount++;
         delete file;
+
+        thumbnailManager->deleteThumbnail(thumbnailPath, id);
     }
     else {
         ProgressDialog popup(this, "Removing files...", selectedFiles.size());
@@ -371,17 +299,11 @@ void FileBrowser::removeFiles()
             revisionCount++;
             delete file;
 
-            deleteThumbnail(thumbnailPath);
+            thumbnailManager->deleteThumbnail(thumbnailPath, id);
         }
 
         popup.setValueToMaximum();
     }
-}
-
-void FileBrowser::deleteThumbnail(const QString& path)
-{
-    QFile file(path);
-    file.remove();
 }
 
 void FileBrowser::keyPressEvent(QKeyEvent* event)
@@ -405,12 +327,11 @@ void FileBrowser::updateSearchList(QList<int> tagIds, QList<int> excludeTagIds)
 
 void FileBrowser::updateThumbnailScale(int percentage)
 {
-    int baseWidth = baseThumbnailSize.width();
-    int baseHeight = baseThumbnailSize.height();
+    QSize defaultThumbnailSize = thumbnailManager->getDefaultSize();
 
     QSize newSize;
-    newSize.setWidth(baseWidth * percentage / 100);
-    newSize.setHeight(baseHeight * percentage / 100);
+    newSize.setWidth(defaultThumbnailSize.width() * percentage / 100);
+    newSize.setHeight(defaultThumbnailSize.height() * percentage / 100);
 
     viewingArea->setIconSize(newSize);
     viewingArea->setGridSize(QSize(newSize.width() + 2, newSize.height() + 20));

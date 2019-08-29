@@ -8,6 +8,7 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QStringList>
+#include <QMimeData>
 
 #include "toolbar.h"
 #include "tagpanel.h"
@@ -25,6 +26,7 @@ public:
     explicit Window(QWidget *parent = nullptr);
 
 private:
+    ThumbnailManager* thumbnailManager;
     QBoxLayout* topLevelLayout;
     ToolBar* toolBar;
     QBoxLayout* lowerLayout;
@@ -37,6 +39,7 @@ private:
     void createTagPanel();
     void createFileBrowser();
     void checkIntegrityOfFiles();
+    void createThumbnailManager();
     void relaySignals();
 
     void deleteThumbnail(const QString& path);

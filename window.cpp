@@ -4,6 +4,7 @@ Window::Window(QWidget *parent) : QWidget(parent)
 {
     checkIntegrityOfFiles();
 
+    createThumbnailManager();
     createTopLevelLayout();
     createToolBar();
     createLowerLayout();
@@ -67,6 +68,11 @@ void Window::deleteThumbnail(const QString& path)
     file.remove();
 }
 
+void Window::createThumbnailManager()
+{
+    thumbnailManager = new ThumbnailManager(this);
+}
+
 // topLevelLayout contains the button bar at the very top with the
 // bottom portion filled by the contents of lowerLayout.
 void Window::createTopLevelLayout()
@@ -77,7 +83,7 @@ void Window::createTopLevelLayout()
 
 void Window::createToolBar()
 {
-    toolBar = new ToolBar;
+    toolBar = new ToolBar(thumbnailManager);
     topLevelLayout->addWidget(toolBar);
 }
 
@@ -97,7 +103,7 @@ void Window::createTagPanel()
 
 void Window::createFileBrowser()
 {
-    fileBrowser = new FileBrowser;
+    fileBrowser = new FileBrowser(thumbnailManager);
     lowerLayout->addWidget(fileBrowser);
 }
 

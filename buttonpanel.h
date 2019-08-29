@@ -12,15 +12,17 @@
 #include "imagetagadderdialog.h"
 #include "settings.h"
 #include "progressdialog.h"
+#include "thumbnailmanager.h"
 
 class ButtonPanel : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit ButtonPanel(QWidget *parent = nullptr);
+    explicit ButtonPanel(ThumbnailManager* thumbnailManager, QWidget *parent = nullptr);
 
 private:
+    ThumbnailManager* thumbnailManager;
     QBoxLayout* layout;
     QPushButton* addImageButton;
     QPushButton* addVideoButton;
@@ -40,7 +42,6 @@ private:
     bool fileAlreadyInDatabase(QString path);
     int addNewImages(QStringList paths);
     int addNewImagesWithoutTagging(QStringList paths);
-    QString generateAndStoreThumbnail(const QString& path, const int& fileId);
     void addToDatabase(const QString& path, const QString& type);
     void tagAndAddToDatabase(const QString& path, const QString& type);
     void addTagsToFile(int fileId, QStringList tags);
