@@ -60,9 +60,7 @@ private:
     bool tagIsValid(const QString& tag);
     bool hasNonWhitespaceCharacter(const QString& tag);
     QString cleanUp(QString tag);
-    bool addingUntaggedToNonEmptySearch(const QString& tag);
     bool searchIsEmpty();
-    bool untaggedInSearch();
     void populateTagList(QList<TagTuple> tags, QList<TagTuple> excludeTags);
     void colorTagsRed(QList<TagTuple>& tags);
 

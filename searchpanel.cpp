@@ -134,22 +134,17 @@ void SearchPanel::addTag()
         try {
             int id = database->getIdOfTag(tag);
             if (!activeSearchTags.contains(id) && !activeExcludeTags.contains(id)) {
-                if (addingUntaggedToNonEmptySearch(tag) || untaggedInSearch()) {
-                    Prompt::show("The tag 'untagged' must be the only tag in the search!");
+                switch (excludeDropDown->currentIndex()) {
+                case DropDownIndex::INCLUDE:
+                    activeSearchTags.append(id);
+                    break;
+                case DropDownIndex::EXCLUDE:
+                    activeExcludeTags.append(id);
+                    break;
                 }
-                else {
-                    switch (excludeDropDown->currentIndex()) {
-                    case DropDownIndex::INCLUDE:
-                        activeSearchTags.append(id);
-                        break;
-                    case DropDownIndex::EXCLUDE:
-                        activeExcludeTags.append(id);
-                        break;
-                    }
 
-                    refreshTagList();
-                    emit activeSearchTagsChanged(activeSearchTags, activeExcludeTags);
-                }
+                refreshTagList();
+                emit activeSearchTagsChanged(activeSearchTags, activeExcludeTags);
             }
             else {
                 Prompt::show("The tag '" + tag + "' is already in the search!");
@@ -187,21 +182,9 @@ QString SearchPanel::cleanUp(QString tag)
     return tag;
 }
 
-bool SearchPanel::addingUntaggedToNonEmptySearch(const QString& tag)
-{
-    return !searchIsEmpty() && tag == "untagged";
-}
-
 bool SearchPanel::searchIsEmpty()
 {
     return activeSearchTags.isEmpty() && activeExcludeTags.isEmpty();
-}
-
-bool SearchPanel::untaggedInSearch()
-{
-    Database* database = Database::getInstance();
-    int tagId = database->getIdOfTag("untagged");
-    return activeSearchTags.contains(tagId) || activeExcludeTags.contains(tagId);
 }
 
 void SearchPanel::toggleTagInSearch(int tagId)
