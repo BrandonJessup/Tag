@@ -84,10 +84,7 @@ void SelectedPanel::addTag()
         if (database->isSpecialTag(tag)) {
             Prompt::show(tag + " is a reserved name!");
         }
-        else if (database->fileHasTag(selectedFile, tag)) {
-            Prompt::show("Selected file already has that tag!");
-        }
-        else {
+        else if (!database->fileHasTag(selectedFile, tag)) {
             database->addTagToFile(tag, selectedFile);
             refreshTagList();
             int tagId = database->getIdOfTag(tag);
