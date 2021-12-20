@@ -3,3 +3,12 @@ todo.md
 /wip gifs/
 *.sql
 /debug/
+/release/
+/thumbnails/*
+*.Debug
+*.Release
+data
+*.stash
+Makefile
+*.rc
+Tag.pro.user.*
