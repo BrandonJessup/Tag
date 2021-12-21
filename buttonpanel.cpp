@@ -340,3 +340,38 @@ void ButtonPanel::addFolder()
         emit fileDialogClosed(path);
     }
 }
+
+void ButtonPanel::importFiles(QStringList paths)
+{
+    ProgressDialog popup(this, "Adding files...", paths.size());
+
+    for (int i = 0; i < paths.size(); ++i) {
+        popup.setValue(i);
+        QString path = paths[i];
+
+        QString type;
+        QFileInfo file(path);
+        QString extension = file.suffix();
+
+        if (file.isDir()) {
+            type = "folder";
+        }
+        else if (extension == "png" || extension == "jpg") {
+            type = "image";
+        }
+        else if (extension == "mp4" || extension == "mkv" || extension == "avi" || extension == "webm" || extension == "m4v") {
+            type = "video";
+        }
+        else {
+            type = "file";
+        }
+
+        if (!fileAlreadyInDatabase(path)) {
+            addToDatabase(path, type);
+        }
+    }
+
+    popup.setValueToMaximum();
+    emit filesChanged();
+}
+

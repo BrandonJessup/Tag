@@ -57,6 +57,7 @@ public slots:
     void addFile();
     void addFolder();
     void updateLastDirectory(QString pathToFile);
+    void importFiles(QStringList paths);
 };
 
 #endif // ButtonPanel_H

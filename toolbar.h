@@ -39,6 +39,7 @@ signals:
 
 public slots:
     void sliderValueChangedReceiver(int newValue);
+    void importFiles(QStringList paths);
 };
 
 #endif // TOOLBAR_H

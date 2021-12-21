@@ -117,6 +117,7 @@ void Window::relaySignals()
     connect(tagPanel, SIGNAL (tagAddedToSelectedFile(int)), fileBrowser, SLOT (reloadIfTagAddedImpactsSearch(int)));
     connect(tagPanel, SIGNAL (tagRemovedFromSelectedFile(int)), fileBrowser, SLOT (reloadIfTagRemovedImpactsSearch(int)));
     connect(toolBar, SIGNAL (thumbnailSliderMoved(int)), fileBrowser, SLOT (updateThumbnailScale(int)));
+    connect(this, SIGNAL (filesDropped(QStringList)), toolBar, SLOT(importFiles(QStringList)));
 }
 
 void Window::dragEnterEvent(QDragEnterEvent* event)

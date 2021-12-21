@@ -71,3 +71,8 @@ void ToolBar::snapSliderToDefault(int value)
         thumbnailSlider->setValue(100);
     }
 }
+
+void ToolBar::importFiles(QStringList paths)
+{
+    buttonPanel->importFiles(paths);
+}
