@@ -74,6 +74,7 @@ public slots:
     void changeThumbnailOfSelectedFile();
     void reloadIfTagAddedImpactsSearch(int tagId);
     void reloadIfTagRemovedImpactsSearch(int tagId);
+    void showNewestItem();
 };
 
 #endif // FILEBROWSER_H

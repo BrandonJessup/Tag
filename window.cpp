@@ -109,7 +109,7 @@ void Window::createFileBrowser()
 
 void Window::relaySignals()
 {
-    connect(toolBar, SIGNAL (filesChanged()), fileBrowser, SLOT (reloadContents()));
+    connect(toolBar, SIGNAL (filesChanged()), fileBrowser, SLOT (showNewestItem()));
     connect(fileBrowser, SIGNAL (selectionChanged(int)), tagPanel, SLOT (selectionChanged(int)));
     connect(fileBrowser, SIGNAL (databaseTagsChanged()), tagPanel, SLOT (updateTagDictionaries()));
     connect(toolBar, SIGNAL (databaseTagsChanged()), tagPanel, SLOT (updateTagDictionaries()));

@@ -350,3 +350,14 @@ void FileBrowser::reloadIfTagRemovedImpactsSearch(int tagId)
         reloadContents();
     }
 }
+
+void FileBrowser::showNewestItem()
+{
+    searchList.clear();
+    excludeList.clear();
+    reloadContents();
+
+    viewingArea->setCurrentRow(viewingArea->count()-1);
+    viewingArea->scrollTo(viewingArea->currentIndex());
+    viewingArea->setFocus();
+}
