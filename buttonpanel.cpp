@@ -371,7 +371,9 @@ void ButtonPanel::importFiles(QStringList paths)
         }
     }
 
+    updateLastDirectory(paths.first());
     popup.setValueToMaximum();
+
     emit filesChanged();
 }
 
