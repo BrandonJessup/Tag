@@ -160,6 +160,21 @@ void ButtonPanel::addToDatabase(const QString& path, const QString& type)
     if (type == "image") {
         thumbnailManager->generateAndSaveThumbnail(path, id);
     }
+    else if (type == "folder") {
+        QStringList nameFilters;
+        nameFilters << "*.png" << "*.jpg";
+
+        QStringList imageFileNames = QDir(path).entryList(nameFilters, QDir::Files, QDir::Name);
+
+        if (imageFileNames.size() != 0) {
+            QString imagePath;
+            imagePath.append(path);
+            imagePath.append('/');
+            imagePath.append(imageFileNames.first());
+
+            thumbnailManager->generateAndSaveThumbnail(imagePath, id);
+        }
+    }
 }
 
 void ButtonPanel::tagAndAddToDatabase(const QString& path, const QString& type)
