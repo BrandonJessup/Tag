@@ -141,6 +141,7 @@ void FileBrowser::showContextMenu(const QPoint& point)
         QPoint position = viewingArea->mapToGlobal(point);
 
         QMenu contextMenu;
+        contextMenu.addAction("Show in Explorer", this, SLOT (showSelectedInExplorer()));
         contextMenu.addAction("Tag Selected File", this, SLOT (tagSelectedDialog()));
 
         QString selectedItemType = viewingArea->selectedItems().first()->data(UserRole::TYPE).toString();
@@ -182,6 +183,16 @@ void FileBrowser::changeThumbnailOfSelectedFile()
 
         reloadContents();
     }
+}
+
+void FileBrowser::showSelectedInExplorer()
+{
+    QListWidgetItem* item = viewingArea->selectedItems().first();
+    QString path = item->data(UserRole::PATH).toString();
+
+    QProcess::startDetached("explorer.exe", {"/select,", QDir::toNativeSeparators(path)});
+
+    reloadContents();
 }
 
 void FileBrowser::updateLastDirectory(QString pathToFile)

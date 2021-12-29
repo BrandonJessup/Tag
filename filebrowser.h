@@ -14,6 +14,7 @@
 #include <QLineEdit>
 #include <QFileDialog>
 #include <QScrollBar>
+#include <QProcess>
 
 #include "userrole.h"
 #include "selected.h"
@@ -72,6 +73,7 @@ public slots:
     void openFile(QListWidgetItem* item);
     void updateThumbnailScale(int percentage);
     void changeThumbnailOfSelectedFile();
+    void showSelectedInExplorer();
     void reloadIfTagAddedImpactsSearch(int tagId);
     void reloadIfTagRemovedImpactsSearch(int tagId);
     void showNewestItem();
