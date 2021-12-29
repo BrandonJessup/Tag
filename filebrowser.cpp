@@ -191,8 +191,6 @@ void FileBrowser::showSelectedInExplorer()
     QString path = item->data(UserRole::PATH).toString();
 
     QProcess::startDetached("explorer.exe", {"/select,", QDir::toNativeSeparators(path)});
-
-    reloadContents();
 }
 
 void FileBrowser::updateLastDirectory(QString pathToFile)
