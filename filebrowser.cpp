@@ -213,17 +213,14 @@ QString FileBrowser::getParentFolder(const QString& filePath)
 
 void FileBrowser::fileRemovePrompt()
 {
-    QPushButton* removeButton = new QPushButton("Remove");
-
     QMessageBox prompt;
     prompt.setText("Remove selected files?");
-    prompt.setStandardButtons(QMessageBox::Cancel);
-    prompt.addButton(removeButton, QMessageBox::AcceptRole);
-    prompt.setDefaultButton(removeButton);
+    prompt.setStandardButtons(QMessageBox::Cancel | QMessageBox::Yes);
+    prompt.setDefaultButton(QMessageBox::Yes);
 
     int chosen = prompt.exec();
     switch (chosen) {
-    case QMessageBox::AcceptRole:
+    case QMessageBox::Yes:
         removeFiles();
         break;
     default:
