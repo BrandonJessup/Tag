@@ -27,12 +27,17 @@ void Window::checkIntegrityOfFiles()
 
             int choice = popup.exec();
             if (choice == QDialog::Accepted) {
-                QString searchConditions = "All Files (*)";
-                if (file.getType() == "image") {
-                    searchConditions = "Image Files (*.png *.jpg)";
+                QString newPath;
+                if (file.getType() == "folder") {
+                    newPath = QFileDialog::getExistingDirectory(this, "Locate " + file.getName(), Settings::loadLastUsedDirectory(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);;
                 }
-
-                QString newPath = QFileDialog::getOpenFileName(this, "Locate " + file.getName(), Settings::loadLastUsedDirectory(), searchConditions);
+                else {
+                    QString searchConditions = "All Files (*)";
+                    if (file.getType() == "image") {
+                        searchConditions = "Image Files (*.png *.jpg)";
+                    }
+                    newPath = QFileDialog::getOpenFileName(this, "Locate " + file.getName(), Settings::loadLastUsedDirectory(), searchConditions);
+                }
 
                 if (newPath.isNull()) {
                     deleteThumbnail(file.getThumbnail());
