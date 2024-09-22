@@ -25,6 +25,7 @@
 #include "settings.h"
 #include "progressdialog.h"
 #include "thumbnailmanager.h"
+#include "qevent.h"
 
 class FileBrowser : public QWidget
 {
