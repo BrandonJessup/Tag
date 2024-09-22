@@ -81,24 +81,20 @@ void ButtonPanel::addImage()
         if (!paths.isEmpty()) {
             // Prompt user for if they want to tag all the selected files
             // now, or if they wish to do that later.
-            QPushButton* laterButton = new QPushButton("Later");
-            QPushButton* nowButton = new QPushButton("Now");
-
             QMessageBox prompt;
             prompt.setText("Tag files now, or later?");
-            prompt.addButton(nowButton, QMessageBox::AcceptRole);
-            prompt.addButton(laterButton, QMessageBox::RejectRole);
+            QPushButton* nowButton = prompt.addButton(tr("Now"), QMessageBox::AcceptRole);
+            QPushButton* laterButton = prompt.addButton(tr("Later"), QMessageBox::RejectRole);
             prompt.setDefaultButton(laterButton);
 
-            int chosen = prompt.exec();
+            prompt.exec();
+
             int duplicateFiles = 0;
-            switch (chosen) {
-            case QMessageBox::AcceptRole:
+            if (prompt.clickedButton() == nowButton) {
                 duplicateFiles = addNewImages(paths);
-                break;
-            case QMessageBox::RejectRole:
+            }
+            else {
                 duplicateFiles = addNewImagesWithoutTagging(paths);
-                break;
             }
 
             emit filesChanged();
