@@ -26,8 +26,8 @@
 
 ## Features
 - Search dropdown has third option: filename
-        - Results shown will have all or part of their filename matching the value entered into the search box.
-        - Entering a second filename search into the tag box will remove the first.
-                - Otherwise this would be too annoying to change the searched tag each time, and it's not like searching would ever really require more than one chunk of a filename anyway.
-        - No autocomplete.
-        - Search card should have a unique color in the search box.
+    - Results shown will have all or part of their filename matching the value entered into the search box.
+    - Entering a second filename search into the tag box will remove the first.
+        - Otherwise this would be too annoying to change the searched tag each time, and it's not like searching would ever really require more than one chunk of a filename anyway.
+    - No autocomplete.
+    - Search card should have a unique color in the search box.
